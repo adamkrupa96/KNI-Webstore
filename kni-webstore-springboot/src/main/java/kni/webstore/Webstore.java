@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KniWebstoreSpringbootApplication {
+public class Webstore {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KniWebstoreSpringbootApplication.class, args);
+		SpringApplication.run(Webstore.class, args);
 	}
 }
