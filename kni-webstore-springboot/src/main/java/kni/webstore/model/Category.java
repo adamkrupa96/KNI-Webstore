@@ -1,6 +1,7 @@
 package kni.webstore.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -26,6 +27,11 @@ public class Category implements Serializable {
 	public Category(String name, Set<SubCategory> subCategories) {
 		this.name = name;
 		this.subCategories = subCategories;
+	}
+	
+	public Category(String name) {
+		this.name = name;
+		this.subCategories = new HashSet<SubCategory>();
 	}
 	
 	public Category() {
