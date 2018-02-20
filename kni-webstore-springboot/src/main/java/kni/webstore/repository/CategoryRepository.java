@@ -7,5 +7,6 @@ import kni.webstore.model.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-
+	Category getByName(String name);
+	void deleteByName(String name);
 }

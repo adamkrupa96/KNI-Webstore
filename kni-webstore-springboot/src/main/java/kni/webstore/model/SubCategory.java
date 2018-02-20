@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @Entity
 public class SubCategory implements Serializable {
 	
@@ -24,11 +23,11 @@ public class SubCategory implements Serializable {
 	private Long id;
 	private String name;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="subCategory")
 	private Set<Product> products;
 	
 	@JsonIgnore
-	@ManyToOne(cascade= { CascadeType.PERSIST })
+	@ManyToOne(cascade= { CascadeType.PERSIST }, optional=false)
 	private Category category;
 	
 	public SubCategory(String name, Set<Product> products, Category category) {
@@ -76,6 +75,38 @@ public class SubCategory implements Serializable {
 	@Override
 	public String toString() {
 		return "SubCategory [id=" + id + ", name=" + name + ", products=" + products + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SubCategory other = (SubCategory) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (products == null) {
+			if (other.products != null)
+				return false;
+		} else if (!products.equals(other.products))
+			return false;
+		return true;
 	}
 	
 	

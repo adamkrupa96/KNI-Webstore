@@ -7,5 +7,6 @@ import kni.webstore.model.SubCategory;
 
 @Repository
 public interface SubCategoryRepository extends JpaRepository<SubCategory, Long> {
-
+	SubCategory getByName(String name);
+	void deleteByName(String name);
 }

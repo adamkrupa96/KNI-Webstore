@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @Entity
 public class Product implements Serializable {
 	
@@ -29,7 +28,7 @@ public class Product implements Serializable {
 	private int inStock;
 	
 	@JsonIgnore
-	@ManyToOne(cascade=CascadeType.PERSIST)
+	@ManyToOne(cascade=CascadeType.PERSIST, optional=false)
 	private SubCategory subCategory;
 	
 	@OneToMany(cascade=CascadeType.ALL)
@@ -104,14 +103,14 @@ public class Product implements Serializable {
 	}
 
 
-//	public SubCategory getSubCategory() {
-//		return subCategory;
-//	}
-//
-//
-//	public void setSubCategory(SubCategory subCategory) {
-//		this.subCategory = subCategory;
-//	}
+	public SubCategory getSubCategory() {
+		return subCategory;
+	}
+
+
+	public void setSubCategory(SubCategory subCategory) {
+		this.subCategory = subCategory;
+	}
 
 
 	public Set<Feature> getFeatures() {

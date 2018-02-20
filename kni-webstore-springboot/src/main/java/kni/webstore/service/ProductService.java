@@ -10,12 +10,12 @@ public interface ProductService {
 
 	void addCategory(Category category);
 	void addSubCategory(Category parent, SubCategory subCategory);
-	void addProduct(Category category, SubCategory parent, Product product);
+	void addProduct(SubCategory parent, Product product);
 	
 	//Jeśli istnieje, nadpisuje. Jeśli nie istnieje, nie robi nic
-	boolean updateCategory(Long id, Category category); 
-	boolean updateSubCategory(Long id, SubCategory subCategory);
-	boolean updateProduct(Long id, Product product);
+	boolean updateCategory(Category category); //Przy modyfikacji pasowałoby pamiętać o połączeniu dwukiernkowym
+	boolean updateSubCategory(SubCategory subCategory);
+	boolean updateProduct(Product product);
 	
 	void deleteCategoryById(Long id);
 	void deleteSubCategoryById(Long id);
