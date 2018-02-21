@@ -1,14 +1,14 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-<button (click)="getCategories()">Wczytaj resta</button>
-<div *ngIf="categories">
+  <button (click)="getCategories()">Wczytaj resta</button>
+  <div *ngIf="categories">
 
+    <h1 *ngFor="let category of categories">
+      Id kategorii: {{category.id}} nazwa kategorii: {{category.name}}
+    </h1>
 
-<h1 *ngFor="let category of categories">
-  Id kategorii: {{category.id}}
-  nazwa kategorii: {{category.name}}
-</h1>
-
+  </div>
 </div>
+<div>
+  <app-add-category></app-add-category>
 </div>
-

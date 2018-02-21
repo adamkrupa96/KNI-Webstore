@@ -1,0 +1,23 @@
+<div>
+  <p>Wszystkie kategorie:</p>
+  <div>
+    <ol>
+      <li *ngFor="let category of categoriesList">
+        {{category.name}}
+      </li>
+    </ol>
+  </div>
+
+  <h4>Dodaj kategorie</h4>
+  <form [formGroup]="addCategoryForm" (ngSubmit)="onSubmit()">
+    <div style="display: inline-grid;">
+
+      <label for="catName">Temat:</label>
+      <input type="text" id="catName" formControlName="categoryName">
+      <div *ngIf="addCategoryForm.get('categoryName').invalid && addCategoryForm.get('categoryName').dirty">
+        <label>Pole musi zostac wypelnione!</label>
+      </div>
+      <button type="submit" [disabled]="addCategoryForm.invalid">Dodaj kategorię</button>
+    </div>
+  </form>
+</div>
