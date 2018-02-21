@@ -13,7 +13,7 @@ export class HttpCategoryService {
     return this.http.get<Array<Category>>(this.SERVER_URL);
   }
 
-  addCategory(category: Category) {
-    this.http.post<Category>(this.SERVER_URL, category).subscribe();
+  addCategory(category: Category): Observable<Category> {
+    return this.http.post<Category>(this.SERVER_URL, category);
   }
 }

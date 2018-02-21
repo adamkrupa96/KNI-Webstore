@@ -20,6 +20,10 @@ export class CategoryService {
   }
 
   addCategory(category: Category) {
-    this.httpService.addCategory(category);
+    this.httpService.addCategory(category).subscribe(catNew => {
+      const list = this.categoryListObservable.value;
+      list.push(catNew);
+      this.categoryListObservable.next(list);
+    });
   }
 }

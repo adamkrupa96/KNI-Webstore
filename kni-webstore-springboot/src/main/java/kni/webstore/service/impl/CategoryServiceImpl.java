@@ -26,9 +26,9 @@ public class CategoryServiceImpl implements CategoryService {
 	private SubCategoryRepository subCatRepo;
 	
 	@Override
-	public void addCategory(Category category) {
-		catRepo.save(category);
+	public Category addCategory(Category category) {
 		log.info("Category saved");
+		return catRepo.save(category);
 	}
 
 	@Override

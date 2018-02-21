@@ -46,8 +46,8 @@ public class CategoryController {
 	}
 	
 	@PostMapping("/categories")
-	public void addCategory(@RequestBody Category category) {
-		catService.addCategory(category);
+	public Category addCategory(@RequestBody Category category) {
+		return catService.addCategory(category);
 	}
 	
 	@PostMapping("/categories/{id}/subcategories")
