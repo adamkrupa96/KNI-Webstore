@@ -19,6 +19,12 @@ export class AddCategoryComponent implements OnInit {
     });
   }
 
+  readList() {
+    this.catService.getCategoryListObservable().subscribe(list => {
+      this.categoriesList = list;
+    });
+  }
+
   ngOnInit() {
     this.addCategoryForm = new FormGroup({
       categoryName: new FormControl(null, Validators.required)
