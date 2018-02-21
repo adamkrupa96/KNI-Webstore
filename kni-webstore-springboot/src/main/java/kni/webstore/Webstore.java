@@ -7,13 +7,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import kni.webstore.model.Category;
-import kni.webstore.service.ProductService;
+import kni.webstore.service.CategoryService;
 
 @SpringBootApplication
 public class Webstore {
 	
 	@Autowired
-	private ProductService prodService;
+	private CategoryService prodService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Webstore.class, args);
