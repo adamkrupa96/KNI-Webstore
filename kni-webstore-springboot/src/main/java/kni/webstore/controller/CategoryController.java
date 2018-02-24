@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kni.webstore.model.Category;
 import kni.webstore.model.SubCategory;
 import kni.webstore.service.CategoryService;
+import kni.webstore.service.ProductService;
 
 @RestController
 @RequestMapping("/api")

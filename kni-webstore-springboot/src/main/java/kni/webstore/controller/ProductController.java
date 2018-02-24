@@ -1,10 +1,10 @@
 package kni.webstore.controller;
 
-
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,27 +28,43 @@ public class ProductController {
 	@Autowired
 	private CategoryService catService;
 	
-	@GetMapping("/products")
+	@GetMapping("/categories/subcategories/products")
 	public Set<Product> getAllProducts() {
 		return prodService.getAllProducts();
 	}
 	
-	@GetMapping("/products/{id}")
+	@GetMapping("/categories/subcategories/products/{id}")
 	public Product getProductById(@PathVariable("id") Long id) {
 		return prodService.getProductById(id);
 	}
 	
-	@PostMapping("/subcategories/{id}/products")
-	public void addProduct(@RequestBody Product product, @PathVariable("id") Long id) {
+	@GetMapping("/categories/{id}/subcategories/products")
+	public Set<Product> getProductsOfCategory(@PathVariable("id") Long id) {
+		return prodService.getProductsOfCategory(catService.getCategoryById(id));
+	}
+	
+	@GetMapping("/categories/subcategories/{id}/products")
+	public Set<Product> getProductsOfSubCategory(@PathVariable("id") Long id) {
+		return catService.getSubCategoryById(id).getProducts();
+	}
+	
+	@PostMapping("/categories/subcategories/{id}/products")
+	public void addProductToSubCategory(@RequestBody Product product, @PathVariable("id") Long id) {
 		prodService.addProduct(catService.getSubCategoryById(id), product);
 	}
 	
-	@PutMapping("/subcategories/{subId}/products/{id}")
+	@PutMapping("/categories/subcategories/{subId}/products/{id}")
 	public void updateProduct(@RequestBody Product product, @PathVariable("subId") Long subId, @PathVariable("id") Long id) {
-		//Uzupełnienie dwustronnego powiązania ignorowanego przez @JSONIgnore
 		prodService.updateProduct(id, catService.getSubCategoryById(subId), product);
 	}
 	
-	//DeleteMapping
+	@DeleteMapping("/categories/subcategories/products/{id}")
+	public void deleteProduct(@PathVariable("id") Long id) {
+		prodService.deleteProductById(id);
+	}
 	
+	@DeleteMapping("/categoires/subcategories/products")
+	public void delteAll() {
+		prodService.deleteAll();
+	}
 }

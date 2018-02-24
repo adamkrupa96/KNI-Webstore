@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
 @Entity
 public class Feature implements Serializable {
 
@@ -58,6 +57,5 @@ public class Feature implements Serializable {
 	public String toString() {
 		return "Feature [id=" + id + ", name=" + name + ", value=" + this.value + "]";
 	}
-	
 	
 }

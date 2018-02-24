@@ -8,14 +8,9 @@ import { Category } from './models/Category';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  
   title = 'Sklep KNI. JEDZIEMY!';
-  categories: Category[];
 
   constructor(private prodService: ProductService) {
-
-  }
-
-  getCategories(): void {
-    this.prodService.getCategories().subscribe(cat => this.categories = cat);
   }
 }

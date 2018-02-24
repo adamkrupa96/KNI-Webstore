@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kni.webstore.model.Category;
+import kni.webstore.model.Product;
 import kni.webstore.model.SubCategory;
 import kni.webstore.repository.CategoryRepository;
 import kni.webstore.repository.SubCategoryRepository;
 import kni.webstore.service.CategoryService;
-
+import kni.webstore.service.ProductService;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -24,6 +25,9 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Autowired
 	private SubCategoryRepository subCatRepo;
+	
+	@Autowired
+	private ProductService prodService;
 	
 	@Override
 	public Category addCategory(Category category) {
@@ -45,13 +49,18 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void deleteCategoryById(Long id) {
-		catRepo.delete(id);
-		log.info("Category deleted");
-	}
-
-	@Override
-	public void deleteCategoryByName(String name) {
-		catRepo.deleteByName(name);
+		Category category = catRepo.findOne(id);
+		Set<Product> prodsOfCategory = prodService.getProductsOfCategory(category);
+		
+		for (SubCategory subCat : category.getSubCategories()) {
+			subCat.getProducts().clear();
+		}
+		
+		for (Product p : prodsOfCategory) {
+			p.setSubCategory(null);
+		}
+		
+		catRepo.delete(category);
 		log.info("Category deleted");
 	}
 
@@ -95,7 +104,14 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	public void deleteSubCategoryById(Long id) {
-		subCatRepo.delete(id);
+		SubCategory subCat = subCatRepo.findOne(id);
+		
+		for (Product p : subCat.getProducts()) {
+			p.setSubCategory(null);
+		}
+		
+		subCat.getProducts().clear();
+		subCatRepo.delete(subCat);
 		log.info("Sub-Category deleted");
 	}
 	

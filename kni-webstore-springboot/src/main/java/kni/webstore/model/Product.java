@@ -28,7 +28,7 @@ public class Product implements Serializable {
 	private int inStock;
 	
 	@JsonIgnore
-	@ManyToOne(cascade=CascadeType.PERSIST, optional=false)
+	@ManyToOne(cascade=CascadeType.PERSIST, optional=true)
 	private SubCategory subCategory;
 	
 	@OneToMany(cascade=CascadeType.ALL)
@@ -128,6 +128,4 @@ public class Product implements Serializable {
 		return "Product [id=" + id + ", brand=" + brand + ", model=" + model + ", price=" + price + ", inStock="
 				+ inStock +  ", features=" + features + "]";
 	}
-	
-	
 }
