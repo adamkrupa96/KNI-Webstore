@@ -6,10 +6,13 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.springframework.context.annotation.Lazy;
 
 @Entity
 public class Category implements Serializable {
@@ -21,7 +24,7 @@ public class Category implements Serializable {
 	private Long id;
 	private String name;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="category")
+	@OneToMany(cascade= {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.MERGE }, mappedBy="category", fetch=FetchType.EAGER)
 	private Set<SubCategory> subCategories;
 	
 	public Category(String name, Set<SubCategory> subCategories) {

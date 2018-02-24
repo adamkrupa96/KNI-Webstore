@@ -13,12 +13,16 @@ import kni.webstore.model.Feature;
 import kni.webstore.model.Product;
 import kni.webstore.model.SubCategory;
 import kni.webstore.service.CategoryService;
+import kni.webstore.service.ProductService;
 
 @SpringBootApplication
 public class Webstore {
 	
 	@Autowired
 	private CategoryService catService;
+	
+	@Autowired
+	private ProductService prodService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Webstore.class, args);
@@ -27,11 +31,18 @@ public class Webstore {
 	@PostConstruct //Metoda wywołana odrazu po stworzeniu kontextu springa
 	public void test() {
 		Category undefinied = new Category("Laptop");
-		SubCategory subUndefinied = new SubCategory("15CAL", new HashSet<Product>(), undefinied);
-		undefinied.getSubCategories().add(subUndefinied);
-		Product p = new Product("Lenovo", "Y700", 3000.2, 10, subUndefinied, new HashSet<Feature>());
-		subUndefinied.getProducts().add(p);
+		SubCategory subUndefinied = new SubCategory("15CAL", new HashSet<Product>());
+		Product p = new Product("Lenovo", "Y700", 3000.2, 10, new HashSet<Feature>());
 		
-		catService.addCategory(undefinied);
+		Category cat = catService.addCategory(undefinied); 
+		SubCategory subCat = catService.addSubCategory(cat, new SubCategory("ELO", new HashSet<Product>()));
+		Product prod = prodService.addProduct(subCat, p);
+		
+		prodService.deleteProductById(new Long(1));
+		
+		for (Product px : prodService.getProductsWithoutCategory()) {
+			System.out.println(px.toString());
+		}
+		
 	}
 }

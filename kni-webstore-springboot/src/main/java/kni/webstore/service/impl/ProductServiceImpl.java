@@ -11,7 +11,6 @@ import kni.webstore.model.Category;
 import kni.webstore.model.Product;
 import kni.webstore.model.SubCategory;
 import kni.webstore.repository.ProductRepository;
-import kni.webstore.repository.SubCategoryRepository;
 import kni.webstore.service.ProductService;
 
 @Service
@@ -20,33 +19,30 @@ public class ProductServiceImpl implements ProductService {
 	private final Logger log = Logger.getLogger(ProductService.class);
 
 	@Autowired
-	private SubCategoryRepository subCatRepo;
-
-	@Autowired
 	private ProductRepository prodRepo;
 
 	@Override
-	public void addProduct(SubCategory parent, Product product) {
+	public Product addProduct(SubCategory parent, Product product) {
 		parent.getProducts().add(product);
 		product.setSubCategory(parent);
 
-		subCatRepo.save(parent);
 		log.info("Product saved");
+		return prodRepo.save(product);
+
 	}
 
 	@Override
-	public boolean updateProduct(Long id, SubCategory subCat, Product product) {
-		product.setSubCategory(subCat);
+	public Product updateProduct(SubCategory subCategory, Product product) {
+		product.setSubCategory(subCategory);
 		
-		if (prodRepo.exists(id)) {
-			prodRepo.save(product);
-			log.info("Product updated");
-			return true;
-		} else
-			return false;
-
+		if(prodRepo.exists(product.getId())) {
+			log.info("Sub-Category updated");
+			return prodRepo.save(product);
+		} else return product;
+	
 	}
-
+	
+	
 	@Override
 	public void deleteProductById(Long id) {
 		prodRepo.delete(id);
@@ -78,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public Product getProductById(Long id) {
-		return prodRepo.getOne(id);
+		return prodRepo.findOne(id);
 	}
 
 	@Override
@@ -90,7 +86,5 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void deleteAll() {
 		prodRepo.deleteAll();
-		
 	}
-
 }

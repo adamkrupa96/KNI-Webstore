@@ -5,11 +5,14 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,17 +26,17 @@ public class SubCategory implements Serializable {
 	private Long id;
 	private String name;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="subCategory")
+	@OneToMany(cascade= { CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH }, mappedBy="subCategory", fetch=FetchType.EAGER, orphanRemoval=false)
 	private Set<Product> products;
 	
 	@JsonIgnore
-	@ManyToOne(cascade= { CascadeType.PERSIST }, optional=false)
+	@ManyToOne(cascade= { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE }, optional=false)
+	@JoinColumn(name="category_id")
 	private Category category;
 	
-	public SubCategory(String name, Set<Product> products, Category category) {
+	public SubCategory(String name, Set<Product> products) {
 		this.name = name;
 		this.products = products;
-		this.category = category;
 	}
 	
 	public SubCategory() {

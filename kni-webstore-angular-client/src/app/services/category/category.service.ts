@@ -15,7 +15,7 @@ export class CategoryService {
     });
   }
 
-  getCategoryListObservable(): Observable<Array<Category>> {
+  getCategoryListObservable(): Observable<Category[]> {
     return this.categoryListObservable.asObservable();
   }
 

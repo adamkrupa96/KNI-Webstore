@@ -48,6 +48,11 @@ public class ProductController {
 		return catService.getSubCategoryById(id).getProducts();
 	}
 	
+	@GetMapping("/unallocated/products")
+	public Set<Product> getUnallocatedProducts() {
+		return prodService.getProductsWithoutCategory();
+	}
+	
 	@PostMapping("/categories/subcategories/{id}/products")
 	public void addProductToSubCategory(@RequestBody Product product, @PathVariable("id") Long id) {
 		prodService.addProduct(catService.getSubCategoryById(id), product);
@@ -55,7 +60,7 @@ public class ProductController {
 	
 	@PutMapping("/categories/subcategories/{subId}/products/{id}")
 	public void updateProduct(@RequestBody Product product, @PathVariable("subId") Long subId, @PathVariable("id") Long id) {
-		prodService.updateProduct(id, catService.getSubCategoryById(subId), product);
+		prodService.updateProduct(catService.getSubCategoryById(subId), product);
 	}
 	
 	@DeleteMapping("/categories/subcategories/products/{id}")

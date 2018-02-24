@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import kni.webstore.model.Category;
 import kni.webstore.model.SubCategory;
 import kni.webstore.service.CategoryService;
-import kni.webstore.service.ProductService;
 
 @RestController
 @RequestMapping("/api")
@@ -63,8 +62,8 @@ public class CategoryController {
 	}
 	
 	@PutMapping("/categories/{catId}/subcategories/{id}")
-	public void updateSubCategory(@RequestBody SubCategory subCat,@PathVariable("catId") Long catId, @PathVariable("id") Long id) {
-		catService.updateSubCategory(id, catService.getCategoryById(catId), subCat);
+	public void updateSubCategory(@RequestBody SubCategory subCat, @PathVariable("catId") Long catId, @PathVariable("id") Long id) {
+		catService.updateSubCategory(catService.getCategoryById(catId), subCat);
 	}
 	
 	@DeleteMapping("/categories/{id}")

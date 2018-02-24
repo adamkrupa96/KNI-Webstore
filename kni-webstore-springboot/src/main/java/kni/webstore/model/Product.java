@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,20 +29,19 @@ public class Product implements Serializable {
 	private int inStock;
 	
 	@JsonIgnore
-	@ManyToOne(cascade=CascadeType.PERSIST, optional=true)
+	@ManyToOne(cascade= { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE }, optional=true)
 	private SubCategory subCategory;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="product_id")
 	private Set<Feature> features;
 	
-	public Product(String brand, String model, double price, int inStock, SubCategory subCategory,
+	public Product(String brand, String model, double price, int inStock,
 			Set<Feature> features) {
 		this.brand = brand;
 		this.model = model;
 		this.price = price;
 		this.inStock = inStock;
-		this.subCategory = subCategory;
 		this.features = features;
 	}
 	

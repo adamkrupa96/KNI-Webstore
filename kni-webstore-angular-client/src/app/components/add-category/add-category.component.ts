@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from '../../models/Category';
 import { CategoryService } from '../../services/category/category.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { HttpCategoryService } from '../../services/category/http-category.service';
+import { SubCategory } from '../../models/subcategory';
 
 @Component({
   selector: 'app-add-category',
@@ -13,10 +15,7 @@ export class AddCategoryComponent implements OnInit {
   addCategoryForm: FormGroup;
   category: Category;
 
-  constructor(private catService: CategoryService) {
-    this.catService.getCategoryListObservable().subscribe(list => {
-      this.categoriesList = list;
-    });
+  constructor(private catService: CategoryService, private httpCat: HttpCategoryService) {
   }
 
   readList() {
@@ -30,6 +29,7 @@ export class AddCategoryComponent implements OnInit {
       categoryName: new FormControl(null, Validators.required)
     });
     this.category = new Category();
+    this.readList();
   }
 
   onSubmit() {

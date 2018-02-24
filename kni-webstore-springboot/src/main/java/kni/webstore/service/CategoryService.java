@@ -11,15 +11,15 @@ public interface CategoryService {
 	
 	Category addCategory(Category category);
 	void deleteCategoryById(Long id);
-	boolean updateCategory(Long id, Category category);
+	Category updateCategory(Long id, Category category);
 	Category getCategoryById(Long id);
 	Category getCategoryByName(String name);
 	Set<Category> getAllCategories();
 	
 	//Podkategoria
 	
-	void addSubCategory(Category parent, SubCategory subCategory);
-	boolean updateSubCategory(Long id, Category category, SubCategory subCategory);
+	SubCategory addSubCategory(Category parent, SubCategory subCategory);
+	SubCategory updateSubCategory(Category category, SubCategory subCategory);
 	void deleteSubCategoryById(Long id);
 	void deleteSubCategoryByName(String name);
 	SubCategory getSubCategoryById(Long id);
