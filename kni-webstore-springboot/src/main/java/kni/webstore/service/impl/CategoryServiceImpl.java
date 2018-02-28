@@ -99,10 +99,6 @@ public class CategoryServiceImpl implements CategoryService {
 	public SubCategory updateSubCategory(Long categoryId, SubCategory subCategory) {
 		subCategory.setCategory(catRepo.findOne(categoryId));
 		
-		System.out.println(subCategory.getName());
-		System.out.println(subCategory.getCategory().getId());
-		System.out.println(subCategory.getId());
-		
 		if(subCatRepo.exists(categoryId)) {
 			log.info("Sub-Category updated");
 			return subCatRepo.save(subCategory);

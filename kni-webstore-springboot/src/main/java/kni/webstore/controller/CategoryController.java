@@ -57,7 +57,6 @@ public class CategoryController {
 	
 	@PutMapping("/api/categories/{id}")
 	public Category updateCategory(@RequestBody Category updatedCategory, @PathVariable("id") Long id) {
-		System.out.println("dziala");
 		return catService.updateCategory(id, updatedCategory);
 	}
 	
