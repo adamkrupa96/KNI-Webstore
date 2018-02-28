@@ -43,6 +43,10 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category updateCategory(Long id, Category category) {
 		if (catRepo.exists(id)) {
 			
+			for(SubCategory subCat : category.getSubCategories()) {
+				subCat.setCategory(category);
+			}
+			
 			log.info("Category updated");
 			return catRepo.save(category);
 			
@@ -92,10 +96,14 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
-	public SubCategory updateSubCategory(Category category, SubCategory subCategory) {
-		subCategory.setCategory(category);
+	public SubCategory updateSubCategory(Long categoryId, SubCategory subCategory) {
+		subCategory.setCategory(catRepo.findOne(categoryId));
 		
-		if(subCatRepo.exists(subCategory.getId())) {
+		System.out.println(subCategory.getName());
+		System.out.println(subCategory.getCategory().getId());
+		System.out.println(subCategory.getId());
+		
+		if(subCatRepo.exists(categoryId)) {
 			log.info("Sub-Category updated");
 			return subCatRepo.save(subCategory);
 		} else return subCategory;

@@ -24,7 +24,7 @@ public class Category implements Serializable {
 	private Long id;
 	private String name;
 	
-	@OneToMany(cascade= {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.MERGE }, mappedBy="category", fetch=FetchType.EAGER)
+	@OneToMany(cascade= {CascadeType.REMOVE, CascadeType.REFRESH }, mappedBy="category", fetch=FetchType.EAGER)
 	private Set<SubCategory> subCategories;
 	
 	public Category(String name, Set<SubCategory> subCategories) {

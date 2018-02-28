@@ -23,3 +23,5 @@ hs_err_pid*
 kni-workspace/*
 kni-workspace/.recommenders/index/http___download_eclipse_org_recommenders_models_oxygen_/segments.gen
 kni-workspace/.recommenders/index/http___download_eclipse_org_recommenders_models_oxygen_/write.lock
+kni-workspace/.recommenders/caches/identified-project-coordinates.json
+kni-workspace/.recommenders/index/http___download_eclipse_org_recommenders_models_oxygen_/write.lock

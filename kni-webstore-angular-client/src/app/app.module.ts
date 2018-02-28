@@ -9,8 +9,8 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClientModule } from '@angular/common/http';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
-import { CategoryService } from './services/category/category.service';
-import { HttpCategoryService } from './services/category/http-category.service';
+import { CategoryService } from './services/category.service';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { HttpCategoryService } from './services/category/http-category.service';
   imports: [
     BrowserModule, HttpClientModule, ReactiveFormsModule
   ],
-  providers: [ProductService, CategoryService, HttpCategoryService, HttpClient],
+  providers: [ProductService, CategoryService, HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
