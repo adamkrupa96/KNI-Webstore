@@ -1,23 +1,80 @@
-<div>
-  <p>Wszystkie kategorie:</p>
-  <div>
-    <ol>
-      <li *ngFor="let category of categoriesList">
-        {{category.name}}
-      </li>
-    </ol>
-  </div>
-
-  <h4>Dodaj kategorie</h4>
-  <form [formGroup]="addCategoryForm" (ngSubmit)="onSubmit()">
-    <div style="display: inline-grid;">
-
-      <label for="catName">Temat:</label>
-      <input type="text" id="catName" formControlName="categoryName">
-      <div *ngIf="addCategoryForm.get('categoryName').invalid && addCategoryForm.get('categoryName').dirty">
-        <label>Pole musi zostac wypelnione!</label>
-      </div>
-      <button type="submit" [disabled]="addCategoryForm.invalid">Dodaj kategorię</button>
+<div class="container row justify-content-center">
+  <div class="col-sm-3">
+    <div>
+      <ol>
+        <li *ngFor="let category of categoriesList | sortBy: 'id'">
+          {{category.name}} <a href="" (click)="deleteCategory(category)">usuń</a>
+          <ol>
+            <li *ngFor="let subCategory of category.subCategories | sortBy: 'id'">
+              {{subCategory.name}} <a href="" (click)="deleteSubCategory(subCategory)">usuń</a>
+                <ol>
+                  <li *ngFor="let product of subCategory.products | sortBy: 'id'">
+                    {{product.brand}} {{product.model}} {{product.price}} <a href="" (click)="deleteProduct(product)">usuń</a>
+                  </li>
+                </ol>
+            </li>
+          </ol>
+        </li>
+      </ol>
     </div>
-  </form>
+  </div>
+  <div class="col-sm-3">
+    <h4>Dodaj kategorie</h4>
+    <form [formGroup]="addCategoryForm" (ngSubmit)="onSubmitCategory()">
+      <div style="display: inline-grid;">
+
+        <label for="catName">Temat:</label>
+        <input type="text" id="catName" formControlName="categoryName">
+        <div *ngIf="addCategoryForm.get('categoryName').invalid && addCategoryForm.get('categoryName').dirty">
+          <label>Pole musi zostac wypelnione!</label>
+        </div>
+        <button type="submit" [disabled]="addCategoryForm.invalid">Dodaj kategorię</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-sm-3">
+    <h4>Dodaj podkategorie</h4>
+    <form [formGroup]="addSubCategoryForm" (ngSubmit)="onSubmitSubCategory()">
+      <div style="display: inline-grid;">
+
+        <label for="chooseCategory">Kategoria:</label>
+        <select id="chooseCategory" ng-model="data.singleSelect" formControlName="chooseCategory">
+          <option *ngFor="let category of categoriesList" value="{{category.id}}">{{category.name}}</option>
+        </select>
+        <label for="subCatName">Nazwa: </label>
+        <input type="text" id="subCatName" formControlName="subCategoryName">
+        <button type="submit">Dodaj podkategorię</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-sm-3">
+    <h4>Dodaj produkt</h4>
+    <form [formGroup]="addProductForm" (ngSubmit)="onSubmitProduct()">
+      <div style="display: inline-grid;">
+
+        <label for="chooseCategory">Kategoria:</label>
+        <select id="chooseCategory" ng-model="data.singleSelect" formControlName="chooseCategory" (change)="readSubCatList($event.target.value)">
+          <option *ngFor="let category of categoriesList" value="{{category.id}}">{{category.name}}</option>
+        </select>
+
+        <label for="chooseSubCategory">Podkategoria:</label>
+        <select id="chooseSubCategory" ng-model="data.singleSelect" formControlName="chooseSubCategory">
+          <option *ngFor="let subCategory of subCategoriesList" value="{{subCategory.id}}">{{subCategory.name}}</option>
+        </select>
+
+
+        <label for="prodBrand">Marka: </label>
+        <input type="text" id="prodBrand" formControlName="brand">
+        <label for="prodModel">Model: </label>
+        <input type="text" id="prodModel" formControlName="model">
+        <label for="prodPrice">Cena: </label>
+        <input type="text" id="prodPrice" formControlName="price">
+        <label for="prodInStock">Ilosc na stanie: </label>
+        <input type="text" id="prodInStock" formControlName="inStock">
+
+
+        <button type="submit">Dodaj Produkt</button>
+      </div>
+    </form>
+  </div>
 </div>

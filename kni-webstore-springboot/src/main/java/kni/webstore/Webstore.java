@@ -40,7 +40,7 @@ public class Webstore {
 		
 		Category cat = catService.addCategory(undefinied); 
 		SubCategory subCat = catService.addSubCategory(cat, new SubCategory("ELO", new HashSet<Product>()));
-		Product prod = prodService.addProduct(subCat, p);
+		Product prod = prodService.addProductToSubCategory(subCat, p);
 		
 		prodService.deleteProductById(new Long(1));
 		

@@ -16,23 +16,26 @@ export class CategoryService {
 
   constructor(private http: HttpClient) { }
 
-// Zapytania http wykonywane są "lazy", po wywołaniu ktorejś z metod, koniecznie trzeba użyć subscribe() [za wyjatkiem DELETE]
-// do przechwycenia otagowanego obiektu
+  // Zapytania http wykonywane są "lazy", po wywołaniu ktorejś z metod, koniecznie trzeba użyć subscribe() [za wyjatkiem DELETE]
 
   getAllCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.restURL);
   }
 
   getCategoryById(id: number): Observable<Category> {
-    return this.http.get<Category>(this.restURL + '/' + id);
+    return this.http.get<Category>(`${this.restURL}/${id}`);
+  }
+
+  getCategoryByName(name: String): Observable<Category> {
+    return this.http.get<Category>(`${this.restURL}/${name}`);
   }
 
   getSubCategoriesOfCategory(id: number): Observable<SubCategory[]> {
-    return this.http.get<SubCategory[]>(this.restURL + '/' + id + '/subcategories');
+    return this.http.get<SubCategory[]>(`${this.restURL}/${id}/subcategories`);
   }
 
   getSubCategoryById(id: number): Observable<SubCategory> {
-    return this.http.get<SubCategory>(this.restURL + '/subcategories/' + id);
+    return this.http.get<SubCategory>(`${this.restURL}/subcategories/${id}`);
   }
 
   addCategory(category: Category): Observable<Category> {
@@ -40,23 +43,23 @@ export class CategoryService {
   }
 
   addSubCategoryOfCategory(categoryId: number, subCategory: SubCategory): Observable<SubCategory> {
-    return this.http.post<SubCategory>(this.restURL + '/' + categoryId + '/subcategories', subCategory, httpOptions);
+    return this.http.post<SubCategory>(`${this.restURL}/${categoryId}/subcategories`, subCategory, httpOptions);
   }
 
   updateCategory(category: Category): Observable<Category> {
-    return this.http.put<Category>(this.restURL + '/' + category.id, category, httpOptions);
+    return this.http.put<Category>(`${this.restURL}/${category.id}`, category, httpOptions);
   }
 
   updateSubCategory(categoryOfSubCat: Category, subCategory: SubCategory): Observable<SubCategory> {
-    return this.http.put<SubCategory>(this.restURL + '/' + categoryOfSubCat.id + '/subcategories/' + subCategory.id,
-        subCategory, httpOptions);
+    return this.http.put<SubCategory>(`${this.restURL}/${categoryOfSubCat.id}/subcategories/${subCategory.id}`,
+      subCategory, httpOptions);
   }
 
   deleteCategory(category: Category): void {
-    this.http.delete<Category>(this.restURL + '/' + category.id).subscribe();
+    this.http.delete<Category>(`${this.restURL}/${category.id}`).subscribe();
   }
 
   deleteSubCategory(subCategory: SubCategory): void {
-    this.http.delete<SubCategory>(this.restURL + '/subcategories/' + subCategory.id).subscribe();
+    this.http.delete<SubCategory>(`${this.restURL}/subcategories/${subCategory.id}`).subscribe();
   }
 }

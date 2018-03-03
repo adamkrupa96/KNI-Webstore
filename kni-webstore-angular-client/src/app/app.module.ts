@@ -10,12 +10,14 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClientModule } from '@angular/common/http';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { CategoryService } from './services/category.service';
+import { SortPipe } from './pipes/sortBy';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddCategoryComponent
+    AddCategoryComponent,
+    SortPipe
   ],
   imports: [
     BrowserModule, HttpClientModule, ReactiveFormsModule

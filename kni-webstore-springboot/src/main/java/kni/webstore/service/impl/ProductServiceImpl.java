@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository prodRepo;
 
 	@Override
-	public Product addProduct(SubCategory parent, Product product) {
+	public Product addProductToSubCategory(SubCategory parent, Product product) {
 		parent.getProducts().add(product);
 		product.setSubCategory(parent);
 
@@ -30,18 +30,35 @@ public class ProductServiceImpl implements ProductService {
 		return prodRepo.save(product);
 
 	}
+	
+	@Override
+	public Product addProduct(Product product) {
+		product.setSubCategory(null);
+		
+		log.info("Product saved");
+		return prodRepo.save(product);
+	}
 
 	@Override
-	public Product updateProduct(SubCategory subCategory, Product product) {
+	public Product updateProductWithSubCategory(Long id, Product product, SubCategory subCategory) {
 		product.setSubCategory(subCategory);
 		
-		if(prodRepo.exists(product.getId())) {
-			log.info("Sub-Category updated");
+		if(prodRepo.exists(id)) {
+			log.info("Product updated");
 			return prodRepo.save(product);
 		} else return product;
 	
 	}
 	
+	@Override
+	public Product updateProduct(Long id, Product product) {
+		product.setSubCategory(null);
+		
+		if(prodRepo.exists(id)) {
+			log.info("Product updated");
+			return prodRepo.save(product);
+		} else return product;
+	}
 	
 	@Override
 	public void deleteProductById(Long id) {

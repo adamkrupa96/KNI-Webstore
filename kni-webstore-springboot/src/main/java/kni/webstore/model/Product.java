@@ -29,7 +29,7 @@ public class Product implements Serializable {
 	private int inStock;
 	
 	@JsonIgnore
-	@ManyToOne(cascade= { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE }, optional=true)
+	@ManyToOne(cascade= { CascadeType.DETACH, CascadeType.REFRESH }, optional=true)
 	private SubCategory subCategory;
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)

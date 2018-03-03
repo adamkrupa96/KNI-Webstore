@@ -3,7 +3,6 @@ package kni.webstore.controller;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import kni.webstore.model.Category;
 import kni.webstore.model.SubCategory;
 import kni.webstore.service.CategoryService;
-
 
 @RestController
 public class CategoryController {
@@ -31,6 +29,11 @@ public class CategoryController {
 	@GetMapping("/api/categories/{id}")
 	public Category getCategoryById(@PathVariable("id") Long id) {
 		return catService.getCategoryById(id);
+	}
+	
+	@GetMapping("/api/categories/{name}")
+	public Category getCategoryByName(@PathVariable("name") String name) {
+		return catService.getCategoryByName(name);
 	}
 	
 	@GetMapping("/api/categories/{id}/subcategories")
