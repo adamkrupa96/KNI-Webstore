@@ -1,24 +1,36 @@
-<div class="col-md-6 col-md-offset-3">
+<div class="container">
   <h2>Zarejestruj sie</h2>
 
   <form [formGroup]="registerForm" (ngSubmit)="register()">
-      <div style="display: inline-grid;">
-        <label for="username">Nazwa użytkownika:</label>
-        <input type="text" id="username" formControlName="username">
 
-        <label for="firstName">Imie:</label>
-        <input type="text" id="firstName" formControlName="firstName">
+    <div class="form-group">
+      <label for="username">Nazwa użytkownika:</label>
+      <input type="text" class="form-control" id="username" name="username" formControlName="username">
+    </div>
 
-        <label for="lastName">Nazwisko:</label>
-        <input type="text" id="lastName" formControlName="lastName">
+    <div class="form-group">
+      <label for="firstName">Imie:</label>
+      <input type="text" class="form-control" id="firstName" name="firstName" formControlName="firstName">
+    </div>
 
-        <label for="email">Adres email:</label>
-        <input type="email" id="email" formControlName="email">
+    <div class="form-group">
+      <label for="lastName">Nazwisko:</label>
+      <input type="text" class="form-control" id="lastName" name="lastName" formControlName="lastName">
+    </div>
 
-        <label for="password">Hasło:</label>
-        <input type="password" id="password" formControlName="password">
+    <div class="form-group">
+      <label for="email">Adres email:</label>
+      <input type="email" class="form-control" id="email" name="email" formControlName="email">
+    </div>
 
-        <button type="submit" [disabled]="registerForm.invalid">Zapisz</button>
-      </div>
+    <div class="form-group">
+      <label for="password">Hasło:</label>
+      <input type="password" class="form-control" id="password" name="password" formControlName="password">
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Zapisz</button>
+    </div>
+
   </form>
 </div>
