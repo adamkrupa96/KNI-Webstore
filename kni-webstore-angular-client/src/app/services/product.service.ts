@@ -25,11 +25,11 @@ export class ProductService {
   // Zapytania http wykonywane są "lazy", po wywołaniu ktorejś z metod, koniecznie trzeba użyć subscribe() [za wyjatkiem DELETE]
 
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.restURL);
+    return this.http.get<Product[]>(this.restURL, { headers: this.headers });
   }
 
   getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.restURL}/${id}`);
+    return this.http.get<Product>(`${this.restURL}/${id}`, { headers: this.headers });
   }
 
   getProductsOfCategory(categoryId: number): Observable<Product[]> {
@@ -43,7 +43,7 @@ export class ProductService {
   }
 
   getUnallocatedProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.restURL}Unallocated`);
+    return this.http.get<Product[]>(`${this.restURL}Unallocated`, { headers: this.headers });
   }
 
   addProduct(product: Product, subCategoryId?: number): Observable<Product> {
@@ -69,10 +69,10 @@ export class ProductService {
   }
 
   deleteProduct(id: number): void {
-    this.http.delete(`${this.restURL}/${id}`).subscribe();
+    this.http.delete(`${this.restURL}/${id}`, { headers: this.headers }).subscribe();
   }
 
   deleteAll(): void {
-    this.http.delete(`${this.restURL}`).subscribe();
+    this.http.delete(`${this.restURL}`, { headers: this.headers }).subscribe();
   }
 }

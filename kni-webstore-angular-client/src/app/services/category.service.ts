@@ -25,23 +25,23 @@ export class CategoryService {
   }
 
   getCategoryById(id: number): Observable<Category> {
-    return this.http.get<Category>(`${this.restURL}/${id}`);
+    return this.http.get<Category>(`${this.restURL}/${id}`, { headers: this.headers });
   }
 
   getCategoryByName(name: String): Observable<Category> {
-    return this.http.get<Category>(`${this.restURL}/${name}`);
+    return this.http.get<Category>(`${this.restURL}/${name}`, { headers: this.headers });
   }
 
   getSubCategoriesOfCategory(id: number): Observable<SubCategory[]> {
-    return this.http.get<SubCategory[]>(`${this.restURL}/${id}/subcategories`);
+    return this.http.get<SubCategory[]>(`${this.restURL}/${id}/subcategories`, { headers: this.headers });
   }
 
   getSubCategoryById(id: number): Observable<SubCategory> {
-    return this.http.get<SubCategory>(`${this.restURL}/subcategories/${id}`);
+    return this.http.get<SubCategory>(`${this.restURL}/subcategories/${id}`, { headers: this.headers });
   }
 
   addCategory(category: Category): Observable<Category> {
-    return this.http.post<Category>(this.restURL, category,{ headers: this.headers });
+    return this.http.post<Category>(this.restURL, category, { headers: this.headers });
   }
 
   addSubCategoryOfCategory(categoryId: number, subCategory: SubCategory): Observable<SubCategory> {
@@ -58,10 +58,10 @@ export class CategoryService {
   }
 
   deleteCategory(category: Category): void {
-    this.http.delete<Category>(`${this.restURL}/${category.id}`).subscribe();
+    this.http.delete<Category>(`${this.restURL}/${category.id}`, { headers: this.headers }).subscribe();
   }
 
   deleteSubCategory(subCategory: SubCategory): void {
-    this.http.delete<SubCategory>(`${this.restURL}/subcategories/${subCategory.id}`).subscribe();
+    this.http.delete<SubCategory>(`${this.restURL}/subcategories/${subCategory.id}`, { headers: this.headers }).subscribe();
   }
 }
