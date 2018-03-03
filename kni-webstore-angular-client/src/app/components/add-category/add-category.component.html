@@ -3,13 +3,13 @@
     <div>
       <ol>
         <li *ngFor="let category of categoriesList | sortBy: 'id'">
-          {{category.name}} <a href="" (click)="deleteCategory(category)">usuń</a>
+          {{category.name}} <a href="/categories" (click)="deleteCategory(category)">usuń</a>
           <ol>
             <li *ngFor="let subCategory of category.subCategories | sortBy: 'id'">
-              {{subCategory.name}} <a href="" (click)="deleteSubCategory(subCategory)">usuń</a>
+              {{subCategory.name}} <a href="/categories" (click)="deleteSubCategory(subCategory)">usuń</a>
                 <ol>
                   <li *ngFor="let product of subCategory.products | sortBy: 'id'">
-                    {{product.brand}} {{product.model}} {{product.price}} <a href="" (click)="deleteProduct(product)">usuń</a>
+                    {{product.brand}} {{product.model}} {{product.price}} <a href="/categories" (click)="deleteProduct(product)">usuń</a>
                   </li>
                 </ol>
             </li>
