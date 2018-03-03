@@ -1,0 +1,24 @@
+<div class="col-md-6 col-md-offset-3">
+  <h2>Zarejestruj sie</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div style="display: inline-grid;">
+        <label for="username">Nazwa użytkownika:</label>
+        <input type="text" id="username" formControlName="username">
+
+        <label for="firstName">Imie:</label>
+        <input type="text" id="firstName" formControlName="firstName">
+
+        <label for="lastName">Nazwisko:</label>
+        <input type="text" id="lastName" formControlName="lastName">
+
+        <label for="email">Adres email:</label>
+        <input type="email" id="email" formControlName="email">
+
+        <label for="password">Hasło:</label>
+        <input type="password" id="password" formControlName="password">
+
+        <button type="submit" [disabled]="registerForm.invalid">Zapisz</button>
+      </div>
+  </form>
+</div>

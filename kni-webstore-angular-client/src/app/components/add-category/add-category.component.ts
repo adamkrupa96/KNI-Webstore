@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from '../../models/Category';
-import { CategoryService } from '../../services/category/category.service';
+import { CategoryService } from '../../services/category.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { HttpCategoryService } from '../../services/category/http-category.service';
 import { SubCategory } from '../../models/subcategory';
 
 @Component({
@@ -11,30 +10,33 @@ import { SubCategory } from '../../models/subcategory';
   styleUrls: ['./add-category.component.css']
 })
 export class AddCategoryComponent implements OnInit {
+
   categoriesList = [];
   addCategoryForm: FormGroup;
-  category: Category;
 
-  constructor(private catService: CategoryService, private httpCat: HttpCategoryService) {
-  }
-
-  readList() {
-    this.catService.getCategoryListObservable().subscribe(list => {
-      this.categoriesList = list;
-    });
+  constructor(private catService: CategoryService) {
   }
 
   ngOnInit() {
     this.addCategoryForm = new FormGroup({
       categoryName: new FormControl(null, Validators.required)
     });
-    this.category = new Category();
     this.readList();
   }
 
+  readList() {
+    this.catService.getAllCategories().subscribe(list => {
+      this.categoriesList = list;
+    });
+  }
+
   onSubmit() {
-    this.category.name = this.addCategoryForm.value.categoryName;
-    this.catService.addCategory(this.category);
+    const toAdd: Category = new Category();
+    toAdd.name = this.addCategoryForm.value.categoryName;
+    this.catService.addCategory(toAdd).subscribe(added => {
+      this.categoriesList.push(added);
+    });
+
     this.onReset();
   }
 

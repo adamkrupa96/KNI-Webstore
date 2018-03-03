@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ProductService } from './services/product.service';
 import { Category } from './models/Category';
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,13 @@ import { Category } from './models/Category';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
+
   title = 'Sklep KNI. JEDZIEMY!';
 
-  constructor(private prodService: ProductService) {
+  constructor(public authService: AuthenticationService) {
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

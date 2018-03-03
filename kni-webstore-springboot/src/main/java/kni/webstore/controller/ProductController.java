@@ -68,7 +68,7 @@ public class ProductController {
 		prodService.deleteProductById(id);
 	}
 	
-	@DeleteMapping("/categoires/subcategories/products")
+	@DeleteMapping("/categories/subcategories/products")
 	public void delteAll() {
 		prodService.deleteAll();
 	}

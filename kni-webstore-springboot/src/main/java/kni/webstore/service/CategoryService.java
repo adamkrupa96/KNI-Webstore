@@ -19,7 +19,7 @@ public interface CategoryService {
 	//Podkategoria
 	
 	SubCategory addSubCategory(Category parent, SubCategory subCategory);
-	SubCategory updateSubCategory(Category category, SubCategory subCategory);
+	SubCategory updateSubCategory(Long id, SubCategory subCategory);
 	void deleteSubCategoryById(Long id);
 	void deleteSubCategoryByName(String name);
 	SubCategory getSubCategoryById(Long id);

@@ -1,19 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Category } from '../../models/category';
 import { SubCategory } from '../../models/subcategory';
+import { AuthenticationService } from '../authentication.service';
 
 @Injectable()
 export class HttpCategoryService {
   private SERVER_URL = 'http://localhost:8080/api/categories';
 
-  constructor(private http: HttpClient) { }
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + this.authService.getToken()
+  });
 
-  // Nie dokończone 
+  constructor(private http: HttpClient, private authService: AuthenticationService) { }
+
+  // Nie dokończone
 
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.SERVER_URL);
+    return this.http.get<Category[]>(this.SERVER_URL, { headers: this.headers });
   }
 
   getCategoryById(id: number): Observable<Category> {
