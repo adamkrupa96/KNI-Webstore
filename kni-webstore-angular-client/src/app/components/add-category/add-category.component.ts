@@ -30,7 +30,7 @@ export class AddCategoryComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  addCategory() {
     const toAdd: Category = new Category();
     toAdd.name = this.addCategoryForm.value.categoryName;
     this.catService.addCategory(toAdd).subscribe(added => {

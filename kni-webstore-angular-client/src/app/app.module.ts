@@ -10,7 +10,6 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClientModule } from '@angular/common/http';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
-import { HttpCategoryService } from './services/category/http-category.service';
 import { AuthenticationService } from './services/authentication.service';
 import { HomeComponent } from './components/home/home.component';
 import { RoutingModule } from './routing.module';
