@@ -1,3 +1,11 @@
 <div>
-  <app-add-category></app-add-category>
+  <h1>{{title}}</h1>
+  <nav>
+    <a routerLink="/home" routerLinkActive="active">Home</a>
+    <a routerLink="/categories" routerLinkActive="active">Kategorie</a>
+    <a *ngIf="!authService.isLoggedIn()" routerLink="/login" routerLinkActive="active">Zaloguj sie</a>
+    <a *ngIf="!authService.isLoggedIn()" routerLink="/register" routerLinkActive="active">Zarejestruj sie</a>
+    <a *ngIf="authService.isLoggedIn()" routerLinkActive="active" (click)="logout()">Wyloguj sie</a>
+  </nav>
+  <router-outlet></router-outlet>
 </div>

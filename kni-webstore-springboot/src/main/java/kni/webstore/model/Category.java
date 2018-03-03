@@ -12,8 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.springframework.context.annotation.Lazy;
-
 @Entity
 public class Category implements Serializable {
 	

@@ -93,6 +93,7 @@ public class ProductController {
 		prodService.deleteProductById(id);
 	}
 	
+
 	@DeleteMapping("/products")
 	public void delteAll() {
 		prodService.deleteAll();
