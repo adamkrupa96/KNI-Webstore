@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import jwt_decode from 'jwt-decode';
+import * as jwt_decode from 'jwt-decode';
 import { User } from '../models/user';
 
 
@@ -60,7 +60,7 @@ export class AuthenticationService {
     try {
       return jwt_decode(this.getToken());
     } catch (Error) {
-      return Error;
+      return null;
     }
   }
 

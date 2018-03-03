@@ -33,8 +33,7 @@ import { CategoryService } from './services/category.service';
     FormsModule,
     ReactiveFormsModule,
     RoutingModule,
-    HttpClientModule,
-    HttpModule
+    HttpClientModule
   ],
   providers: [
     ProductService,

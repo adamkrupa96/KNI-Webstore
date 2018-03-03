@@ -20,7 +20,11 @@ export class AuthGuardsService implements CanActivate {
     console.log(this.authService.getDecodedAccessToken());
 
     if (this.authService.isLoggedIn()) {
-      return true;
+      const rolesTab: any[] = this.authService.getRolesArray();
+
+      if (rolesTab.some(e => e.authority === 'ROLE_USER')) {
+        return true;
+      }
     }
 
     // Store the attempted URL for redirecting
