@@ -19,6 +19,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AuthGuardsService } from './services/auth-guards.service';
 import { CategoryService } from './services/category.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
