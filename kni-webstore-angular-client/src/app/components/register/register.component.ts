@@ -19,18 +19,21 @@ export class RegisterComponent implements OnInit {
     this.createRegisterForm();
   }
 
+  /**
+   * dodanie walidatorow do pol, kazde pole musi zostac wypelnione,
+   * ma miec sprawdzana minimalna dlugosc i maksymalna, a pole email ma byc emailem
+   */
   createRegisterForm() {
     this.registerForm = new FormGroup({
-      username: new FormControl(null, Validators.required),
-      firstName: new FormControl(null, Validators.required),
-      lastName: new FormControl(null, Validators.required),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, Validators.required)
+      username: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+      firstName: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+      lastName: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+      email: new FormControl(null, [Validators.required, Validators.email, Validators.minLength(4), Validators.maxLength(50)]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(100)])
     });
   }
 
   register() {
-    console.log(this.registerForm);
     this.user.username = this.registerForm.value['username'];
     this.user.firstName = this.registerForm.value['firstName'];
     this.user.lastName = this.registerForm.value['lastName'];
@@ -41,9 +44,10 @@ export class RegisterComponent implements OnInit {
     this.authService.register(this.user)
       .subscribe(result => {
         console.log(result);
+        if (result === true) {
+          this.user = new User();
+          this.createRegisterForm();
+        }
       });
-
-    this.user = new User();
-    this.createRegisterForm();
   }
 }

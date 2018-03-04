@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-login',
@@ -8,10 +10,10 @@ import { AuthenticationService } from '../../services/authentication.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  model: any = {};
   loading = false;
   error = '';
-  info: string;
+
+  loginForm: FormGroup;
 
   constructor(
     private router: Router,
@@ -19,18 +21,19 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      if (params['name']) {
-        this.info = 'Zaloguj sie do ' + params['name'];
-      } else {
-        this.info = null;
-      }
+    this.createLoginForm();
+  }
+
+  createLoginForm() {
+    this.loginForm = new FormGroup({
+      username: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(4), Validators.maxLength(50)])
     });
   }
 
   login() {
     this.loading = true;
-    this.authService.login(this.model.username, this.model.password)
+    this.authService.login(this.loginForm.value.username, this.loginForm.value.password)
       .subscribe(result => {
         if (result === true) {
           // login successful
@@ -43,14 +46,10 @@ export class LoginComponent implements OnInit {
           } else if (redirectUrl === undefined || redirectUrl === null) {
             this.router.navigate(['/home']);
           }
-        } else {
-          // login failed
-          this.error = 'Username or password is incorrect';
-          this.loading = false;
         }
       }, error => {
         this.loading = false;
-        this.error = error;
+        this.error = 'Nazwa użytkownika lub hasło są niepoprawne';
       });
   }
 }
