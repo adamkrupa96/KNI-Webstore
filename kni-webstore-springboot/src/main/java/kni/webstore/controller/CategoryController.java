@@ -1,6 +1,6 @@
 package kni.webstore.controller;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,7 +23,7 @@ public class CategoryController {
 	private CategoryService catService;
 	
 	@GetMapping("/api/categories")
-	public Set<Category> getAllCategories() {
+	public List<Category> getAllCategories() {
 		return catService.getAllCategories();
 	}
 	
@@ -38,7 +38,7 @@ public class CategoryController {
 	}
 	
 	@GetMapping("/api/categories/{id}/subcategories")
-	public Set<SubCategory> getSubCategoriesOfCategory(@PathVariable("id") Long id) {
+	public List<SubCategory> getSubCategoriesOfCategory(@PathVariable("id") Long id) {
 		return catService.getCategoryById(id).getSubCategories();
 	}
 	
@@ -50,7 +50,6 @@ public class CategoryController {
 	@PostMapping("/api/categories")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public Category addCategory(@RequestBody Category category) {
-		System.out.println(category.toString());
 		return catService.addCategory(category);
 	}
 	

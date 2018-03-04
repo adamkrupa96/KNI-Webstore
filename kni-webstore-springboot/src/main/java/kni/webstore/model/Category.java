@@ -1,8 +1,8 @@
 package kni.webstore.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -23,16 +23,16 @@ public class Category implements Serializable {
 	private String name;
 	
 	@OneToMany(cascade= {CascadeType.REMOVE, CascadeType.REFRESH }, mappedBy="category", fetch=FetchType.EAGER)
-	private Set<SubCategory> subCategories;
+	private List<SubCategory> subCategories;
 	
-	public Category(String name, Set<SubCategory> subCategories) {
+	public Category(String name, List<SubCategory> subCategories) {
 		this.name = name;
 		this.subCategories = subCategories;
 	}
 	
 	public Category(String name) {
 		this.name = name;
-		this.subCategories = new HashSet<SubCategory>();
+		this.subCategories = new ArrayList<SubCategory>();
 	}
 	
 	public Category() {
@@ -55,11 +55,11 @@ public class Category implements Serializable {
 	}
 
 
-	public Set<SubCategory> getSubCategories() {
+	public List<SubCategory> getSubCategories() {
 		return subCategories;
 	}
 
-	public void setSubCategories(Set<SubCategory> subCategories) {
+	public void setSubCategories(List<SubCategory> subCategories) {
 		this.subCategories = subCategories;
 	}
 

@@ -1,7 +1,8 @@
 package kni.webstore.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -34,15 +35,23 @@ public class Product implements Serializable {
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="product_id")
-	private Set<Feature> features;
+	private List<Feature> features;
 	
 	public Product(String brand, String model, double price, int inStock,
-			Set<Feature> features) {
+			List<Feature> features) {
 		this.brand = brand;
 		this.model = model;
 		this.price = price;
 		this.inStock = inStock;
 		this.features = features;
+	}
+	
+	public Product(String brand, String model, double price, int inStock) {
+		this.brand = brand;
+		this.model = model;
+		this.price = price;
+		this.inStock = inStock;
+		this.features = new ArrayList<Feature>();
 	}
 	
 	public Product() {
@@ -113,12 +122,12 @@ public class Product implements Serializable {
 	}
 
 
-	public Set<Feature> getFeatures() {
+	public List<Feature> getFeatures() {
 		return features;
 	}
 
 
-	public void setFeatures(Set<Feature> features) {
+	public void setFeatures(List<Feature> features) {
 		this.features = features;
 	}
 

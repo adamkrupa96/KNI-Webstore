@@ -1,7 +1,6 @@
 package kni.webstore.service.impl;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void deleteCategoryById(Long id) {
 		Category cat = catRepo.findOne(id);
-		Set<Product> prodsOfCategory = prodService.getProductsOfCategory(cat);
+		List<Product> prodsOfCategory = prodService.getProductsOfCategory(cat);
 		
 		for (Product p : prodsOfCategory) {
 			p.setSubCategory(null);
@@ -78,9 +77,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Set<Category> getAllCategories() {
-		HashSet<Category> set = new HashSet<Category>(catRepo.findAll());
-		return set;
+	public List<Category> getAllCategories() {
+		return catRepo.findAll();
 	}
 	
 	//Podkategoria
@@ -136,9 +134,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Set<SubCategory> getAllSubCategories() {
-		HashSet<SubCategory> set = new HashSet<SubCategory>(subCatRepo.findAll());
-		return set;
+	public List<SubCategory> getAllSubCategories() {
+		return subCatRepo.findAll();
 	}
 
 }

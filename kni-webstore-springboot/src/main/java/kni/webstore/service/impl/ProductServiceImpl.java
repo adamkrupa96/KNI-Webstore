@@ -1,7 +1,8 @@
 package kni.webstore.service.impl;
 
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +68,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Set<Product> getProductsOfCategory(Category cat) {
-		Set<Product> prodsOfCat = new HashSet<Product>();
+	public List<Product> getProductsOfCategory(Category cat) {
+		List<Product> prodsOfCat = new ArrayList<Product>();
 		
 		for (SubCategory subCat : cat.getSubCategories()) {
 			prodsOfCat.addAll(subCat.getProducts());
@@ -78,8 +79,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Set<Product> getProductsWithoutCategory() {
-		Set<Product> products = new HashSet<Product>();
+	public List<Product> getProductsWithoutCategory() {
+		List<Product> products = new ArrayList<Product>();
 		
 		for (Product product : this.getAllProducts()) {
 			if(product.getSubCategory() == null) 
@@ -95,9 +96,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Set<Product> getAllProducts() {
-		HashSet<Product> set = new HashSet<Product>(prodRepo.findAll());
-		return set;
+	public List<Product> getAllProducts() {
+		return prodRepo.findAll();
 	}
 
 	@Override
