@@ -1,7 +1,8 @@
 package kni.webstore.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,16 +28,21 @@ public class SubCategory implements Serializable {
 	private String name;
 	
 	@OneToMany(cascade= { CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH }, mappedBy="subCategory", fetch=FetchType.EAGER, orphanRemoval=false)
-	private Set<Product> products;
+	private List<Product> products;
 	
 	@JsonIgnore
 	@ManyToOne(cascade= { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE }, optional=false)
 	@JoinColumn(name="category_id")
 	private Category category;
 	
-	public SubCategory(String name, Set<Product> products) {
+	public SubCategory(String name, List<Product> products) {
 		this.name = name;
 		this.products = products;
+	}
+	
+	public SubCategory(String name) {
+		this.name = name;
+		this.products = new ArrayList<Product>();
 	}
 	
 	public SubCategory() {
@@ -59,11 +65,11 @@ public class SubCategory implements Serializable {
 	}
 
 
-	public Set<Product> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(Set<Product> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 

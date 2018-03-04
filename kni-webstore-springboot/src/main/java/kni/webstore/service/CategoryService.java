@@ -1,6 +1,6 @@
 package kni.webstore.service;
 
-import java.util.Set;
+import java.util.List;
 
 import kni.webstore.model.Category;
 import kni.webstore.model.SubCategory;
@@ -14,7 +14,7 @@ public interface CategoryService {
 	Category updateCategory(Long id, Category category);
 	Category getCategoryById(Long id);
 	Category getCategoryByName(String name);
-	Set<Category> getAllCategories();
+	List<Category> getAllCategories();
 	
 	//Podkategoria
 	
@@ -24,5 +24,5 @@ public interface CategoryService {
 	void deleteSubCategoryByName(String name);
 	SubCategory getSubCategoryById(Long id);
 	SubCategory getSubCategoryByName(String name);
-	Set<SubCategory> getAllSubCategories();
+	List<SubCategory> getAllSubCategories();
 }

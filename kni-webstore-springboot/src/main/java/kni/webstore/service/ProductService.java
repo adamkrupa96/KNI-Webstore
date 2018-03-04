@@ -1,6 +1,7 @@
 package kni.webstore.service;
 
-import java.util.Set;
+
+import java.util.List;
 
 import kni.webstore.model.Category;
 import kni.webstore.model.Product;
@@ -15,8 +16,8 @@ public interface ProductService {
 	void deleteProductById(Long id);
 	void deleteAll();
 	Product getProductById(Long id);
-	Set<Product> getProductsOfCategory(Category cat);
-	Set<Product> getAllProducts();
-	Set<Product> getProductsWithoutCategory();
+	List<Product> getProductsOfCategory(Category cat);
+	List<Product> getAllProducts();
+	List<Product> getProductsWithoutCategory();
 
 }

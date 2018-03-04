@@ -1,6 +1,7 @@
 package kni.webstore.controller;
 
-import java.util.Set;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +29,7 @@ public class ProductController {
 	private CategoryService catService;
 	
 	@GetMapping("/products")
-	public Set<Product> getAllProducts() {
+	public List<Product> getAllProducts() {
 		return prodService.getAllProducts();
 	}
 	
@@ -38,17 +39,17 @@ public class ProductController {
 	}
 	
 	@GetMapping("/productsOfCategory")
-	public Set<Product> getProductsOfCategory(@RequestParam("cat") Long id) {
+	public List<Product> getProductsOfCategory(@RequestParam("cat") Long id) {
 		return prodService.getProductsOfCategory(catService.getCategoryById(id));
 	}
 	
 	@GetMapping("/productsOfSubCategory")
-	public Set<Product> getProductsOfSubCategory(@RequestParam("sub") Long id) {
+	public List<Product> getProductsOfSubCategory(@RequestParam("sub") Long id) {
 		return catService.getSubCategoryById(id).getProducts();
 	}
 	
 	@GetMapping("/productsUnallocated")
-	public Set<Product> getUnallocatedProducts() {
+	public List<Product> getUnallocatedProducts() {
 		return prodService.getProductsWithoutCategory();
 	}
 
@@ -78,15 +79,6 @@ public class ProductController {
 		}
 	}
 	
-//	@PutMapping("/products/{id}/?sub={sub_id}")
-//	public Product updateProductWithSubCategory(@RequestBody Product product, @PathVariable("subId") Long subId, @PathVariable("id") Long id) {
-//		return prodService.updateProductWithSubCategory(id, product, catService.getSubCategoryById(subId));
-//	}
-	
-//	@PutMapping("/products/{id}")
-//	public Product updateProductx(@RequestBody Product product, @PathVariable("id") Long id) {
-//		return prodService.updateProduct(id, product);
-//	}
 	
 	@DeleteMapping("/products/{id}")
 	public void deleteProduct(@PathVariable("id") Long id) {
