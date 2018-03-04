@@ -69,5 +69,7 @@
     <div class="form-group">
       <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Zapisz</button>
     </div>
+
+    <div *ngIf="error" class="alert alert-danger" role="alert">{{error}}</div>
   </form>
 </div>

@@ -76,7 +76,7 @@ export class AuthenticationService {
           console.log(boolResp);
           return boolResp;
         })
-      ).catch((error: any) => Observable.throw(error || 'Server error'));
+      ).map((response: any) => response);
   }
 
   /**

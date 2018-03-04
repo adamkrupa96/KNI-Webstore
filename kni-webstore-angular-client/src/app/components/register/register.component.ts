@@ -12,6 +12,7 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
   user = new User();
+  error = '';
 
   constructor(private authService: AuthenticationService) { }
 
@@ -48,6 +49,8 @@ export class RegisterComponent implements OnInit {
           this.user = new User();
           this.createRegisterForm();
         }
+      }, error => {
+        this.error = error.error.message;
       });
   }
 }

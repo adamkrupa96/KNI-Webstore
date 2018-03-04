@@ -26,7 +26,7 @@ public class UserRestController {
 		User existing = userService.findByUsername(validateUser.getUsername());
 		if (existing != null) {
 			log.info("Istnieje juz konto o ponadej nazwie uzytkownika!");
-			throw new UserExistingException();
+			throw new UserExistingException("Istnieje juz konto o podanej nazwie uzytkownika!");
 		}
 
 		userService.save(validateUser);
