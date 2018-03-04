@@ -2,10 +2,18 @@ import { Injectable } from '@angular/core';
 import { RouterStateSnapshot, ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { AuthenticationService } from './authentication.service';
 
+
+/**
+ * serwis odpowiedzialny za ochronę routingu
+ * w metodzie canActivate definiujemy w jaki sposob taka ochrona ma zachodzic
+ * pozniej dodajemy taki serwis do tablicy routingu (w module routingu) dla poszczegolnej sciezki
+ *
+ * obiekt typu RouterStateSnapshot pozwala nam na wyciagniecie adresu url strony na ktora chcielismy wejsc
+ * ale nie zostalismy dopuszczeni, bo nie mielismy oprawnien/nie bylismy zalogowani
+ */
+
 @Injectable()
 export class AuthGuardsService implements CanActivate {
-
-  private ROLE_USER = ({ authority: 'ROLE_USER' });
 
   constructor(private authService: AuthenticationService, private router: Router) {
   }

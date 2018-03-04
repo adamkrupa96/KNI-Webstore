@@ -10,6 +10,10 @@ import * as jwt_decode from 'jwt-decode';
 import { User } from '../models/user';
 
 
+/**
+ * @class AuthenticationService
+ * serwis odpowiedzialny za logowanie/rejestracje/autoryzacje uzytkownika
+ */
 @Injectable()
 export class AuthenticationService {
   readonly authUrl = 'http://localhost:8080/auth';
@@ -22,6 +26,11 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private router: Router) {
   }
 
+  /**
+   * metoda logowania, w ktorej otrzymujemy z serwera token
+   * jesli token zostaje zwrocony, zapisujemy go w pamieci (localStorage) i zwracamy true
+   * w innym przypadku zwracamy false i wylapujemy blad
+   */
   login(username: string, password: string): Observable<boolean> {
     return this.http.post<any>(this.authUrl, { username: username, password: password }, this.httpOptions)
       .map(tokenResp => {
@@ -40,6 +49,11 @@ export class AuthenticationService {
       }).catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
+  /**
+   * metoda do rejestracji usera
+   * na razie zwraca po pomyslnej rejestracji boolean
+   * po poprawkach w razie bledu walidacji na serwerze, bedzie zwracac tablice/mape bledow
+   * */
   register(user: User): Observable<boolean> {
     return this.http.post<any>(this.registerUrl, JSON.stringify(user), this.httpOptions)
       .pipe(
@@ -50,12 +64,18 @@ export class AuthenticationService {
       ).catch((error: any) => Observable.throw(error || 'Server error'));
   }
 
+  /**
+   * pobiera token z localStorage
+   */
   getToken(): string {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const token = currentUser && currentUser.token;
     return token ? token : '';
   }
 
+  /**
+   * dekoduje token, jesli ten istnieje
+   */
   getDecodedAccessToken(): Observable<any> {
     try {
       return jwt_decode(this.getToken());
@@ -64,20 +84,31 @@ export class AuthenticationService {
     }
   }
 
+  /**
+   * zwraca tablice rol uzytkownika, pobrana z czesci "payload" (w ktorej znajduja sie informacje o userze) z tokenu
+   */
   getRolesArray(): any[] {
     return this.getDecodedAccessToken()['roles'];
   }
 
+  /**
+   * usuwamy token z pamieci i odswiezamy strone
+   * bez odswiezenia po zalogowaniu np. z konta admina, na konto usera, mozemy nadal wykonywac wszystkie
+   * operacje, ktore moze wykonac admin
+   * mozliwe ze trzeba bedzie na to znalezc lepszy sposob niz odswiezenie strony
+   */
   logout(): void {
-    // clear token remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.refreshPage();
   }
 
   refreshPage(): void {
     window.location.reload();
-}
+  }
 
+  /**
+   * sprawdzamy czy uzytkownik jest zalogowany (czy w pamieci jest token)
+   */
   isLoggedIn(): boolean {
     const token: string = this.getToken();
     return token && token.length > 0;
