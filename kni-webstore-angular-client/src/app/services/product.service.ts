@@ -68,8 +68,8 @@ export class ProductService {
     }
   }
 
-  deleteProduct(id: number): void {
-    this.http.delete(`${this.restURL}/${id}`, { headers: this.headers }).subscribe();
+  deleteProduct(id: number): Observable<Object> {
+    return this.http.delete(`${this.restURL}/${id}`, { headers: this.headers });
   }
 
   deleteAll(): void {

@@ -1,12 +1,13 @@
 <div class="container row justify-content-center">
-  <div class="col-sm-3">
+  <div class="col-md-6 col-lg-3">
+    <h4>Kategorie</h4>
     <div>
       <ol>
         <li *ngFor="let category of categoriesList | sortBy: 'id'">
-          {{category.name}} <a href="/categories" (click)="deleteCategory(category)">usuń</a>
+          {{category.name}} <button (click)="deleteCategory(category)">usuń</button>
           <ol>
             <li *ngFor="let subCategory of category.subCategories | sortBy: 'id'">
-              {{subCategory.name}} <a href="/categories" (click)="deleteSubCategory(subCategory)">usuń</a>
+              {{subCategory.name}} <button (click)="deleteSubCategory(subCategory)">usuń</button>
                 <ol>
                   <li *ngFor="let product of subCategory.products | sortBy: 'id'">
                     {{product.brand}} {{product.model}} {{product.price}} <a href="/categories" (click)="deleteProduct(product)">usuń</a>
@@ -18,7 +19,7 @@
       </ol>
     </div>
   </div>
-  <div class="col-sm-3">
+  <div class="col-md-6 col-lg-3">
     <h4>Dodaj kategorie</h4>
     <form [formGroup]="addCategoryForm" (ngSubmit)="onSubmitCategory()">
       <div style="display: inline-grid;">
@@ -32,7 +33,7 @@
       </div>
     </form>
   </div>
-  <div class="col-sm-3">
+  <div class="col-md-6 col-lg-3">
     <h4>Dodaj podkategorie</h4>
     <form [formGroup]="addSubCategoryForm" (ngSubmit)="onSubmitSubCategory()">
       <div style="display: inline-grid;">
@@ -47,7 +48,7 @@
       </div>
     </form>
   </div>
-  <div class="col-sm-3">
+  <div class="col-md-6 col-lg-3">
     <h4>Dodaj produkt</h4>
     <form [formGroup]="addProductForm" (ngSubmit)="onSubmitProduct()">
       <div style="display: inline-grid;">

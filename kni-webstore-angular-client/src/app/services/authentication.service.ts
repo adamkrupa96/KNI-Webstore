@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Compiler } from '@angular/core';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -71,7 +71,12 @@ export class AuthenticationService {
   logout(): void {
     // clear token remove user from local storage to log user out
     localStorage.removeItem('currentUser');
+    this.refreshPage();
   }
+
+  refreshPage(): void {
+    window.location.reload();
+}
 
   isLoggedIn(): boolean {
     const token: string = this.getToken();

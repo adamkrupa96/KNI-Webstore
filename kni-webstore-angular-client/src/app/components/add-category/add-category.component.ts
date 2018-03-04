@@ -81,18 +81,21 @@ export class AddCategoryComponent implements OnInit {
   }
 
   deleteCategory(category: Category): void {
-    this.catService.deleteCategory(category);
-    this.readCategoryList();
+    this.catService.deleteCategory(category).subscribe(() => {
+      this.readCategoryList();
+    });
   }
 
   deleteSubCategory(subCategory: SubCategory): void {
-    this.catService.deleteSubCategory(subCategory);
-    this.readCategoryList();
+    this.catService.deleteSubCategory(subCategory).subscribe(() => {
+      this.readCategoryList();
+    });
   }
 
   deleteProduct(product: Product): void {
-    this.prodService.deleteProduct(product.id);
-    this.readCategoryList();
+    this.prodService.deleteProduct(product.id).subscribe(() => {
+      this.readCategoryList();
+    });
   }
 
   readCategoryList() {

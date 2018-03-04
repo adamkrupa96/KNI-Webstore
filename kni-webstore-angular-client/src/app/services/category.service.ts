@@ -57,11 +57,11 @@ export class CategoryService {
       subCategory, { headers: this.headers });
   }
 
-  deleteCategory(category: Category): void {
-    this.http.delete<Category>(`${this.restURL}/${category.id}`, { headers: this.headers }).subscribe();
+  deleteCategory(category: Category): Observable<Category> {
+    return this.http.delete<Category>(`${this.restURL}/${category.id}`, { headers: this.headers });
   }
 
-  deleteSubCategory(subCategory: SubCategory): void {
-    this.http.delete<SubCategory>(`${this.restURL}/subcategories/${subCategory.id}`, { headers: this.headers }).subscribe();
+  deleteSubCategory(subCategory: SubCategory): Observable<SubCategory> {
+    return this.http.delete<SubCategory>(`${this.restURL}/subcategories/${subCategory.id}`, { headers: this.headers });
   }
 }
