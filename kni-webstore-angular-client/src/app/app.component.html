@@ -1,17 +1,6 @@
 <div class="container">
-  <div class="row">
-    <h1>{{title}}</h1>
-  </div>
-  <div class="row">
-    <nav>
-      <a routerLink="/home" routerLinkActive="active">Home</a>
-      <a routerLink="/categories" routerLinkActive="active">Kategorie</a>
-      <a *ngIf="!authService.isLoggedIn()" routerLink="/login" routerLinkActive="active">Zaloguj sie</a>
-      <a *ngIf="!authService.isLoggedIn()" routerLink="/register" routerLinkActive="active">Zarejestruj sie</a>
-      <a *ngIf="authService.isLoggedIn()" routerLinkActive="active" (click)="logout()">Wyloguj sie</a>
-    </nav>
-  </div>
-  <div class="row">
+  <app-menu></app-menu>
+  <div class="row marginTop">
     <router-outlet></router-outlet>
   </div>
 </div>

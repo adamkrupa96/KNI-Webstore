@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-menu',
@@ -7,9 +8,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  navIsFixed = false;
 
-  ngOnInit() {
+  constructor(public authService: AuthenticationService) {
   }
 
+  ngOnInit(): void {
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    console.log( window.pageYOffset );
+    const number = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    if (number > 70) {
+      this.navIsFixed = true;
+    } else if (this.navIsFixed && number < 10) {
+      this.navIsFixed = false;
+    }
+  }
 }
