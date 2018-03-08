@@ -18,6 +18,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AuthGuardsService } from './services/auth-guards.service';
 import { CategoryService } from './services/category.service';
 import { SortPipe } from './pipes/sortBy';
+import { MenuComponent } from './components/menu/menu.component';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { SortPipe } from './pipes/sortBy';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-
+    MenuComponent
   ],
   imports: [
     BrowserModule,
