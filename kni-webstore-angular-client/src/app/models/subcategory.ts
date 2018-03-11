@@ -1,7 +1,9 @@
-import { Product } from './product';
+import { Product } from './Product';
 
 export class SubCategory {
-    id: number;
-    name: string;
-    products: Product[];
+  constructor(
+    public id?: number,
+    public name?: string,
+    public products?: Product[]
+  ) {}
 }

@@ -1,0 +1,119 @@
+<div class="mainContainer">
+  <div class="row">
+    <div class="container col-md-4 col-lg-3 col-xl-3">
+      <div class="categoriesBox">
+        <section>Kategorie</section>
+        <ul>
+          <li *ngFor="let category of categoriesList">
+            <a [routerLink]="[category.name]">{{category.name}}</a>
+            <ul>
+              <li *ngFor="let subCategory of category.subCategories">
+                <a [routerLink]="[category.name, subCategory.name]">{{subCategory.name}}</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="container col-md-8 col-lg-9 col-xl-9">
+      <div class="theBestOffer col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="theBestOffer-image">
+          <img src="../../../assets/images/laptopyGamingBaner.png" class="img-fluid" />
+        </div>
+        <div class="theBestOffer-title">
+          jakis opis najlepszej oferty, inne tlo pozniej i styl elementu
+        </div>
+      </div>
+      <div class="theBestOffer col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <div class="theBestOffer-image">
+          <img src="../../../assets/images/laptopyBaner.png" class="img-fluid" />
+        </div>
+        <div class="theBestOffer-title">
+          jakis opis najlepszej oferty, inne tlo pozniej i styl elementu
+        </div>
+      </div>
+      <div class="theBestOffer col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <div class="theBestOffer-image">
+          <img src="../../../assets/images/laptopyBaner.png" class="img-fluid" />
+        </div>
+        <div class="theBestOffer-title">
+          jakis opis najlepszej oferty, inne tlo pozniej i styl elementu
+        </div>
+      </div>
+      <div style="clear: both;"></div>
+
+      <div class="row products">
+        <div class="product col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+          <a routerLink="/offer">
+            <div class="product-image">
+              <img src="../../../assets/images/laptop.png" class="img-thumbnail">
+            </div>
+            <div class="product-title">
+              Specjalny zestaw (dla gracza)
+            </div>
+            <div class="product-short-description">
+              Krotki opis zestawu
+            </div>
+            <div class="old-product-price">
+                6666 zł
+            </div>
+            <div class="product-price">
+                4444 zł
+            </div>
+          </a>
+        </div>
+        <div class="product col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+          <div class="product-image">
+            <img src="../../../assets/images/laptop.png" class="img-thumbnail">
+          </div>
+          <div class="product-title">
+            Specjalny zestaw (dla grafika)
+          </div>
+          <div class="product-short-description">
+            Krotki opis zestawu
+          </div>
+          <div class="old-product-price">
+            5656 zł
+          </div>
+          <div class="product-price">
+            4545 zł
+          </div>
+        </div>
+        <div class="product col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+          <div class="product-image">
+            <img src="../../../assets/images/laptop.png" class="img-thumbnail">
+          </div>
+          <div class="product-title">
+            Specjalny zestaw (do zastosowan domowych)
+          </div>
+          <div class="product-short-description">
+            Krotki opis zestawu
+          </div>
+          <div class="old-product-price">
+            4500 zł
+          </div>
+          <div class="product-price">
+            3900 zł
+          </div>
+        </div>
+        <div class="product col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+          <div class="product-image">
+            <img src="../../../assets/images/laptop.png" class="img-thumbnail">
+          </div>
+          <div class="product-title">
+            Specjalny zestaw (dla podroznika)
+          </div>
+          <div class="product-short-description">
+            Krotki opis zestawu
+          </div>
+          <div class="old-product-price">
+            5200 zł
+          </div>
+          <div class="product-price">
+            3500 zł
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

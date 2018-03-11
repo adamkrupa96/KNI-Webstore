@@ -3,15 +3,13 @@
 body {
   /* Background pattern from Subtle Patterns */
   background-image: url("assets/images/irongrip.png");
-  font-size: 20px;
+  font-size: 17px;
   color: #dbdbdb;
 }
 
-@media screen and (min-width: 506px) and (max-width: 576px) {
-  .container {
-    margin: auto;
-    padding: 0 25px;
-  }
+.mainContainer {
+  margin: 20px 20px;
+  padding: 10px 10px;
 }
 
 /* Start global input, button and form styles */
@@ -20,7 +18,7 @@ body {
   margin: auto;
   padding: 50px;
   padding-top: 65px;
-  margin-top: 130px;
+  margin-top: 200px;
   -webkit-box-shadow: 3px 3px 30px 15px rgba(47,48,48,1);
   -moz-box-shadow: 3px 3px 30px 15px rgba(47,48,48,1);
   box-shadow: 3px 3px 30px 15px rgba(47,48,48,1);
@@ -33,7 +31,7 @@ body {
   height: 100px;
   position: absolute;
   top: -75px;
-  left: calc(50% - 40px);
+  left: calc(50% - 50px);
   font-size: 4rem;
   background-color: #3b9967;
   border-radius: 50%;
@@ -120,3 +118,95 @@ div.alert-danger {
   color: #b22e2e;
 }
 /* End global input, button and form styles */
+
+/* start global styles for offer and products */
+.categoriesBox {
+  border: 2px solid #8e8e8e;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  padding: 15px 0;
+}
+
+.categoriesBox section {
+  padding: 5px 35px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.categoriesBox ul > li {
+  list-style: none;
+}
+
+.categoriesBox ul > li > a {
+  color: #4ece8b;
+}
+
+.categoriesBox ul > li > a:hover {
+  color: #dbdbdb;
+  text-decoration: none;
+}
+
+.categoriesBox ul > li > a:focus {
+  text-decoration: none;
+}
+
+.products {
+  margin: 0;
+}
+
+.product {
+  margin-bottom: 10px;
+  padding: 10px;
+  transition: .3s;
+}
+
+div.product:hover {
+  border: 1px solid #8e8e8e;
+  background: rgba(142, 142, 142, 0.418);
+  border-radius: 5px;
+  transition: .3s;
+  -ms-transform: scale(1.05); /* IE 9 */
+  -webkit-transform: scale(1.05); /* Safari */
+  transform: scale(1.05);
+}
+
+.img-thumbnail {
+  background: rgba(255, 255, 255, 0);
+  border: none;
+}
+
+.product-title {
+  font-size: 1.5rem;
+}
+
+.product-short-description {
+  font-size: 1.2rem;
+}
+
+.old-product-price {
+  font-size: 1.2rem;
+  text-decoration: line-through;
+  float: right;
+  color: #b22e2e;
+}
+
+.product-price {
+  font-size: 1.3rem;
+  float: right;
+  padding-right: 8px;
+  color: #3b9967;
+}
+
+.product > a {
+  color: #dbdbdb;
+}
+
+.product > a:focus {
+  text-decoration: none;
+}
+
+.product > a:hover {
+  color: #232323;
+  text-decoration: none;
+}
+/* end global styles for offer and products */

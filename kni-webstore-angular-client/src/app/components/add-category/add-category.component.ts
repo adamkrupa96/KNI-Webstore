@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from '../../models/Category';
 import { CategoryService } from '../../services/category.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { SubCategory } from '../../models/subcategory';
-import { Product } from '../../models/product';
+import { Product } from '../../models/Product';
 import { ProductService } from '../../services/product.service';
+import { SubCategory } from '../../models/Subcategory';
 
 @Component({
   selector: 'app-add-category',

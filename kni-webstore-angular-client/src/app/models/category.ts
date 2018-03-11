@@ -1,7 +1,9 @@
-import { SubCategory } from './subcategory';
+import { SubCategory } from './Subcategory';
 
 export class Category {
-    id?: number;
-    name?: string;
-    subCategories?: SubCategory[];
+  constructor(
+    public id?: number,
+    public name?: string,
+    public subCategories?: SubCategory[]
+  ) {}
 }

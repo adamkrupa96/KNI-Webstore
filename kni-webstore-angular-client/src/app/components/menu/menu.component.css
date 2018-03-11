@@ -30,7 +30,7 @@ nav.black {
 }
 
 nav .logo {
-  padding: 8px 30px;
+  padding: 10px 40px;
   font-size: 24px;
   transition: .3s;
 }
@@ -52,7 +52,7 @@ nav > div > ul > li {
 
 nav > div > ul > li > a {
   color: #dbdbdb;
-  padding: 12px 30px;
+  padding: 12px 25px;
   text-decoration: none;
   text-transform: uppercase;
   transition: .3s;
@@ -74,6 +74,7 @@ nav > div > ul > li > a:hover, nav.black > div > ul > li > a:hover {
   color: #000000;
   border-radius: 6px;
   opacity: 0.8;
+  cursor: pointer;
 }
 
 nav > div  > ul > li > a.active {
@@ -109,8 +110,10 @@ i.icon-menu {
 input[type=search] {
   margin-right: 7px;
   border: 2px solid #3b9967;
+  background: rgba(125, 126, 126, 0.397);
   font-size: 1.3rem;
   text-transform: uppercase;
+  color: #dbdbdb;
 }
 
 @media screen and (max-width: 992px) {
@@ -141,3 +144,33 @@ input[type=search] {
     font-size: 1.4rem;
   }
 }
+
+/* placeholder */
+input::-webkit-input-placeholder {
+  color: #afafaf;
+}
+input:focus::-webkit-input-placeholder {
+  color: #949393;
+}
+
+input:-moz-placeholder {
+  color: #afafaf;
+}
+input:focus:-moz-placeholder {
+  color: #949393;
+}
+
+input::-moz-placeholder {
+  color: #afafaf;
+}
+input:focus::-moz-placeholder {
+  color: #949393;
+}
+
+input:-ms-input-placeholder {
+  color: #afafaf;
+}
+input:focus:-ms-input-placeholder {
+  color: #949393;
+}
+/* placeholder */

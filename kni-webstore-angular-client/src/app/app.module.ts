@@ -19,7 +19,9 @@ import { AuthGuardsService } from './services/auth-guards.service';
 import { CategoryService } from './services/category.service';
 import { SortPipe } from './pipes/sortBy';
 import { MenuComponent } from './components/menu/menu.component';
-
+import { OfferComponent } from './components/offer/offer.component';
+import { CategoriesComponent } from './components/offer/categories/categories.component';
+import { ProductsOfCategoryComponent } from './components/offer/products-of-category/products-of-category.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,10 @@ import { MenuComponent } from './components/menu/menu.component';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    MenuComponent
+    MenuComponent,
+    OfferComponent,
+    CategoriesComponent,
+    ProductsOfCategoryComponent
   ],
   imports: [
     BrowserModule,

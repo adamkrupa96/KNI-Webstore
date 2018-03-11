@@ -40,6 +40,10 @@ export class CategoryService {
     return this.http.get<SubCategory>(`${this.restURL}/subcategories/${id}`, { headers: this.headers });
   }
 
+  getSubCategoryByName(name: string): Observable<SubCategory> {
+    return this.http.get<SubCategory>(`${this.restURL}/subcategories/${name}`, { headers: this.headers });
+  }
+
   addCategory(category: Category): Observable<Category> {
     return this.http.post<Category>(this.restURL, category, { headers: this.headers });
   }
