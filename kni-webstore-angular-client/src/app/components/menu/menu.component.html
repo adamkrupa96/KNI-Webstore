@@ -50,7 +50,7 @@
         <input class="form-control center" type="search" placeholder="Szukany produkt">
         <button class="btn btn-outline-info search center" type="submit"><i class="icon-search"></i></button>
       </form>
-
+      <button *ngIf="checkLog()" type="button" class="admin-panel-button col-md-2 offset-md-2" routerLink="/adminpanel">ZARZĄDZAJ SKLEPEM</button>
     </div>
   </nav>
 </div>

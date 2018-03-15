@@ -10,10 +10,19 @@ export class MenuComponent implements OnInit {
 
   navIsFixed = false;
 
+
   constructor(public authService: AuthenticationService) {
   }
 
   ngOnInit(): void {
+  }
+
+  checkLog() {
+    if (this.authService.isLoggedIn()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   logout() {
@@ -22,7 +31,7 @@ export class MenuComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    console.log( window.pageYOffset );
+    console.log(window.pageYOffset);
     const number = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     if (number > 70) {
       this.navIsFixed = true;

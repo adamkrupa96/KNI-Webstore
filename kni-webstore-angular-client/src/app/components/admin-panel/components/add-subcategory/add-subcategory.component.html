@@ -1,0 +1,29 @@
+<div class="container">
+
+  <div *ngIf="subCategoryAdded" class="alert alert-success">
+    Pomyślnie dodano Podkategorie: <strong>"{{lastAdded.name}}"</strong>, 
+    do kategorii: <strong>"{{parentOfLastAdded.name}}"</strong>
+  </div>
+
+  <div id="loginContainer">
+    <form [formGroup]="addSubCategoryForm" (ngSubmit)="onSubmit()">
+      <div class="col-md-4 offset-md-4 form-group">
+
+        <label for="chooseCategory">Kategoria:</label>
+        <select [ngClass]="{ 'input-alert': categoryNotSelected }" id="chooseCategory"
+          ng-model="data.singleSelect" formControlName="chooseCategory">
+          <option *ngFor="let category of categoryList; let i = index" value="{{i}}">{{category.name}}</option>
+        </select>
+        <label *ngIf="categoryNotSelected" class="login-alert">Wybierz kategorię:</label>
+
+        <label for="subCategoryName">Nazwa Podkategorii: </label>
+        <input [ngClass]="{'input-alert': subCategoryExists }" type="text" id="subCategoryName" formControlName="subCategoryName">
+        <label *ngIf="subCategoryExists" class="login-alert">Istnieje już podkategoria w kategorii: "{{choosedCategory.name}}"</label>
+
+        <button type="submit" [disabled]="addSubCategoryForm.status === 'INVALID'">Dodaj Podkategorię</button>
+      </div>
+    </form>
+
+  </div>
+
+</div>

@@ -32,7 +32,7 @@ public class CategoryController {
 		return catService.getCategoryById(id);
 	}
 	
-	@GetMapping("/api/categories/{name}")
+	@GetMapping("/api/categories/byname/{name}")
 	public Category getCategoryByName(@PathVariable("name") String name) {
 		return catService.getCategoryByName(name);
 	}
@@ -45,6 +45,11 @@ public class CategoryController {
 	@GetMapping("/api/categories/subcategories/{id}")
 	public SubCategory getSubCategoryById(@PathVariable("id") Long id) {
 		return catService.getSubCategoryById(id);
+	}
+	
+	@GetMapping("/api/categories/exist/{name}")
+	public Boolean categoryExists(@PathVariable("name") String name) {
+		return catService.categoryExist(name);
 	}
 	
 	@PostMapping("/api/categories")

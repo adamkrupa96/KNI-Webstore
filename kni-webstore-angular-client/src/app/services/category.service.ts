@@ -29,7 +29,7 @@ export class CategoryService {
   }
 
   getCategoryByName(name: String): Observable<Category> {
-    return this.http.get<Category>(`${this.restURL}/${name}`, { headers: this.headers });
+    return this.http.get<Category>(`${this.restURL}/byname/${name}`, { headers: this.headers });
   }
 
   getSubCategoriesOfCategory(id: number): Observable<SubCategory[]> {
@@ -38,6 +38,10 @@ export class CategoryService {
 
   getSubCategoryById(id: number): Observable<SubCategory> {
     return this.http.get<SubCategory>(`${this.restURL}/subcategories/${id}`, { headers: this.headers });
+  }
+
+  categoryExists(name: string): Observable<Boolean> {
+    return this.http.get<Boolean>(`${this.restURL}/exist/${name}`, { headers: this.headers });
   }
 
   addCategory(category: Category): Observable<Category> {
@@ -57,11 +61,11 @@ export class CategoryService {
       subCategory, { headers: this.headers });
   }
 
-  deleteCategory(category: Category): Observable<Category> {
-    return this.http.delete<Category>(`${this.restURL}/${category.id}`, { headers: this.headers });
+  deleteCategory(categoryId: number): Observable<Category> {
+    return this.http.delete<Category>(`${this.restURL}/${categoryId}`, { headers: this.headers });
   }
 
-  deleteSubCategory(subCategory: SubCategory): Observable<SubCategory> {
-    return this.http.delete<SubCategory>(`${this.restURL}/subcategories/${subCategory.id}`, { headers: this.headers });
+  deleteSubCategory(subCategoryId: number): Observable<SubCategory> {
+    return this.http.delete<SubCategory>(`${this.restURL}/subcategories/${subCategoryId}`, { headers: this.headers });
   }
 }

@@ -9,7 +9,6 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClientModule } from '@angular/common/http';
-import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { AuthenticationService } from './services/authentication.service';
 import { HomeComponent } from './components/home/home.component';
 import { RoutingModule } from './routing.module';
@@ -19,17 +18,26 @@ import { AuthGuardsService } from './services/auth-guards.service';
 import { CategoryService } from './services/category.service';
 import { SortPipe } from './pipes/sortBy';
 import { MenuComponent } from './components/menu/menu.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import { AddCatComponent } from './components/admin-panel/components/add-cat/add-cat.component';
+import { AddSubcategoryComponent } from './components/admin-panel/components/add-subcategory/add-subcategory.component';
+import { AddProductComponent } from './components/admin-panel/components/add-product/add-product.component';
+import { TreeViewComponent } from './components/admin-panel/components/tree-view/tree-view.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddCategoryComponent,
     SortPipe,
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    MenuComponent
+    MenuComponent,
+    AdminPanelComponent,
+    AddCatComponent,
+    AddSubcategoryComponent,
+    AddProductComponent,
+    TreeViewComponent
   ],
   imports: [
     BrowserModule,

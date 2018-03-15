@@ -15,7 +15,7 @@ public interface CategoryService {
 	Category getCategoryById(Long id);
 	Category getCategoryByName(String name);
 	List<Category> getAllCategories();
-	
+	Boolean categoryExist(String name);
 	//Podkategoria
 	
 	SubCategory addSubCategory(Category parent, SubCategory subCategory);
@@ -25,4 +25,5 @@ public interface CategoryService {
 	SubCategory getSubCategoryById(Long id);
 	SubCategory getSubCategoryByName(String name);
 	List<SubCategory> getAllSubCategories();
+	
 }

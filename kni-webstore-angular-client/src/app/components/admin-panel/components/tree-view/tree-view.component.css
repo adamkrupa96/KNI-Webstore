@@ -1,0 +1,18 @@
+.root {
+    font-size: 14px;
+    margin-left: -20px;
+}
+
+.badge-info {
+    background-color: #276443;
+    color: white;
+}
+
+.delete {
+    background-color: #b82500;
+    cursor: pointer;
+}
+
+li {
+    cursor: pointer;
+}
