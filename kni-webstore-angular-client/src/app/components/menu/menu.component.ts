@@ -33,7 +33,7 @@ export class MenuComponent implements OnInit {
   onWindowScroll() {
     console.log(window.pageYOffset);
     const number = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    if (number > 70) {
+    if (number > 40) {
       this.navIsFixed = true;
     } else if (this.navIsFixed && number < 10) {
       this.navIsFixed = false;

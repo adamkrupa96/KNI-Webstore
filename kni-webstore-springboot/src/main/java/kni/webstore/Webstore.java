@@ -28,21 +28,21 @@ public class Webstore {
 		SpringApplication.run(Webstore.class, args);
 	}
 	
-	@PostConstruct //Metoda wywołana odrazu po stworzeniu kontextu springa
-	public void test() {
-		Category undefinied = new Category("Laptop");
-		SubCategory subUndefinied = new SubCategory("15CAL", new ArrayList<Product>());
-		Product p = new Product("Lenovo", "Y700", 3000.2, 10, new ArrayList<Feature>());
-		
-		Category cat = catService.addCategory(undefinied); 
-		SubCategory subCat = catService.addSubCategory(cat, new SubCategory("ELO", new ArrayList<Product>()));
-		Product prod = prodService.addProductToSubCategory(subCat, p);
-		
-		prodService.deleteProductById(new Long(1));
-		
-		for (Product px : prodService.getProductsWithoutCategory()) {
-			System.out.println(px.toString());
-		}
-		
-	}
+//	@PostConstruct //Metoda wywołana odrazu po stworzeniu kontextu springa
+//	public void test() {
+//		Category undefinied = new Category("Laptop");
+//		SubCategory subUndefinied = new SubCategory("15CAL", new ArrayList<Product>());
+//		Product p = new Product("Lenovo", "Y700", 3000.2, 10, new ArrayList<Feature>());
+//		
+//		Category cat = catService.addCategory(undefinied); 
+//		SubCategory subCat = catService.addSubCategory(cat, new SubCategory("ELO", new ArrayList<Product>()));
+//		Product prod = prodService.addProductToSubCategory(subCat, p);
+//		
+//		prodService.deleteProductById(new Long(1));
+//		
+//		for (Product px : prodService.getProductsWithoutCategory()) {
+//			System.out.println(px.toString());
+//		}
+//		
+//	}
 }

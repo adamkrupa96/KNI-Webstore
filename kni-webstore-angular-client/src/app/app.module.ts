@@ -24,6 +24,9 @@ import { AddSubcategoryComponent } from './components/admin-panel/components/add
 import { AddProductComponent } from './components/admin-panel/components/add-product/add-product.component';
 import { TreeViewComponent } from './components/admin-panel/components/tree-view/tree-view.component';
 
+import { OfferComponent } from './components/offer/offer.component';
+import { CategoriesComponent } from './components/offer/categories/categories.component';
+import { ProductsOfCategoryComponent } from './components/offer/products-of-category/products-of-category.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import { TreeViewComponent } from './components/admin-panel/components/tree-view
     AddCatComponent,
     AddSubcategoryComponent,
     AddProductComponent,
-    TreeViewComponent
+    TreeViewComponent,
+    OfferComponent,
+    CategoriesComponent,
+    ProductsOfCategoryComponent
   ],
   imports: [
     BrowserModule,
