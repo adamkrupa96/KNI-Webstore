@@ -22,7 +22,6 @@ export class MenuComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    console.log( window.pageYOffset );
     const number = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     if (number > 40) {
       this.navIsFixed = true;

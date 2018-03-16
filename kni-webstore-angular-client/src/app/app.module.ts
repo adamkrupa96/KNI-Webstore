@@ -22,6 +22,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { OfferComponent } from './components/offer/offer.component';
 import { CategoriesComponent } from './components/offer/categories/categories.component';
 import { ProductsOfCategoryComponent } from './components/offer/products-of-category/products-of-category.component';
+import { ProductPageComponent } from './components/offer/product-page/product-page.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ProductsOfCategoryComponent } from './components/offer/products-of-cate
     MenuComponent,
     OfferComponent,
     CategoriesComponent,
-    ProductsOfCategoryComponent
+    ProductsOfCategoryComponent,
+    ProductPageComponent
   ],
   imports: [
     BrowserModule,
