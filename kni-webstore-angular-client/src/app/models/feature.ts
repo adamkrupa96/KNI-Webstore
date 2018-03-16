@@ -1,5 +1,7 @@
 export class Feature {
     id: number;
-    name: string;
-    value: string;
+    constructor(
+        public name?: string,
+        public value?: string
+    ) { }
 }

@@ -1,0 +1,19 @@
+<div class="container">
+
+  <div *ngIf="categoryAdded" class="alert alert-success">
+    Pomyślnie dodano Kategorie: "{{lastAdded.name}}"
+  </div>
+
+  <div id="loginContainer">
+    <form [formGroup]="addCategoryForm" (ngSubmit)="onSubmit()">
+      <div class="col-md-4 offset-md-4 form-group">
+
+        <label for="categoryName">Nazwa kategorii: </label>
+        <input [ngClass]="{'input-alert': categoryExists }" type="text" id="categoryName" formControlName="categoryName">
+        <label *ngIf="categoryExists" class="login-alert">Istnieje już kategoria o tej nazwie.</label>
+
+        <button type="submit" [disabled]="addCategoryForm.status === 'INVALID'">Dodaj kategorię</button>
+      </div>
+    </form>
+  </div>
+</div>

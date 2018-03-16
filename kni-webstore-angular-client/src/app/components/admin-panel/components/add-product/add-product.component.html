@@ -1,0 +1,74 @@
+<div class="container">
+
+  <div *ngIf="productAdded" class="alert alert-success">
+    Pomyślnie dodano produkt:
+    <strong>"{{lastAdded.brand}} {{lastAdded.model}}"</strong> do kategorii:
+    <strong>"{{lastAddedCategory.name}}"</strong>
+  </div>
+
+  <div id="loginContainer">
+    <div class="col-md-4 offset-md-4 form-group">
+      <form id="addProductForm" [formGroup]="addProductForm" (ngSubmit)="addProduct()">
+        <label for="chooseCategory">Kategoria:</label>
+        <select [ngClass]="{ 'input-alert': categoryNotSelected }" id="chooseCategory" ng-model="data.singleSelect" formControlName="chooseCategory">
+          <option *ngFor="let category of categoryList; let i = index" value="{{i}}">{{category.name}}</option>
+        </select>
+        <label *ngIf="categoryNotSelected" class="login-alert info">Wybierz kategorię:</label>
+
+        <div>
+          <label for="chooseSubCategory">Podkategoria:</label>
+          <select [ngClass]="{ 'input-alert': subCategoryNotSelected }" id="chooseSubCategory" ng-model="data.singleSelect" formControlName="chooseSubCategory">
+
+            <option *ngFor="let subCategory of subCategoriesOfCategory; let i = index" value="{{i}}">{{subCategory.name}}</option>
+          </select>
+          <label *ngIf="subCategoryNotSelected" class="login-alert info">Wybierz podkategorię:</label>
+        </div>
+
+        <label for="brand">Marka: </label>
+        <input type="text" id="brand" formControlName="brand">
+
+        <label for="model">Model: </label>
+        <input type="text" id="model" formControlName="model">
+
+        <label for="price">Cena: </label>
+        <input type="text" id="price" formControlName="price">
+
+        <label for="inStock">Liczba przedmiotow na stanie: </label>
+        <input type="text" id="inStock" formControlName="inStock">
+
+        <label for="shortDesc">Krotki opis: </label>
+        <input type="text" id="shortDesc" formControlName="shortDesc">
+        
+        <label for="longDesc">Opis: </label>
+        <textarea class="form-control" id="longDesc" formControlName="longDesc" rows="3"></textarea>
+
+
+      </form>
+      <form [formGroup]="addFeatureForm" (ngSubmit)="addFeature()">
+        <div class="row">
+          <div class="col-md-6 text-center">
+            <label for="key">Cecha: </label>
+          </div>
+          <div class="col-md-6 text-center">
+            <label for="value">Wartość: </label>
+          </div>
+        </div>
+        <div class="row">
+          <input #keyInput type="text" id="key" formControlName="key" class="col-md-6 feature-input">
+          <input type="text" id="value" formControlName="value" class="col-md-6 feature-input">
+        </div>
+        <button type="submit" class="btn btn-sm" [disabled]="addFeatureForm.status == 'INVALID'">Dodaj cechę</button>
+        <p class="info">Kliknij na cechę by ją usunąć.</p>
+      </form>
+      <div class="col-md-12 feature-box">
+        <div class="list-group">
+          <a *ngFor="let feature of features; let i = index" (click)="delFeature(i)" class="list-group-item list-group-item-action feature">
+            {{feature.name}}&emsp; :&emsp;
+            <strong>{{feature.value}}</strong>
+          </a>
+        </div>
+      </div>
+    <button type="submit" form="addProductForm" [disabled]="addProductForm.status === 'INVALID'">Dodaj Produkt</button>
+
+  </div>
+</div>

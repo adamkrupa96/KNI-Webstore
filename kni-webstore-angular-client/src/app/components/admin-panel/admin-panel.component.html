@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <div class="btn-group btn-group-sm panel-nav">
+        <button (click)="showForm(0)" class="btn">Dodaj Kategorie</button>
+        <button (click)="showForm(1)" class="btn">Dodaj Podkategorie</button>
+        <button (click)="showForm(2)" class="btn">Dodaj Produkt</button>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-3 box">
+            <!-- [refreshTreeView] przeslanie obiektu Subject do komponentu wyswietlania -->
+            <!-- Ale dlaczego w apostrofach ma być nazwa pola w klasie drzewa to nie wiem -->
+            <app-tree-view [refreshTreeView]="refreshTreeView"></app-tree-view>
+        </div>
+
+        <div class="col-md-9">
+            <!-- (categoryAddedEvent) -> po wyrzuceniu zdarzenia, wywoływana jest metoda callTreeToRefresh z klasy adminpanel... -->
+            <app-add-cat (categoryAddedEvent)="callTreeToRefresh()" *ngIf="showCategory"></app-add-cat>
+            <app-add-subcategory (subCategoryAddedEvent)="callTreeToRefresh()" *ngIf="showSubCategory"></app-add-subcategory>
+            <app-add-product (productAddedEvent)="callTreeToRefresh()" *ngIf="showProduct"></app-add-product>
+        </div>
+    </div>
+</div>

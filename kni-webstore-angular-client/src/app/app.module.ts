@@ -9,7 +9,6 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClientModule } from '@angular/common/http';
-import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { AuthenticationService } from './services/authentication.service';
 import { HomeComponent } from './components/home/home.component';
 import { RoutingModule } from './routing.module';
@@ -19,6 +18,12 @@ import { AuthGuardsService } from './services/auth-guards.service';
 import { CategoryService } from './services/category.service';
 import { SortPipe } from './pipes/sortBy';
 import { MenuComponent } from './components/menu/menu.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
+import { AddCatComponent } from './components/admin-panel/components/add-category/add-cat.component';
+import { AddSubcategoryComponent } from './components/admin-panel/components/add-subcategory/add-subcategory.component';
+import { AddProductComponent } from './components/admin-panel/components/add-product/add-product.component';
+import { TreeViewComponent } from './components/admin-panel/components/tree-view/tree-view.component';
+
 import { OfferComponent } from './components/offer/offer.component';
 import { CategoriesComponent } from './components/offer/categories/categories.component';
 import { ProductsOfCategoryComponent } from './components/offer/products-of-category/products-of-category.component';
@@ -27,12 +32,16 @@ import { ProductPageComponent } from './components/offer/product-page/product-pa
 @NgModule({
   declarations: [
     AppComponent,
-    AddCategoryComponent,
     SortPipe,
     HomeComponent,
     LoginComponent,
     RegisterComponent,
     MenuComponent,
+    AdminPanelComponent,
+    AddCatComponent,
+    AddSubcategoryComponent,
+    AddProductComponent,
+    TreeViewComponent,
     OfferComponent,
     CategoriesComponent,
     ProductsOfCategoryComponent,

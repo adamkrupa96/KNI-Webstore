@@ -22,16 +22,16 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	private CategoryRepository catRepo;
-	
+
 	@Autowired
 	private SubCategoryRepository subCatRepo;
-	
+
 	@Autowired
 	private ProductRepository prodRepo;
-	
+
 	@Autowired
 	private ProductService prodService;
-	
+
 	@Override
 	public Category addCategory(Category category) {
 		log.info("Category saved");
@@ -41,27 +41,28 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Category updateCategory(Long id, Category category) {
 		if (catRepo.exists(id)) {
-			
-			for(SubCategory subCat : category.getSubCategories()) {
+
+			for (SubCategory subCat : category.getSubCategories()) {
 				subCat.setCategory(category);
 			}
-			
+
 			log.info("Category updated");
 			return catRepo.save(category);
-			
-		} else return category;
+
+		} else
+			return category;
 	}
 
 	@Override
 	public void deleteCategoryById(Long id) {
 		Category cat = catRepo.findOne(id);
 		List<Product> prodsOfCategory = prodService.getProductsOfCategory(cat);
-		
+
 		for (Product p : prodsOfCategory) {
 			p.setSubCategory(null);
 			prodRepo.save(p);
 		}
-		
+
 		catRepo.delete(id);
 		log.info("Category deleted");
 	}
@@ -80,54 +81,65 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> getAllCategories() {
 		return catRepo.findAll();
 	}
-	
-	//Podkategoria
-	
+
+	@Override
+	public Boolean categoryExist(String name) {
+		for (Category category : catRepo.findAll()) {
+			if (category.getName().toUpperCase().trim().equals(name.toUpperCase().trim())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// Podkategoria
+
 	@Override
 	public SubCategory addSubCategory(Category parent, SubCategory subCategory) {
 		parent.getSubCategories().add(subCategory);
 		subCategory.setCategory(parent);
-		
+
 		log.info("SubCategory saved");
 		return subCatRepo.save(subCategory);
-		
+
 	}
-	
+
 	@Override
 	public SubCategory updateSubCategory(Long categoryId, SubCategory subCategory) {
 		subCategory.setCategory(catRepo.findOne(categoryId));
-		
-		if(subCatRepo.exists(categoryId)) {
+
+		if (subCatRepo.exists(categoryId)) {
 			log.info("Sub-Category updated");
 			return subCatRepo.save(subCategory);
-		} else return subCategory;
-	
+		} else
+			return subCategory;
+
 	}
-	
+
 	@Override
 	public void deleteSubCategoryById(Long id) {
 		SubCategory subCat = subCatRepo.findOne(id);
-		
+
 		for (Product p : subCat.getProducts()) {
 			p.setSubCategory(null);
 			prodRepo.save(p);
 		}
-		
+
 		subCatRepo.delete(id);
 		log.info("Sub-Category deleted");
 	}
-	
+
 	@Override
 	public void deleteSubCategoryByName(String name) {
 		subCatRepo.deleteByName(name);
 		log.info("Sub-Category deleted");
 	}
-	
+
 	@Override
 	public SubCategory getSubCategoryById(Long id) {
 		return subCatRepo.findOne(id);
 	}
-	
+
 	@Override
 	public SubCategory getSubCategoryByName(String name) {
 		return subCatRepo.getByName(name);
@@ -137,5 +149,6 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<SubCategory> getAllSubCategories() {
 		return subCatRepo.findAll();
 	}
+
 
 }

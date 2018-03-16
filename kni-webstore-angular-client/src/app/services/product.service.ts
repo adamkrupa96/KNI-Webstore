@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Product } from '../models/product';
 import { SubCategory } from '../models/subcategory';
 import { AuthenticationService } from './authentication.service';
+import { Feature } from '../models/feature';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

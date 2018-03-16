@@ -10,10 +10,19 @@ export class MenuComponent implements OnInit {
 
   navIsFixed = false;
 
+
   constructor(public authService: AuthenticationService) {
   }
 
   ngOnInit(): void {
+  }
+
+  checkLog() {
+    if (this.authService.isLoggedIn()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   logout() {

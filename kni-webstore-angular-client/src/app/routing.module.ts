@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuardsService } from './services/auth-guards.service';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { OfferComponent } from './components/offer/offer.component';
 import { CategoriesComponent } from './components/offer/categories/categories.component';
 import { ProductsOfCategoryComponent } from './components/offer/products-of-category/products-of-category.component';
@@ -13,7 +13,8 @@ import { ProductPageComponent } from './components/offer/product-page/product-pa
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'categories', component: AddCategoryComponent, canActivate: [AuthGuardsService] },
+  { path: 'categories', component: HomeComponent, canActivate: [AuthGuardsService] },
+  { path: 'adminpanel', component: AdminPanelComponent, canActivate: [AuthGuardsService] },
   {
     path: 'offer',
     children: [

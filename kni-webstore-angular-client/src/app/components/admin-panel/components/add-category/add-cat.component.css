@@ -1,0 +1,13 @@
+.alert-success {
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    background-color: #3b9967;
+    border-color: #3b9967;
+    margin-top: 20px;
+    
+}
+
+#loginContainer {
+    margin-top: 20px;
+}

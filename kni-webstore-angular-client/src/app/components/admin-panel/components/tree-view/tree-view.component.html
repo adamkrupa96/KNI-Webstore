@@ -1,0 +1,18 @@
+<ul class="root">
+  <li *ngFor="let category of categories; let i = index" (click)="toggleDropCategory(i)" class="item category">
+    <strong>{{category.name}}</strong> <span class="badge badge-info">{{category.subCategories.length}}</span>
+    <span class="badge badge-info delete" (click)="deleteCategory(category.id)">x</span>
+    <ul *ngIf="categoriesDrop[i]" class="subCategories">
+      <li *ngFor="let subCategory of category.subCategories" class="item subCategory">
+        {{subCategory.name}}  <span class="badge badge-info">{{subCategory.products.length}}</span>
+        <span class="badge badge-info delete" (click)="deleteSubCategory(subCategory.id)">x</span>
+        <ul>
+          <li *ngFor="let product of subCategory.products" class="item product">
+            {{product.brand}} - {{product.model}}
+            <span class="badge badge-info delete" (click)="deleteProduct(product.id)">x</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
