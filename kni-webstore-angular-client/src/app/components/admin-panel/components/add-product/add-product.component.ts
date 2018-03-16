@@ -57,7 +57,9 @@ export class AddProductComponent implements OnInit {
       brand: ['', [Validators.required, Validators.maxLength(32)]],
       model: ['', [Validators.required, Validators.maxLength(32)]],
       price: ['', Validators.required],
-      inStock: ['', Validators.required]
+      inStock: ['', Validators.required],
+      shortDesc: [null, Validators.maxLength(63)],
+      longDesc: [null, Validators.maxLength(254)]
     });
 
     this.addFeatureForm = this.formBuilder.group({
@@ -85,8 +87,12 @@ export class AddProductComponent implements OnInit {
     const model = this.addProductForm.get('model').value;
     const price = Number((+this.addProductForm.get('price').value).toFixed(2)); // Zaokrąglenie do drugiego miejsca po przecinku
     const inStock = Math.floor(+this.addProductForm.get('inStock').value); // Pominięcie części ułamkowej
+    const shortDesc = this.addProductForm.get('shortDesc').value;
+    const longDesc = this.addProductForm.get('longDesc').value;
 
-    this.prodService.addProduct(new Product(brand, model, price, inStock, this.features), this.choosedSubCategory.id).subscribe(res => {
+    //                                  UZUPELNIJ TE NULLE !!
+    this.prodService.addProduct(new Product(`${brand} ${model}`, shortDesc, longDesc , brand, model, price, inStock, this.features),
+    this.choosedSubCategory.id).subscribe(res => {
       this.lastAdded = res;
       this.lastAddedCategory = this.choosedCategory;
       this.lastAddedSubCategory = this.choosedSubCategory;

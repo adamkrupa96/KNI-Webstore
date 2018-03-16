@@ -19,7 +19,7 @@ import { CategoryService } from './services/category.service';
 import { SortPipe } from './pipes/sortBy';
 import { MenuComponent } from './components/menu/menu.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
-import { AddCatComponent } from './components/admin-panel/components/add-cat/add-cat.component';
+import { AddCatComponent } from './components/admin-panel/components/add-category/add-cat.component';
 import { AddSubcategoryComponent } from './components/admin-panel/components/add-subcategory/add-subcategory.component';
 import { AddProductComponent } from './components/admin-panel/components/add-product/add-product.component';
 import { TreeViewComponent } from './components/admin-panel/components/tree-view/tree-view.component';

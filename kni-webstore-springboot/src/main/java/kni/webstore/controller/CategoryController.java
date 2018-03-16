@@ -27,10 +27,10 @@ public class CategoryController {
 		return catService.getAllCategories();
 	}
 	
-//	@GetMapping("/api/categories/{id}")
-//	public Category getCategoryById(@PathVariable("id") Long id) {
-//		return catService.getCategoryById(id);
-//	}
+	@GetMapping("/api/categories/{id}")
+	public Category getCategoryById(@PathVariable("id") Long id) {
+		return catService.getCategoryById(id);
+	}
 	
 	@GetMapping("/api/categories/byname/{name}")
 	public Category getCategoryByName(@PathVariable("name") String name) {
