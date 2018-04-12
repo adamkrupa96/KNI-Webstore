@@ -2,25 +2,23 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { CategoryService } from '../../../../services/category.service';
 import { Category } from '../../../../models/Category';
+import { TreeService } from '../../tree.service';
 
 @Component({
   selector: 'app-add-cat',
-  templateUrl: './add-cat.component.html',
-  styleUrls: ['./add-cat.component.css']
+  templateUrl: './add-category.component.html',
+  styleUrls: ['./add-category.component.css']
 })
-export class AddCatComponent implements OnInit {
+export class AddCategoryComponent implements OnInit {
 
   addCategoryForm: FormGroup;
   categoryExists = false;
   categoryAdded = false;
   lastAdded: Category;
 
-  // Obiekt do emitowania eventu do komponentu nadrzędnego (admin-panel.component)
-  // w celu odswiezenia listy kategorii w komponencie TreeView
-  @Output() categoryAddedEvent = new EventEmitter();
-
   constructor(private formBuilder: FormBuilder,
-    private catService: CategoryService) { }
+    private catService: CategoryService,
+    private treeService: TreeService) { }
 
   ngOnInit() {
     this.createForm();
@@ -50,8 +48,7 @@ export class AddCatComponent implements OnInit {
           this.categoryExists = false;
           this.categoryAdded = true;
           this.addCategoryForm.reset();
-
-          this.categoryAddedEvent.emit(); // Wyrzucenie zdarzenia dodania kategorii
+          this.treeService.refreshTree();
         });
       }
     });

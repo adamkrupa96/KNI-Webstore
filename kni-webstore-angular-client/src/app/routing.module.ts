@@ -13,8 +13,7 @@ import { ProductPageComponent } from './components/offer/product-page/product-pa
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'categories', component: HomeComponent, canActivate: [AuthGuardsService] },
-  { path: 'adminpanel', component: AdminPanelComponent, canActivate: [AuthGuardsService] },
+  // { path: 'adminpanel', component: AdminPanelComponent, canActivate: [AuthGuardsService] },
   {
     path: 'offer',
     children: [

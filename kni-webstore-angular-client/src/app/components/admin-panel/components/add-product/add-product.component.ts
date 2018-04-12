@@ -7,6 +7,7 @@ import { Feature } from '../../../../models/feature';
 import { Util } from '../util';
 import { ProductService } from '../../../../services/product.service';
 import { Product } from '../../../../models/product';
+import { TreeService } from '../../tree.service';
 
 @Component({
   selector: 'app-add-product',
@@ -17,8 +18,6 @@ export class AddProductComponent implements OnInit {
 
   // Pobranie inputu oznaczonego #keyInput
   @ViewChild('keyInput') keyInput: ElementRef;
-  // Opisane na przykladie kategorii
-  @Output() productAddedEvent = new EventEmitter();
 
   addProductForm: FormGroup;
   addFeatureForm: FormGroup;
@@ -42,7 +41,8 @@ export class AddProductComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private catService: CategoryService,
-    private prodService: ProductService) { }
+    private prodService: ProductService,
+    private treeService: TreeService) { }
 
   ngOnInit() {
     this.createForm();
@@ -90,7 +90,6 @@ export class AddProductComponent implements OnInit {
     const shortDesc = this.addProductForm.get('shortDesc').value;
     const longDesc = this.addProductForm.get('longDesc').value;
 
-    //                                  UZUPELNIJ TE NULLE !!
     this.prodService.addProduct(new Product(`${brand} ${model}`, shortDesc, longDesc , brand, model, price, inStock, this.features),
     this.choosedSubCategory.id).subscribe(res => {
       this.lastAdded = res;
@@ -99,7 +98,7 @@ export class AddProductComponent implements OnInit {
       this.addProductForm.reset();
       this.features = [];
       this.productAdded = true;
-      this.productAddedEvent.emit();
+      this.treeService.refreshTree();
     });
   }
 

@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CategoryService } from '../../../../services/category.service';
 import { SubCategory } from '../../../../models/subcategory';
 import { Util } from '../util';
+import { TreeService } from '../../tree.service';
 
 @Component({
   selector: 'app-add-subcategory',
@@ -23,11 +24,9 @@ export class AddSubcategoryComponent implements OnInit {
   categoryList: Category[] = [];
   choosedCategory: Category;
 
-  // Opisane na przypadku kategorii
-  @Output() subCategoryAddedEvent = new EventEmitter();
-
   constructor(private formBuilder: FormBuilder,
-    private catService: CategoryService) { }
+    private catService: CategoryService,
+    private treeService: TreeService) { }
 
   ngOnInit() {
     this.createForm();
@@ -80,7 +79,7 @@ export class AddSubcategoryComponent implements OnInit {
         this.subCategoryAdded = true;
         this.initList();
         this.addSubCategoryForm.reset();
-        this.subCategoryAddedEvent.emit();
+        this.treeService.refreshTree();
       });
 
 

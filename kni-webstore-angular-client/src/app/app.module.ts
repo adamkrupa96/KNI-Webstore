@@ -18,16 +18,13 @@ import { AuthGuardsService } from './services/auth-guards.service';
 import { CategoryService } from './services/category.service';
 import { SortPipe } from './pipes/sortBy';
 import { MenuComponent } from './components/menu/menu.component';
-import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
-import { AddCatComponent } from './components/admin-panel/components/add-category/add-cat.component';
-import { AddSubcategoryComponent } from './components/admin-panel/components/add-subcategory/add-subcategory.component';
-import { AddProductComponent } from './components/admin-panel/components/add-product/add-product.component';
-import { TreeViewComponent } from './components/admin-panel/components/tree-view/tree-view.component';
 
 import { OfferComponent } from './components/offer/offer.component';
 import { CategoriesComponent } from './components/offer/categories/categories.component';
 import { ProductsOfCategoryComponent } from './components/offer/products-of-category/products-of-category.component';
 import { ProductPageComponent } from './components/offer/product-page/product-page.component';
+import { AdminPanelModule } from './components/admin-panel/admin-panel.module';
+import { AdminPanelRoutingModule } from './components/admin-panel/admin-panel-routing.module';
 
 @NgModule({
   declarations: [
@@ -37,11 +34,6 @@ import { ProductPageComponent } from './components/offer/product-page/product-pa
     LoginComponent,
     RegisterComponent,
     MenuComponent,
-    AdminPanelComponent,
-    AddCatComponent,
-    AddSubcategoryComponent,
-    AddProductComponent,
-    TreeViewComponent,
     OfferComponent,
     CategoriesComponent,
     ProductsOfCategoryComponent,
@@ -51,6 +43,7 @@ import { ProductPageComponent } from './components/offer/product-page/product-pa
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    AdminPanelRoutingModule,
     RoutingModule,
     HttpClientModule
   ],

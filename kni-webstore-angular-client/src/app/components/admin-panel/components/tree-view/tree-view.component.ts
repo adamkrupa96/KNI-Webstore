@@ -3,6 +3,7 @@ import { Category } from '../../../../models/Category';
 import { CategoryService } from '../../../../services/category.service';
 import { Subject } from 'rxjs/Subject';
 import { ProductService } from '../../../../services/product.service';
+import { TreeService } from '../../tree.service';
 
 @Component({
   selector: 'app-tree-view',
@@ -12,7 +13,7 @@ import { ProductService } from '../../../../services/product.service';
 export class TreeViewComponent implements OnInit {
 
   // Przechwycenie obiektu Subject z komponentu nadrzędnego
-  @Input() refreshTreeView: Subject<any>;
+  // @Input() refreshTreeView: Subject<any>;
   categories: Category[];
 
   // Każdy index w tej liscie odpowiada obiektowi z listy categories, true -> lista rozwinieta, false -> lista schowana
@@ -21,16 +22,19 @@ export class TreeViewComponent implements OnInit {
   subCategoriesDrop: boolean[];
 
   constructor(private catService: CategoryService,
-    private prodService: ProductService) { }
+    private prodService: ProductService,
+    private refreshService: TreeService) { }
 
   ngOnInit() {
     this.refresh();
-
-    // Zasubskrybowanie go (Czyli przy każdej zmianie obiektu subject w AdminPanelComponent, odswiezaj liste)
-    // i dziala jakoś
-    this.refreshTreeView.subscribe(event => {
+    this.refreshService.refreshSubject.subscribe(event => {
       this.refresh();
     });
+    // Zasubskrybowanie go (Czyli przy każdej zmianie obiektu subject w AdminPanelComponent, odswiezaj liste)
+    // i dziala jakoś
+    // this.refreshTreeView.subscribe(event => {
+    //   this.refresh();
+    // });
   }
 
   deleteCategory(id: number) {
