@@ -27,11 +27,11 @@ public class SubCategory implements Serializable {
 	private Long id;
 	private String name;
 	
-	@OneToMany(cascade= { CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH }, mappedBy="subCategory", fetch=FetchType.EAGER, orphanRemoval=false)
+	@OneToMany(cascade= CascadeType.MERGE, mappedBy="subCategory", fetch=FetchType.EAGER, orphanRemoval=false)
 	private List<Product> products;
 	
 	@JsonIgnore
-	@ManyToOne(cascade= { CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE }, optional=false)
+	@ManyToOne(optional=false)
 	@JoinColumn(name="category_id")
 	private Category category;
 	
@@ -73,6 +73,18 @@ public class SubCategory implements Serializable {
 		this.products = products;
 	}
 
+	public void addProduct(Product product) {
+		if (this.products.contains(product)) return;
+		
+		this.products.add(product);
+		product.setSubCategory(this);
+	}
+	
+	public void removeProduct(Product product) {
+		this.products.remove(product);
+		product.setSubCategory(null);
+	}
+	
 	public Category getCategory() {
 		return category;
 	}
@@ -95,28 +107,12 @@ public class SubCategory implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		SubCategory other = (SubCategory) obj;
-		if (category == null) {
-			if (other.category != null)
-				return false;
-		} else if (!category.equals(other.category))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (products == null) {
-			if (other.products != null)
-				return false;
-		} else if (!products.equals(other.products))
-			return false;
 		return true;
 	}
-	
-	
+
 }

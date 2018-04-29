@@ -41,30 +41,38 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Category updateCategory(Long id, Category category) {
 		if (catRepo.exists(id)) {
-
-			for (SubCategory subCat : category.getSubCategories()) {
-				subCat.setCategory(category);
-			}
-
+			
+			completeBiDirectionalConnection(category);
 			log.info("Category updated");
 			return catRepo.save(category);
 
-		} else
-			return category;
+		} else {
+			log.info("Category not updated, because entity with id " + id + " not exist.");
+			return null;
+		}
 	}
-
+	
+	private void completeBiDirectionalConnection(Category category) {
+		category.getSubCategories().forEach(subCategory -> subCategory.setCategory(category));
+	}
+	
 	@Override
 	public void deleteCategoryById(Long id) {
-		Category cat = catRepo.findOne(id);
-		List<Product> prodsOfCategory = prodService.getProductsOfCategory(cat);
-
-		for (Product p : prodsOfCategory) {
-			p.setSubCategory(null);
-			prodRepo.save(p);
-		}
-
+		Category categoryToDelete = catRepo.findOne(id);
+		
+		List<Product> prodsOfCategory = prodService.getProductsOfCategory(categoryToDelete);
+		makeProductsOrphanAndUpdate(prodsOfCategory);
+		
 		catRepo.delete(id);
+		
 		log.info("Category deleted");
+	}
+	
+	private void makeProductsOrphanAndUpdate(List<Product> productsOfCategory) {
+		productsOfCategory.forEach(product -> {
+			product.setSubCategory(null);
+			prodService.updateProductWithoutSubCategory(product.getId(), product);
+		});
 	}
 
 	@Override
@@ -85,7 +93,10 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Boolean categoryExist(String name) {
 		for (Category category : catRepo.findAll()) {
-			if (category.getName().toUpperCase().trim().equals(name.toUpperCase().trim())) {
+			String categoryName = category.getName().toUpperCase().trim();
+			String lookingForName = name.toUpperCase().trim();
+			
+			if (categoryName.equals(lookingForName)) {
 				return true;
 			}
 		}
@@ -95,35 +106,40 @@ public class CategoryServiceImpl implements CategoryService {
 	// Podkategoria
 
 	@Override
-	public SubCategory addSubCategory(Category parent, SubCategory subCategory) {
-		parent.getSubCategories().add(subCategory);
-		subCategory.setCategory(parent);
-
+	public SubCategory addSubCategory(Category parent, SubCategory subCategory) throws IllegalArgumentException {
+		if (parent == null) {
+			log.error("You can't create Subcategory of null");
+			throw new IllegalArgumentException();
+		}
+		
+		parent.addSubCategory(subCategory);
+		
 		log.info("SubCategory saved");
 		return subCatRepo.save(subCategory);
-
 	}
 
 	@Override
-	public SubCategory updateSubCategory(Long categoryId, SubCategory subCategory) {
-		subCategory.setCategory(catRepo.findOne(categoryId));
+	public SubCategory updateSubCategoryOfCategory(Long categoryId, SubCategory subCategory) {
+		Category categoryOfSubCategory = catRepo.findOne(categoryId);
+		subCategory.setCategory(categoryOfSubCategory);
 
-		if (subCatRepo.exists(categoryId)) {
+		if (subCatRepo.exists(subCategory.getId())) {
 			log.info("Sub-Category updated");
 			return subCatRepo.save(subCategory);
-		} else
-			return subCategory;
-
+		} else {
+			log.info("Sub-Category not updated. Entity with this id doesn't exist.");
+			return null;
+		}
 	}
 
 	@Override
 	public void deleteSubCategoryById(Long id) {
 		SubCategory subCat = subCatRepo.findOne(id);
-
-		for (Product p : subCat.getProducts()) {
-			p.setSubCategory(null);
-			prodRepo.save(p);
-		}
+		
+		subCat.getProducts().forEach(product -> {
+			product.setSubCategory(null);
+			prodRepo.save(product);
+		});
 
 		subCatRepo.delete(id);
 		log.info("Sub-Category deleted");
@@ -149,6 +165,4 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<SubCategory> getAllSubCategories() {
 		return subCatRepo.findAll();
 	}
-
-
 }

@@ -22,7 +22,7 @@ public class Category implements Serializable {
 	private Long id;
 	private String name;
 	
-	@OneToMany(cascade= {CascadeType.REMOVE, CascadeType.REFRESH }, mappedBy="category", fetch=FetchType.EAGER)
+	@OneToMany(cascade= CascadeType.REMOVE, mappedBy="category", fetch=FetchType.EAGER)
 	private List<SubCategory> subCategories;
 	
 	public Category(String name, List<SubCategory> subCategories) {
@@ -63,11 +63,23 @@ public class Category implements Serializable {
 		this.subCategories = subCategories;
 	}
 
+	public void addSubCategory(SubCategory subCat) {
+		if (this.subCategories.contains(subCat)) 
+			return;
+		
+		this.subCategories.add(subCat);
+		subCat.setCategory(this);
+	}
+	
+	public void removeSubCategory(SubCategory subCat) {
+		this.subCategories.remove(subCat);
+		subCat.setCategory(null);
+	}
+	
 	@Override
 	public String toString() {
 		return "Category [id=" + id + ", name=" + name + "]";
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -83,18 +95,7 @@ public class Category implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (subCategories == null) {
-			if (other.subCategories != null)
-				return false;
-		} else if (!subCategories.equals(other.subCategories))
-			return false;
 		return true;
 	}
-	
-	
+
 }

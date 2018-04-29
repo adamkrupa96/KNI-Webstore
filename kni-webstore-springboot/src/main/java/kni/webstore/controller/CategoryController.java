@@ -71,7 +71,7 @@ public class CategoryController {
 	
 	@PutMapping("/api/categories/{catId}/subcategories/{id}")
 	public SubCategory updateSubCategory(@RequestBody SubCategory subCat, @PathVariable("catId") Long catId, @PathVariable("id") Long id) {
-		return catService.updateSubCategory(catId, subCat);
+		return catService.updateSubCategoryOfCategory(catId, subCat);
 	}
 	
 	@DeleteMapping("/api/categories/{id}")

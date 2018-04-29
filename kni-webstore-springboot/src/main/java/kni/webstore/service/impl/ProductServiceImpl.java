@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product addProduct(Product product) {
+	public Product addProductWithoutSubCategory(Product product) {
 		product.setSubCategory(null);
 		saveProductFeatures(product);
 
@@ -46,6 +46,12 @@ public class ProductServiceImpl implements ProductService {
 		return prodRepo.save(product);
 	}
 
+	private void saveProductFeatures(Product product) {
+		if (product.getFeatures().size() == 0) return;
+		else
+			product.getFeatures().forEach(feature -> feature = featRepo.save(feature));
+	}
+	
 	@Override
 	public Product updateProductWithSubCategory(Long id, Product product, SubCategory subCategory) {
 		product.setSubCategory(subCategory);
@@ -53,20 +59,23 @@ public class ProductServiceImpl implements ProductService {
 		if (prodRepo.exists(id)) {
 			log.info("Product updated");
 			return prodRepo.save(product);
-		} else
-			return product;
-
+		} else {
+			log.warn("Product with that id doesnt exist");
+			return null;
+		}
 	}
 
 	@Override
-	public Product updateProduct(Long id, Product product) {
+	public Product updateProductWithoutSubCategory(Long id, Product product) {
 		product.setSubCategory(null);
 
 		if (prodRepo.exists(id)) {
 			log.info("Product updated");
 			return prodRepo.save(product);
-		} else
-			return product;
+		} else {
+			log.warn("Product with that id doesnt exist");
+			return null;
+		}
 	}
 
 	@Override
@@ -88,14 +97,14 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> getProductsWithoutCategory() {
-		List<Product> products = new ArrayList<Product>();
+		List<Product> productsWithoutCategory = new ArrayList<Product>();
 
 		for (Product product : this.getAllProducts()) {
 			if (product.getSubCategory() == null)
-				products.add(product);
+				productsWithoutCategory.add(product);
 		}
 
-		return products;
+		return productsWithoutCategory;
 	}
 
 	@Override
@@ -113,15 +122,4 @@ public class ProductServiceImpl implements ProductService {
 		prodRepo.deleteAll();
 	}
 	
-	
-	// Najpierw musi zapisać cechy do bazy, bo nie ma persist (czy tam merge, dalej nie wiem...)
-	private void saveProductFeatures(Product product) {
-		if (product.getFeatures().size() == 0) return;
-		
-		for (int i = 0; i < product.getFeatures().size(); i++) {
-			product
-			.getFeatures()
-			.set(i, featRepo.save(product.getFeatures().get(i)));
-		}
-	}
 }

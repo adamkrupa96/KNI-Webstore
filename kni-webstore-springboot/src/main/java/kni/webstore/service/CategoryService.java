@@ -16,14 +16,17 @@ public interface CategoryService {
 	Category getCategoryByName(String name);
 	List<Category> getAllCategories();
 	Boolean categoryExist(String name);
+
 	//Podkategoria
 	
 	SubCategory addSubCategory(Category parent, SubCategory subCategory);
-	SubCategory updateSubCategory(Long id, SubCategory subCategory);
+	SubCategory updateSubCategoryOfCategory(Long categoryId, SubCategory subCategory);
 	void deleteSubCategoryById(Long id);
 	void deleteSubCategoryByName(String name);
 	SubCategory getSubCategoryById(Long id);
 	SubCategory getSubCategoryByName(String name);
 	List<SubCategory> getAllSubCategories();
-	
+
+
+	// TODO subCategoryExists()
 }

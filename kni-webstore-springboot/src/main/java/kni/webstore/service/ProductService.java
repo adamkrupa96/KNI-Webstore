@@ -10,9 +10,9 @@ import kni.webstore.model.SubCategory;
 public interface ProductService {
 
 	Product addProductToSubCategory(SubCategory parent, Product product);
-	Product addProduct(Product product);
+	Product addProductWithoutSubCategory(Product product);
 	Product updateProductWithSubCategory(Long id, Product product, SubCategory parent);
-	Product updateProduct(Long id, Product product);
+	Product updateProductWithoutSubCategory(Long id, Product product); // TODO zmiana nazwy na UpdateProductWithoutSubCategory
 	void deleteProductById(Long id);
 	void deleteAll();
 	Product getProductById(Long id);

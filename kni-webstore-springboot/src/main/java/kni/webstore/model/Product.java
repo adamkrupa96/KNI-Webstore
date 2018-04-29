@@ -33,10 +33,10 @@ public class Product implements Serializable {
 	private int inStock;
 	
 	@JsonIgnore
-	@ManyToOne(cascade= { CascadeType.DETACH, CascadeType.REFRESH }, optional=true)
+	@ManyToOne(optional=true)
 	private SubCategory subCategory;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(cascade= {CascadeType.MERGE, CascadeType.REMOVE}, fetch=FetchType.EAGER)
 	@JoinColumn(name="product_id")
 	private List<Feature> features;
 	
@@ -164,4 +164,23 @@ public class Product implements Serializable {
 		return "Product [id=" + id + ", brand=" + brand + ", model=" + model + ", price=" + price + ", inStock="
 				+ inStock +  ", features=" + features + "]";
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
+	
 }

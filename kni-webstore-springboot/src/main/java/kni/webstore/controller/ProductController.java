@@ -57,7 +57,7 @@ public class ProductController {
 	public Product addProduct(@RequestBody Product product, 
 			@RequestParam("sub") String subCategory) {
 		if(subCategory.equals("null")) {
-			return prodService.addProduct(product);
+			return prodService.addProductWithoutSubCategory(product);
 		} else {
 			return prodService.addProductToSubCategory(catService.getSubCategoryById(Long.parseLong(subCategory)), product);
 		}
@@ -71,7 +71,7 @@ public class ProductController {
 
 		if(subCategory.equals("null")) {
 			product.setId(id);
-			return prodService.updateProduct(id, product);
+			return prodService.updateProductWithoutSubCategory(id, product);
 		} else {
 			product.setId(id);
 			return prodService.updateProductWithSubCategory(id, product, 
