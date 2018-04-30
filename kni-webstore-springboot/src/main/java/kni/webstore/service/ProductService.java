@@ -12,7 +12,7 @@ public interface ProductService {
 	Product addProductToSubCategory(SubCategory parent, Product product);
 	Product addProductWithoutSubCategory(Product product);
 	Product updateProductWithSubCategory(Long id, Product product, SubCategory parent);
-	Product updateProductWithoutSubCategory(Long id, Product product); // TODO zmiana nazwy na UpdateProductWithoutSubCategory
+	Product updateProductWithoutSubCategory(Long id, Product product);
 	void deleteProductById(Long id);
 	void deleteAll();
 	Product getProductById(Long id);

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,12 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 import kni.webstore.model.Category;
 import kni.webstore.model.SubCategory;
 import kni.webstore.service.CategoryService;
+import kni.webstore.validators.CategoryValidator;
 
 @RestController
 public class CategoryController {
 
 	@Autowired
 	private CategoryService catService;
+	
+	@Autowired
+	private CategoryValidator catValidator;
 	
 	@GetMapping("/api/categories")
 	public List<Category> getAllCategories() {
@@ -54,8 +60,13 @@ public class CategoryController {
 	
 	@PostMapping("/api/categories")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-	public Category addCategory(@RequestBody Category category) {
-		return catService.addCategory(category);
+	public Category addCategory(@RequestBody Category category, BindingResult validationErrors) throws BindException {
+		catValidator.validate(category, validationErrors);
+		
+		if ( !validationErrors.hasErrors() )
+			return catService.addCategory(category);
+		else
+			throw new BindException(validationErrors);
 	}
 	
 	@PostMapping("/api/categories/{id}/subcategories")
