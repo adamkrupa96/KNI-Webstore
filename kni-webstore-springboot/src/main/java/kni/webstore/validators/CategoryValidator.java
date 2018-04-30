@@ -43,7 +43,7 @@ public class CategoryValidator implements Validator {
 		}			
 
 		categoryToValidate = (Category) objCategoryToValid;
-		if ( categoryToValidate.getName() == null ) {
+		if ( categoryToValidate.getName() == null || categoryToValidate.getSubCategories() == null ) {
 			errors.reject("null_error");
 			return;
 		}

@@ -18,6 +18,7 @@ import kni.webstore.model.Category;
 import kni.webstore.model.SubCategory;
 import kni.webstore.service.CategoryService;
 import kni.webstore.validators.CategoryValidator;
+import kni.webstore.validators.SubCategoryValidator;
 
 @RestController
 public class CategoryController {
@@ -27,6 +28,9 @@ public class CategoryController {
 	
 	@Autowired
 	private CategoryValidator catValidator;
+	
+	@Autowired
+	private SubCategoryValidator subCatValidator;
 	
 	@GetMapping("/api/categories")
 	public List<Category> getAllCategories() {
@@ -70,9 +74,20 @@ public class CategoryController {
 	}
 	
 	@PostMapping("/api/categories/{id}/subcategories")
-	public SubCategory addSubCategoryOfCategory(@RequestBody SubCategory subCat, @PathVariable("id") Long id) {
-		Category cat = catService.getCategoryById(id);
-		return catService.addSubCategory(cat, subCat);
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	public SubCategory addSubCategoryOfCategory(@RequestBody SubCategory subCategory, 
+			@PathVariable("id") Long id, BindingResult validationErrors) throws BindException {
+		Category categoryOfSubCategory = catService.getCategoryById(id);
+		
+		if (categoryOfSubCategory == null)
+			validationErrors.reject("category_not_found");
+
+		subCatValidator.validate(subCategory, validationErrors);
+		
+		if ( !validationErrors.hasErrors() )
+			return catService.addSubCategory(categoryOfSubCategory, subCategory);
+		else
+			throw new BindException(validationErrors);
 	}
 	
 	@PutMapping("/api/categories/{id}")
