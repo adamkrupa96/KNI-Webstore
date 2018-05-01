@@ -65,7 +65,7 @@ public class CategoryValidatorTest {
 		errorLog = new BindException(pierwsza, "pierwsza");
 		catValid.validate(pierwsza, errorLog);
 		
-		assertTrue(hasError(errorLog.getAllErrors(), "exist_error"));
+		assertTrue(hasError(errorLog.getAllErrors(), "exists_error"));
 	}
 
 	@Test

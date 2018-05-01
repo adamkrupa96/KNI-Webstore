@@ -4,6 +4,7 @@ package kni.webstore.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,6 +61,7 @@ public class ProductController {
 	}
 
 	@PostMapping("/products")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public Product addProduct(@RequestBody Product product, 
 			@RequestParam("sub") String subCategory, BindingResult errorLog) throws BindException {
 		
@@ -76,6 +78,7 @@ public class ProductController {
 	}
 	
 	@PutMapping("/products/{id}")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	public Product updateProduct(@PathVariable("id") Long id, 
 			@RequestBody Product product, 
 			@RequestParam("sub") String subCategory, BindingResult errorLog) throws BindException {
