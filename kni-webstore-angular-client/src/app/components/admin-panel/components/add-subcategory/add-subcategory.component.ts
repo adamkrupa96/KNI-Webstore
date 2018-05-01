@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { Category } from '../../../../models/Category';
+import { Category } from '../../../../models/category';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CategoryService } from '../../../../services/category.service';
 import { SubCategory } from '../../../../models/subcategory';

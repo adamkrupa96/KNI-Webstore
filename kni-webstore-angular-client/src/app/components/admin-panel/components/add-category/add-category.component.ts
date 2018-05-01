@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Category } from '../../../../models/Category';
+import { Category } from '../../../../models/category';
 import { CategoryService } from '../../../../services/category.service';
 import { TreeService } from '../../tree.service';
 
