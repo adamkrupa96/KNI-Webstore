@@ -10,11 +10,11 @@ INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (1, 2);
 INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (2, 1);
 INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (3, 1);
 
-INSERT INTO CATEGORY (id, name) VALUES (1, 'Laptopy');
-INSERT INTO CATEGORY (id, name) VALUES (2, 'Komputery');
-INSERT INTO CATEGORY (id, name) VALUES (3, 'Monitory');
-INSERT INTO CATEGORY (id, name) VALUES (4, 'Urzadzenia peryferyjne');
-INSERT INTO CATEGORY (id, name) VALUES (5, 'Podzespoly komputerowe');
+INSERT INTO category (id, name) VALUES (1, 'Laptopy');
+INSERT INTO category (id, name) VALUES (2, 'Komputery');
+INSERT INTO category (id, name) VALUES (3, 'Monitory');
+INSERT INTO category (id, name) VALUES (4, 'Urzadzenia peryferyjne');
+INSERT INTO category (id, name) VALUES (5, 'Podzespoly komputerowe');
 
 INSERT INTO SUB_CATEGORY (id, name, category_id) VALUES (1, 'Gamingowe', 1);
 INSERT INTO SUB_CATEGORY (id, name, category_id) VALUES (2, 'Biurowe', 1);

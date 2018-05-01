@@ -58,6 +58,7 @@ public class Product implements Serializable {
 	}
 	
 	public Product() {
+		features = new ArrayList<>();
 	}
 	
 	public void addFeature(String name, String value) {

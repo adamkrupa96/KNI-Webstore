@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { CategoryService } from '../../../../services/category.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { Category } from '../../../../models/Category';
+import { CategoryService } from '../../../../services/category.service';
 import { TreeService } from '../../tree.service';
 
 @Component({
@@ -10,6 +11,9 @@ import { TreeService } from '../../tree.service';
   styleUrls: ['./add-category.component.css']
 })
 export class AddCategoryComponent implements OnInit {
+
+// TODO - zsynchronizować walidacje z walidacją backendową
+// TODO - obsłużyć przechwytywanie błędow walidacji z poziomu backendu
 
   addCategoryForm: FormGroup;
   categoryExists = false;

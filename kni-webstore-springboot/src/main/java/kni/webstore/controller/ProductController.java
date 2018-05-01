@@ -4,6 +4,8 @@ package kni.webstore.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kni.webstore.model.Product;
 import kni.webstore.service.CategoryService;
 import kni.webstore.service.ProductService;
+import kni.webstore.validators.ProductValidator;
 
 @RestController
 @RequestMapping("/api")
@@ -24,6 +27,9 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService prodService;
+	
+	@Autowired
+	private ProductValidator prodValid;
 	
 	@Autowired
 	private CategoryService catService;
@@ -55,20 +61,28 @@ public class ProductController {
 
 	@PostMapping("/products")
 	public Product addProduct(@RequestBody Product product, 
-			@RequestParam("sub") String subCategory) {
-		if(subCategory.equals("null")) {
-			return prodService.addProductWithoutSubCategory(product);
-		} else {
-			return prodService.addProductToSubCategory(catService.getSubCategoryById(Long.parseLong(subCategory)), product);
+			@RequestParam("sub") String subCategory, BindingResult errorLog) throws BindException {
+		
+		prodValid.validate(product, errorLog);
+		if (errorLog.hasErrors()) {
+			throw new BindException(errorLog);
 		}
+		
+		if(subCategory.equals("null")) 
+			return prodService.addProductWithoutSubCategory(product);
+		else 
+			return prodService.addProductToSubCategory(catService.getSubCategoryById(Long.parseLong(subCategory)), product);
 
 	}
 	
 	@PutMapping("/products/{id}")
 	public Product updateProduct(@PathVariable("id") Long id, 
 			@RequestBody Product product, 
-			@RequestParam("sub") String subCategory) {
+			@RequestParam("sub") String subCategory, BindingResult errorLog) throws BindException {
 
+		prodValid.validate(product, errorLog);
+		if (errorLog.hasErrors()) throw new BindException(errorLog);
+		
 		if(subCategory.equals("null")) {
 			product.setId(id);
 			return prodService.updateProductWithoutSubCategory(id, product);
