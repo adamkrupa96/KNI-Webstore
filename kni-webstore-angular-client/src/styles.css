@@ -81,7 +81,7 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, sel
   margin: auto;
 }
 
-button[type=submit] {
+button[type=submit], .button {
   width: 300px;
   background-color: #3b9967;
   font-size: 20px;
@@ -96,17 +96,17 @@ button[type=submit] {
   opacity: 0.9;
 }
 
-button[type=submit]:hover {
+button[type=submit]:hover, .button:hover {
   background-color: #4ece8b;
 }
 
-button[type=submit]:focus {
+button[type=submit]:focus, .button:focus {
   -webkit-box-shadow: 0px 0px 15px 8px rgba(47,48,48,1);
   -moz-box-shadow: 0px 0px 15px 8px rgba(47,48,48,1);
   box-shadow: 0px 0px 15px 8px rgba(47,48,48,1);
 }
 
-button[type=submit]:disabled {
+button[type=submit]:disabled, .button:disabled {
   background-color: #0b7c42;
   cursor: not-allowed;
 }
@@ -208,5 +208,32 @@ div.product:hover {
 .product > a:hover {
   color: #232323;
   text-decoration: none;
+}
+
+.align-left {
+  text-align: left !important;
+}
+
+.align-right {
+  text-align: right !important;
+}
+
+.margin-top-10 {
+  margin-top: 10px !important;
+}
+.margin-top-15 {
+  margin-top: 15px !important;
+}
+.margin-top-20 {
+  margin-top: 20px !important;
+}
+.margin-top-30 {
+  margin-top: 30px !important;
+}
+.margin-top-40 {
+  margin-top: 40px !important;
+}
+.margin-top-50 {
+  margin-top: 50px !important;
 }
 /* end global styles for offer and products */
