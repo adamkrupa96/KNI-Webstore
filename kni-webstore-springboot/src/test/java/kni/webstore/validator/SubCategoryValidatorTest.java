@@ -70,7 +70,7 @@ public class SubCategoryValidatorTest {
 		subCat.setCategory(new Category("Kategoria"));
 		errorLog = getCleanLogFor(subCat);
 		subCatValid.validate(subCat, errorLog);
-		assertTrue(hasError(errorLog.getAllErrors(), "exist_error"));
+		assertTrue(hasError(errorLog.getAllErrors(), "exists_error"));
 		
 		subCat = new SubCategory("xxxx");
 		subCat.setCategory(new Category("Kategoria"));
@@ -79,11 +79,7 @@ public class SubCategoryValidatorTest {
 		subCatValid.validate(subCat, errorLog);
 		assertTrue(hasError(errorLog.getAllErrors(), "null_error"));
 		
-		subCat = new SubCategory("XxxxxxX");
-		subCat.setCategory(null);
-		errorLog = getCleanLogFor(subCat);
-		subCatValid.validate(subCat, errorLog);
-		assertTrue(hasError(errorLog.getAllErrors(), "orphan_error"));
+
 		
 	}
 

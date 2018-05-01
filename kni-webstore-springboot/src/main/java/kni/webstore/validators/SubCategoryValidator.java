@@ -2,23 +2,21 @@ package kni.webstore.validators;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import kni.webstore.model.Category;
 import kni.webstore.model.SubCategory;
-import kni.webstore.service.CategoryService;
 
 @Component
 public class SubCategoryValidator implements Validator {
 
-	private static String EXIST_ERROR_MSG = "Podkategoria o podanej nazwię już istnieje";
-	private static String SIZE_ERROR_MSG = "Długość nazwy podkategorii min. 2 znaki, max. 32 znaki";
+	private static int NAME_MIN = 2;
+	private static int NAME_MAX = 32;
+	private static String EXIST_ERROR_MSG = "Podkategoria o podanej nazwię już istnieje w tej kategorii.";
+	private static String SIZE_ERROR_MSG = "Długość nazwy podkategorii min. "+ NAME_MIN +" znaki, max. "+ NAME_MAX +" znaki";
 	private static String ONLY_DIGITS_ERROR_MSG = "Nazwa podkategorii nie może składać się wyłącznie z liczb";
-
-	@Autowired
-	private CategoryService catService;
 
 	@Override
 	public void validate(Object objSubCategory, Errors errors) {
@@ -31,24 +29,19 @@ public class SubCategoryValidator implements Validator {
 		if (!supports(objSubCategory.getClass())) {
 			errors.reject("type_error");
 			return;
-		} else
-			subCategoryToValidate = (SubCategory) objSubCategory;
+		}
+		
+		subCategoryToValidate = (SubCategory) objSubCategory;
 
 		String subCategoryName = subCategoryToValidate.getName();
-		if (subCategoryName == null || subCategoryToValidate.getProducts() == null) {
+		if (isNameOrProductsNull(errors, subCategoryToValidate)) {
 			errors.reject("null_error");
 			return;
 		}
-
-		if (hasOnlyNumbers(subCategoryName))
-			errors.rejectValue("name", "only_digits_error", ONLY_DIGITS_ERROR_MSG);
-
-		if (!hasGoodLength(subCategoryName))
-			errors.rejectValue("name", "size_error", SIZE_ERROR_MSG);
-
-		if (alreadyExists(subCategoryName))
-			errors.rejectValue("name", "exist_error", EXIST_ERROR_MSG);
-
+		
+		rejectIfHasOnlyNumbers(errors, subCategoryName);
+		rejectIfHasIncorrectLength(errors, subCategoryName);
+		rejectIfAlreadyExists(errors, subCategoryToValidate);
 	}
 
 	@Override
@@ -56,21 +49,42 @@ public class SubCategoryValidator implements Validator {
 		return clazz.equals(SubCategory.class);
 	}
 
+	private boolean isNameOrProductsNull(Errors errors, SubCategory subCategory) {
+		return subCategory.getName() == null || subCategory.getProducts() == null;
+	}
+	
+	private void rejectIfHasOnlyNumbers(Errors errors, String subCategoryName) {
+		if (hasOnlyNumbers(subCategoryName))
+			errors.rejectValue("name", "only_digits_error", ONLY_DIGITS_ERROR_MSG);
+	}
+
+	private void rejectIfHasIncorrectLength(Errors errors, String subCategoryName) {
+		if ( !hasGoodLength(subCategoryName) )
+			errors.rejectValue("name", "size_error", SIZE_ERROR_MSG);
+	}
+	
 	private boolean hasOnlyNumbers(String name) {
 		return name.matches("[0-9]+");
 	}
 
 	private boolean hasGoodLength(String name) {
-		return name.length() >= 2 && name.length() <= 32;
+		return name.length() >= NAME_MIN && name.length() <= NAME_MAX;
 	}
 
-	private boolean alreadyExists(String subCategoryName) {
-		List<SubCategory> allSubCategories = catService.getAllSubCategories();
-		final String subCategoryNameTrimmed = subCategoryName.trim().toUpperCase();
-
-		return allSubCategories.stream().anyMatch(eachSubCategory -> {
-			String eachSubCategoryName = eachSubCategory.getName().trim().toUpperCase();
-			return eachSubCategoryName.equals(subCategoryName);
+	private void rejectIfAlreadyExists(Errors errors, SubCategory subCategory) {
+		if (alreadyExists(subCategory))
+			errors.rejectValue("name", "exists_error", EXIST_ERROR_MSG);
+	}
+	
+	private boolean alreadyExists(SubCategory subCategory) {
+		Category categoryOfSubCategory = subCategory.getCategory();
+		List<SubCategory> subCategoriesOfCategory = categoryOfSubCategory.getSubCategories();
+		
+		return subCategoriesOfCategory.stream().anyMatch(eachSubCategory -> {
+			String eachSubCatNameTrim = eachSubCategory.getName().trim();
+			String validationSubCatNameTrim = subCategory.getName().trim();
+			
+			return eachSubCatNameTrim.equalsIgnoreCase(validationSubCatNameTrim);
 		});
 	}
 

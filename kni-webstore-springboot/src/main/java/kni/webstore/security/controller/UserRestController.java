@@ -1,16 +1,17 @@
 package kni.webstore.security.controller;
 
-import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import kni.webstore.security.exceptions.UserExistingException;
 import kni.webstore.security.model.User;
 import kni.webstore.security.service.UserService;
+import kni.webstore.validators.RegisterUserValidator;
 
 @RestController
 public class UserRestController {
@@ -20,17 +21,19 @@ public class UserRestController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private RegisterUserValidator userValidator;
+	
 	@PostMapping(path = "/register")
-	public boolean registerUserAccount(@RequestBody @Valid User validateUser) throws UserExistingException {
+	public boolean registerUserAccount(@RequestBody User user, BindingResult errorLog) throws BindException {
+		userValidator.validate(user, errorLog);
 
-		User existing = userService.findByUsername(validateUser.getUsername());
-		if (existing != null) {
-			log.info("Istnieje juz konto o podanej nazwie uzytkownika!");
-			throw new UserExistingException("Istnieje juz konto o podanej nazwie uzytkownika!");
-		}
+		if (!errorLog.hasErrors())
+			userService.save(user);
+		else
+			throw new BindException(errorLog);
 
-		userService.save(validateUser);
-		log.info("zapisano uzytkownika");
+		log.info("Pomyślnie zarejestrowano użytkownika");
 		return true;
 	}
 }

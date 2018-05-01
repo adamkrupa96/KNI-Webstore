@@ -14,62 +14,74 @@ import org.springframework.validation.Validator;
 @Component
 public class CategoryValidator implements Validator {
 
+	private static int NAME_MIN = 2;
+	private static int NAME_MAX = 32;
 	private static String ONLY_DIGIT_ERROR_MSG = "Nazwa kategorii nie może składać się wyłącznie z liczb."; 
-	private static String SIZE_ERROR_MSG = "Nazwa kategorii powinna mieć min. 2 znaki, a max. 32 znaki."; 
+	private static String SIZE_ERROR_MSG = "Nazwa kategorii powinna mieć min. " + NAME_MIN + " znaki, a max. " + NAME_MAX + " znaki."; 
 	private static String EXIST_ERROR_MSG = "Istnieje juz kategoria o podanej nazwię."; 
 	
 	@Autowired
 	private CategoryService catService;
 
-	public CategoryValidator() {
-	}
-
-	@Override
-	public boolean supports(Class<?> clazz) {
-		return clazz.equals(Category.class);
-	}
-
 	@Override
 	public void validate(Object objCategoryToValid, Errors errors) {
-		Category categoryToValidate = null;
-		
 		if (objCategoryToValid == null) {
 			errors.reject("null_error");
 			return;
 		}
+		
+		Category categoryToValidate = null;
 		if ( !supports(objCategoryToValid.getClass()) ) {
 			errors.reject("type_error");
 			return;
 		}			
 
 		categoryToValidate = (Category) objCategoryToValid;
-		if ( categoryToValidate.getName() == null || categoryToValidate.getSubCategories() == null ) {
+		if (isNameOrSubCategoriesNull(categoryToValidate)) {
 			errors.reject("null_error");
 			return;
 		}
 		
 		String categoryName = categoryToValidate.getName();
 		
-		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "empty_error");
-		
-		if ( hasOnlyNumbers(categoryName) )
+		rejectIfHasOnlyNumbers(errors, categoryName);
+		rejectIfNameHasIncorrectLength(errors, categoryName);
+		rejectIfCategoryExists(errors, categoryName);
+	}
+	
+	@Override
+	public boolean supports(Class<?> clazz) {
+		return clazz.equals(Category.class);
+	}
+	
+	private boolean isNameOrSubCategoriesNull(Category categoryToValidate) {
+		return categoryToValidate.getName() == null || categoryToValidate.getSubCategories() == null;
+	}
+	
+	private void rejectIfHasOnlyNumbers(Errors errors, String categoryName) {
+		if (hasOnlyNumbers(categoryName))
 			errors.rejectValue("name", "only_digits_error", ONLY_DIGIT_ERROR_MSG);
-		
-		if ( categoryName.length() < 2 || categoryName.length() > 32 ) {
-			errors.rejectValue("name", "size_error", SIZE_ERROR_MSG);
-			return;
-		}
-
-		List<Category> allCategories = catService.getAllCategories();
-		
-		boolean anyMatch = allCategories.stream()
-				.anyMatch(eachCategory -> eachCategory.getName().equals(categoryName));
-		
-		if ( anyMatch ) errors.rejectValue("name", "exist_error", EXIST_ERROR_MSG);
 	}
 	
 	private boolean hasOnlyNumbers(String name) {
 		return name.matches("[0-9]+");
+	}
+	
+	private void rejectIfNameHasIncorrectLength(Errors errors, String name) {
+		if ( name.length() < NAME_MIN || name.length() > NAME_MAX )
+			errors.rejectValue("name", "size_error", SIZE_ERROR_MSG);
+	}
+	
+	private void rejectIfCategoryExists(Errors errors, String name) {
+		List<Category> allCategories = catService.getAllCategories();
+		
+		boolean anyMatch = allCategories.stream().anyMatch(eachCategory -> {
+			String eachCategoryName = eachCategory.getName().trim().toUpperCase();
+			return eachCategoryName.equals(name.trim().toUpperCase());
+		});
+		
+		if (anyMatch)
+			errors.rejectValue("name", "exists_error", EXIST_ERROR_MSG);
 	}
 }
