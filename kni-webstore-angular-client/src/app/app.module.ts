@@ -25,6 +25,7 @@ import { ProductsOfCategoryComponent } from './components/offer/products-of-cate
 import { ProductPageComponent } from './components/offer/product-page/product-page.component';
 import { AdminPanelModule } from './components/admin-panel/admin-panel.module';
 import { AdminPanelRoutingModule } from './components/admin-panel/admin-panel-routing.module';
+import { PathNavigationComponent } from './components/path-navigation/path-navigation.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { AdminPanelRoutingModule } from './components/admin-panel/admin-panel-ro
     OfferComponent,
     CategoriesComponent,
     ProductsOfCategoryComponent,
-    ProductPageComponent
+    ProductPageComponent,
+    PathNavigationComponent
   ],
   imports: [
     BrowserModule,

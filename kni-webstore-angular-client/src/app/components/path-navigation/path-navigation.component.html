@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-12 path-navigation">
+    <span>
+      <a routerLink="/" class="mini-navigation-link">
+        <i class="fa fa-home"></i> Home
+      </a>
+    </span>
+    <span class="separator">
+      <i class="fas fa-angle-double-right"></i>
+    </span>
+
+    <span *ngFor="let path of paths; let i = index;">
+      <span *ngIf="i !== paths.length - 1">
+        <a routerLink="/{{path.value}}" class="mini-navigation-link">{{path.name}}</a>
+        <span class="separator" *ngIf="i !== paths.length - 2">
+          <i class="fas fa-angle-double-right"></i>
+        </span>
+      </span>
+    </span>
+  </div>
+</div>
