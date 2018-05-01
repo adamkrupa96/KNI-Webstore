@@ -1,12 +1,15 @@
 <div class="mainContainer">
+  <app-path-navigation></app-path-navigation>
   <div class="row">
     <div class="container col-md-4 col-lg-3 col-xl-3">
-      <section class="position">Glowna / oferta / kategoria</section>
       <div class="categoriesBox">
         <section>Kategoria:</section>
         <ul>
           <li>
-            <a routerLink='../'><-{{category.name}}</a>
+            <a routerLink='../'>
+              <span><i class="fas fa-angle-double-left"></i></span>
+              {{category.name}}
+            </a>
             <ul>
               <li *ngFor="let subCategory of subCategories">
                 <a [routerLink]="[subCategory.name]">{{subCategory.name}}</a>
