@@ -1,12 +1,12 @@
 <div class="container">
 
   <div *ngIf="subCategoryAdded" class="alert alert-success">
-    Pomyślnie dodano Podkategorie: <strong>"{{lastAdded.name}}"</strong> 
+    Pomyślnie dodano Podkategorie: <strong>"{{lastAdded.name}}"</strong>
     do kategorii: <strong>"{{parentOfLastAdded.name}}"</strong>
   </div>
 
   <div id="loginContainer">
-    <form [formGroup]="addSubCategoryForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="addSubCategoryForm" (ngSubmit)="addSubCategory()">
       <div class="col-md-4 offset-md-4 form-group">
 
         <label for="chooseCategory">Kategoria:</label>
