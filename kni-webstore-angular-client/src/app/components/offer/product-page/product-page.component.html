@@ -19,7 +19,7 @@
       </div>
       <div style="clear: both;"></div>
     </div>
-    <div class="col-12 offset-lg-2 col-lg-8 offset-xl-0 col-xl-7" style="min-height: 300px;">
+    <div class="col-12 offset-lg-2 col-lg-8 offset-xl-1 col-xl-6" style="min-height: 300px;">
       <div class="short-description margin-top-20">
         <div class="description-title">
           <h3>{{product.name}}</h3>
@@ -40,12 +40,12 @@
         <div class="description-shortDesc">
           <p>{{product.shortDescription}}</p>
         </div>
-        <div class="price-and-stockValue margin-top-10">
+        <div class="price-and-stockValue margin-top-10 col-xl-9">
           <div class="desc-product-price float-left col-5">
             <p>Cena:</p>
             <p>{{product.price}} zł</p>
           </div>
-          <div class="desc-product-in-stock float-left offset-2 col-5">
+          <div class="desc-product-in-stock float-left offset-1 col-6">
             <p>Dostępność produktu:</p>
             <p>{{product.inStock}}</p>
           </div>
@@ -57,9 +57,15 @@
             <li>Model: {{product.model}}</li>
           </ul>
         </div>
-        <div class="description-buttons align-left">
-          <button type="button" class="btn button">Dodaj do koszyka</button>
-          <button type="button" class="btn button">Dodaj do ulubionych</button>
+        <div class="description-buttons">
+          <div class="row">
+            <div class="offset-2 col-8 col-sm-6 offset-md-0">
+              <button type="button" class="btn button">Dodaj do koszyka</button>
+            </div>
+            <div class="offset-2 col-8 col-sm-6 offset-md-0 col-md-4">
+              <button type="button" class="btn button">Dodaj do ulubionych</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
