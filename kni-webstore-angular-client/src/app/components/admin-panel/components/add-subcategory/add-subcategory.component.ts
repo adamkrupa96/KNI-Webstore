@@ -5,6 +5,7 @@ import { CategoryService } from '../../../../services/category.service';
 import { SubCategory } from '../../../../models/subcategory';
 import { Util } from '../util';
 import { TreeService } from '../../tree.service';
+import { notOnlyDigitsValidator } from '../validators/not-only-digits-validator';
 
 @Component({
   selector: 'app-add-subcategory',
@@ -37,52 +38,73 @@ export class AddSubcategoryComponent implements OnInit {
   createForm() {
     this.addSubCategoryForm = this.formBuilder.group({
       chooseCategory: null,
-      subCategoryName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(32)]]
+      subCategoryName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(32), notOnlyDigitsValidator]]
     });
   }
 
   onFormChange() {
-    this.addSubCategoryForm.get('chooseCategory').valueChanges.subscribe(value => {
+    const dropDownList = this.addSubCategoryForm.get('chooseCategory');
+    const nameControl = this.addSubCategoryForm.get('subCategoryName');
+
+    dropDownList.valueChanges.subscribe(value => {
       this.choosedCategory = this.categoryList[value];
       this.categoryNotSelected = false;
       this.subCategoryExists = false;
     });
 
-    this.addSubCategoryForm.get('subCategoryName').valueChanges.subscribe(value => {
+    nameControl.valueChanges.subscribe(value => {
       this.subCategoryExists = false;
     });
   }
 
-  onSubmit() {
+  addSubCategory() {
     if (this.addSubCategoryForm.get('chooseCategory').value == null) {
       this.categoryNotSelected = true;
       this.subCategoryAdded = false;
       return;
     }
 
-    this.choosedCategory.subCategories.forEach(subCat => {
-      if (subCat.name.toLowerCase().trim() === this.addSubCategoryForm.get('subCategoryName').value.toLowerCase().trim()) {
-        this.subCategoryExists = true;
-        this.subCategoryAdded = false;
-        return;
-      }
-    });
-
+    this.checkSubCategoryExists();
     if (this.subCategoryExists) {
       return;
     }
+    let subCategoryToAddName = this.addSubCategoryForm.get('subCategoryName').value;
+    subCategoryToAddName = Util.firstUpperLetter(subCategoryToAddName);
 
-    this.catService.addSubCategoryOfCategory(this.choosedCategory.id, new SubCategory(Util.firstUpperLetter(
-      this.addSubCategoryForm.get('subCategoryName').value))).subscribe(res => {
-        this.lastAdded = res;
-        this.parentOfLastAdded = this.choosedCategory;
-        this.subCategoryAdded = true;
-        this.initList();
-        this.addSubCategoryForm.reset();
-        this.treeService.refreshTree();
-      });
+    const subCategoryToAdd = this.createNewSubCategory(subCategoryToAddName);
+    const catchAddedSubCategory = (response: SubCategory) => {
+      this.resetComponentOnAddedSubCategory(response);
+    };
 
+    this.catService.addSubCategoryOfCategory(this.choosedCategory.id, subCategoryToAdd).subscribe(catchAddedSubCategory);
+  }
 
+  checkSubCategoryExists() {
+    this.choosedCategory.subCategories.forEach(eachSubCategory => {
+      const eachSubCategoryName = eachSubCategory.name.toLowerCase().trim();
+      const subCategoryToAddName = this.addSubCategoryForm.get('subCategoryName').value.toLowerCase().trim();
+
+      if (eachSubCategoryName === subCategoryToAddName) {
+        this.subCategoryExists = true;
+        this.subCategoryAdded = false;
+      }
+    });
+  }
+
+  createNewSubCategory(name: string): SubCategory {
+    const subCategory = new SubCategory();
+    subCategory.name = name;
+    subCategory.products = [];
+    return subCategory;
+  }
+
+  resetComponentOnAddedSubCategory(subCategory: SubCategory) {
+    this.lastAdded = subCategory;
+    this.parentOfLastAdded = this.choosedCategory;
+    this.subCategoryAdded = true;
+    this.initList();
+    this.addSubCategoryForm.reset();
+    this.treeService.refreshTree();
   }
 
   initList() {

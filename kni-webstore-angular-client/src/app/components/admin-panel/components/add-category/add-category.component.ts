@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category } from '../../../../models/category';
 import { CategoryService } from '../../../../services/category.service';
 import { TreeService } from '../../tree.service';
+import { notOnlyDigitsValidator } from '../validators/not-only-digits-validator';
 
 @Component({
   selector: 'app-add-cat',
@@ -11,9 +12,6 @@ import { TreeService } from '../../tree.service';
   styleUrls: ['./add-category.component.css']
 })
 export class AddCategoryComponent implements OnInit {
-
-// TODO - zsynchronizować walidacje z walidacją backendową
-// TODO - obsłużyć przechwytywanie błędow walidacji z poziomu backendu
 
   addCategoryForm: FormGroup;
   categoryExists = false;
@@ -32,29 +30,57 @@ export class AddCategoryComponent implements OnInit {
 
   createForm() {
     this.addCategoryForm = this.formBuilder.group({
-      categoryName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(32)]]
+      categoryName: ['',
+        [Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(32),
+          notOnlyDigitsValidator]
+      ]
     });
   }
 
+  addCategory() {
+    const categoryNameTrimmed = this.addCategoryForm.get('categoryName').value.trim();
 
-  onSubmit() {
-    this.catService.categoryExists(this.addCategoryForm.get('categoryName').value.trim()).subscribe(res => {
-      if (res) {
+    const catchCategoryAddedResponse = (response: Category) => {
+      this.resetComponentOnAddedCategory(response);
+    };
+
+    const catchError = error => console.log('Backend error');
+
+    const categoryExistResponse = (response: boolean) => {
+      if (response) {
         this.categoryExists = true;
         this.categoryAdded = false;
       } else {
-        let categoryName = this.addCategoryForm.get('categoryName').value.trim().toLowerCase();
-        categoryName = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
+        const categoryName = this.addCategoryForm.get('categoryName').value;
+        const categoryToAdd = this.createNewCategory(this.trimAndFirstLetterUpper(categoryName));
 
-        this.catService.addCategory(new Category(categoryName)).subscribe(catRes => {
-          console.log('Pomyślnie dodano kategorie o ID: ' + catRes.id + ' i nazwie: ' + catRes.name);
-          this.lastAdded = catRes;
-          this.categoryExists = false;
-          this.categoryAdded = true;
-          this.addCategoryForm.reset();
-          this.treeService.refreshTree();
-        });
+        this.catService.addCategory(categoryToAdd).subscribe(catchCategoryAddedResponse, catchError);
       }
-    });
+    };
+
+    this.catService.categoryExists(categoryNameTrimmed).subscribe(categoryExistResponse, catchError);
+  }
+
+  resetComponentOnAddedCategory(category: Category) {
+    console.log('Pomyślnie dodano kategorie o ID: ' + category.id + ' i nazwie: ' + category.name);
+    this.lastAdded = category;
+    this.categoryExists = false;
+    this.categoryAdded = true;
+    this.addCategoryForm.reset();
+    this.treeService.refreshTree();
+  }
+
+  trimAndFirstLetterUpper(name: string): string {
+    name = name.trim().toLowerCase();
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  }
+
+  createNewCategory(name: string): Category {
+    const category = new Category();
+    category.name = name;
+    category.subCategories = [];
+    return category;
   }
 }
