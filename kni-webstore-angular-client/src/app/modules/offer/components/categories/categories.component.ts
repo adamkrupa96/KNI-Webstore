@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../../../services/category.service';
+import { CategoryService } from '../../../../services/category.service';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Category } from '../../../models/category';
-import { SubCategory } from '../../../models/subcategory';
+import { Category } from '../../../../models/category';
+import { SubCategory } from '../../../../models/subcategory';
 
 @Component({
   selector: 'app-categories',
