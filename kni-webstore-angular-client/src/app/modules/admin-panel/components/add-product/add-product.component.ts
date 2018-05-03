@@ -8,6 +8,7 @@ import { Util } from '../util';
 import { ProductService } from '../../../../services/product.service';
 import { Product } from '../../../../models/product';
 import { TreeService } from '../../tree.service';
+import { notOnlyDigitsValidator } from '../validators/not-only-digits-validator';
 
 @Component({
   selector: 'app-add-product',
@@ -37,6 +38,7 @@ export class AddProductComponent implements OnInit {
   categoryNotSelected = false;
   subCategoryNotSelected = false;
   productAdded = false;
+  productExists = false;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -54,52 +56,102 @@ export class AddProductComponent implements OnInit {
     this.addProductForm = this.formBuilder.group({
       chooseCategory: null,
       chooseSubCategory: null,
-      brand: ['', [Validators.required, Validators.maxLength(32)]],
-      model: ['', [Validators.required, Validators.maxLength(32)]],
+      brand: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(16), notOnlyDigitsValidator]],
+      model: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(32), notOnlyDigitsValidator]],
       price: ['', Validators.required],
       inStock: ['', Validators.required],
-      shortDesc: [null, Validators.maxLength(63)],
-      longDesc: [null, Validators.maxLength(254)]
+      shortDesc: [null, Validators.maxLength(96)],
+      longDesc: [null, Validators.maxLength(256)]
     });
 
     this.addFeatureForm = this.formBuilder.group({
-      key: ['', [Validators.required, Validators.maxLength(30)]],
-      value: ['', [Validators.required, Validators.maxLength(30)]]
+      key: ['', [Validators.required, Validators.maxLength(16)]],
+      value: ['', [Validators.required, Validators.maxLength(16)]]
     });
   }
 
   addProduct() {
-    if (this.addProductForm.get('chooseCategory').value == null) {
+    const chooseCategoryDropdown = this.addProductForm.get('chooseCategory').value;
+    const chooseSubCategoryDropdown = this.addProductForm.get('chooseSubCategory').value;
+
+    if (chooseCategoryDropdown == null) {
       this.categoryNotSelected = true;
       return;
     }
-
-    if (this.addProductForm.get('chooseSubCategory').value == null) {
+    if (chooseSubCategoryDropdown == null) {
       this.subCategoryNotSelected = true;
       return;
     }
-
-
     this.categoryNotSelected = false;
     this.subCategoryNotSelected = false;
 
-    const brand = this.addProductForm.get('brand').value.trim().toUpperCase();
-    const model = this.addProductForm.get('model').value;
-    const price = Number((+this.addProductForm.get('price').value).toFixed(2)); // Zaokrąglenie do drugiego miejsca po przecinku
-    const inStock = Math.floor(+this.addProductForm.get('inStock').value); // Pominięcie części ułamkowej
-    const shortDesc = this.addProductForm.get('shortDesc').value;
-    const longDesc = this.addProductForm.get('longDesc').value;
+    if (this.productExistsInChoosedSubCategory()) {
+      this.productExists = true;
+      return;
+    } else {
+      this.productExists = false;
+    }
 
-    this.prodService.addProduct(new Product(`${brand} ${model}`, shortDesc, longDesc , brand, model, price, inStock, this.features),
-    this.choosedSubCategory.id).subscribe(res => {
-      this.lastAdded = res;
-      this.lastAddedCategory = this.choosedCategory;
-      this.lastAddedSubCategory = this.choosedSubCategory;
-      this.addProductForm.reset();
-      this.features = [];
-      this.productAdded = true;
-      this.treeService.refreshTree();
+    const productToAdd = this.createProductFromFormValues();
+    this.prodService.addProduct(productToAdd, this.choosedSubCategory.id).subscribe((response: Product) => {
+      this.onCatchAddedProduct(response);
     });
+  }
+
+  productExistsInChoosedSubCategory(): boolean {
+    let productExists = false;
+    this.choosedSubCategory.products.forEach((eachProduct: Product) => {
+      const eachProductBrand = eachProduct.brand.trim().toUpperCase();
+      const eachProductModel = eachProduct.model.trim().toUpperCase();
+
+      const productToAddBrand = this.productFormValues('brand').trim().toUpperCase();
+      const productToAddModel = this.productFormValues('model').trim().toUpperCase();
+
+      if (productToAddBrand === eachProductBrand && productToAddModel === eachProductModel) {
+        productExists = true;
+      }
+    });
+    return productExists;
+  }
+
+  createProductFromFormValues(): Product {
+    const brand = this.productFormValues('brand').trim().toUpperCase();
+    const model = this.productFormValues('model').trim();
+    const price = this.roundToSecoundPlace(+this.productFormValues('price'));
+    const inStock = Math.floor(+this.productFormValues('inStock'));
+    const shortDesc = this.productFormValues('shortDesc');
+    const longDesc = this.productFormValues('longDesc');
+
+    const productToAdd = new Product();
+    productToAdd.name = `${brand} ${model}`;
+    productToAdd.brand = brand;
+    productToAdd.model = model;
+    productToAdd.price = price;
+    productToAdd.inStock = inStock;
+    productToAdd.shortDescription = shortDesc;
+    productToAdd.longDescription = longDesc;
+    productToAdd.features = this.features;
+
+    return productToAdd;
+  }
+
+  productFormValues(controlName: string): string {
+    return this.addProductForm.get(controlName).value;
+  }
+
+  roundToSecoundPlace(number: number): number {
+    return Number(number.toFixed(2));
+  }
+
+  onCatchAddedProduct(product: Product) {
+    this.lastAdded = product;
+    this.lastAddedCategory = this.choosedCategory;
+    this.lastAddedSubCategory = this.choosedSubCategory;
+
+    this.addProductForm.reset();
+    this.features = [];
+    this.productAdded = true;
+    this.treeService.refreshTree();
   }
 
   addFeature() {
@@ -108,12 +160,10 @@ export class AddProductComponent implements OnInit {
       Util.firstUpperLetter(this.addFeatureForm.get('value').value)
     ));
     this.addFeatureForm.reset();
-
-    // Ustawienie na niego focus, po dodaniu cechy (Dodajemy ceche enterem i z automatu możemy dodawać następną, koozak :D)
     this.keyInput.nativeElement.focus();
   }
 
-  delFeature(index: number) {
+  deleteFeature(index: number) {
     for (let i = index; i < this.features.length; i++) {
       this.features[i] = this.features[i + 1];
     }
@@ -121,32 +171,42 @@ export class AddProductComponent implements OnInit {
   }
 
   onFormChange() {
-    this.addProductForm.get('chooseCategory').valueChanges.subscribe(value => {
-      this.choosedCategory = this.categoryList[value];
+    const chooseCategoryDropdown = this.addProductForm.get('chooseCategory');
+    const chooseSubCategoryDropdown = this.addProductForm.get('chooseSubCategory');
+    const priceControl = this.addProductForm.get('price');
+    const inStockControl = this.addProductForm.get('inStock');
 
-      if (this.choosedCategory == null) {
-        return;
-      }
-
-      this.subCategoriesOfCategory = this.choosedCategory.subCategories;
+    chooseCategoryDropdown.valueChanges.subscribe((value: number) => {
+      this.categoryDropdownValueChanges(value);
     });
 
-    this.addProductForm.get('chooseSubCategory').valueChanges.subscribe(value => {
-      this.choosedSubCategory = this.subCategoriesOfCategory[value];
+    chooseSubCategoryDropdown.valueChanges.subscribe((value: number) => {
+      this.subCategoryDropdownValueChanges(value);
     });
 
-    this.addProductForm.get('price').valueChanges.subscribe(value => {
+    priceControl.valueChanges.subscribe((value: string) => {
       if (isNaN(+value)) {
-        this.addProductForm.get('price').reset();
+        priceControl.reset();
       }
     });
 
-    this.addProductForm.get('inStock').valueChanges.subscribe(value => {
+    inStockControl.valueChanges.subscribe((value: string) => {
       if (isNaN(+value)) {
-        this.addProductForm.get('inStock').reset();
+        inStockControl.reset();
       }
     });
+  }
 
+  categoryDropdownValueChanges(value: number) {
+    this.choosedCategory = this.categoryList[value];
+    if (this.choosedCategory == null) {
+      return;
+    }
+    this.subCategoriesOfCategory = this.choosedCategory.subCategories;
+  }
+
+  subCategoryDropdownValueChanges(value: number) {
+    this.choosedSubCategory = this.subCategoriesOfCategory[value];
   }
 
   initList() {
