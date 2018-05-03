@@ -9,7 +9,8 @@
           Należy wpisać co najmniej 4 znaki i maksymalnie 50!
         </span>
       </div>
-      <input type="text" class="form-control" id="username" formControlName="username" placeholder="Nazwa użytkownika"/>
+      <input type="text" class="form-control" id="username" formControlName="username" placeholder="Nazwa użytkownika"
+        [(ngModel)]="user.username"/>
     </div>
 
     <div class="form-group">
@@ -20,7 +21,8 @@
           Należy wpisać co najmniej 4 znaki i maksymalnie 50!
         </span>
       </div>
-      <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Imie"/>
+      <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Imie"
+        [(ngModel)]="user.firstName"/>
     </div>
 
     <div class="form-group">
@@ -31,7 +33,8 @@
           Należy wpisać co najmniej 4 znaki i maksymalnie 50!
         </span>
       </div>
-      <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Nazwisko"/>
+      <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Nazwisko"
+        [(ngModel)]="user.lastName"/>
     </div>
 
     <div class="form-group">
@@ -46,7 +49,8 @@
         class="login-alert">
           Zły format adresu email!
       </div>
-      <input type="email" class="form-control" id="email" formControlName="email" placeholder="Adres email"/>
+      <input type="email" class="form-control" id="email" formControlName="email" placeholder="Adres email"
+        [(ngModel)]="user.email"/>
     </div>
 
     <div class="form-group">
@@ -57,7 +61,8 @@
           Należy wpisać co najmniej 4 znaki i maksymalnie 50!
         </span>
       </div>
-      <input type="password" class="form-control" id="password" formControlName="password" placeholder="Hasło"/>
+      <input type="password" class="form-control" id="password" formControlName="password" placeholder="Hasło"
+        [(ngModel)]="user.password"/>
     </div>
 
     <div class="form-group">
