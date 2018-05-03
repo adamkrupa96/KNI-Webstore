@@ -6,21 +6,20 @@ import {
   ProductPageComponent,
   ProductsOfCategoryComponent
 } from './index';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { PathNavigationComponent } from '../path-navigation/path-navigation.component';
+
+import { OfferRoutingModule } from './offer.routing.module';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
     OfferComponent,
     CategoriesComponent,
     ProductPageComponent,
-    ProductsOfCategoryComponent,
-    PathNavigationComponent
+    ProductsOfCategoryComponent
   ],
   imports: [
-    CommonModule,
-    RouterModule
+    OfferRoutingModule,
+    SharedModule
   ]
 })
 export class OfferModule {}
