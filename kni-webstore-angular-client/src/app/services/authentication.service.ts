@@ -5,10 +5,11 @@ import 'rxjs/add/observable/throw';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 // import { Response } from '@angular/http'; potrzebne gdy chcemy uzywac metody handleError
 import { map, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as jwt_decode from 'jwt-decode';
 import { User } from '../models/user';
+import { ActivatedRoute } from '@angular/router';
 
 
 /**
@@ -35,7 +36,6 @@ export class AuthenticationService {
   login(username: string, password: string): Observable<boolean> {
     return this.http.post<any>(this.authUrl, { username: username, password: password }, this.httpOptions)
       .map(tokenResp => {
-        console.log(tokenResp);
         // login successful if there's a jwt token in the response
         if (tokenResp && tokenResp.token) {
           // store username and jwt token in local storage to keep user logged in between page refreshes
@@ -73,7 +73,6 @@ export class AuthenticationService {
     return this.http.post<any>(this.registerUrl, JSON.stringify(user), this.httpOptions)
       .pipe(
         tap(boolResp => {
-          console.log(boolResp);
           return boolResp;
         })
       ).map((response: any) => response);
@@ -121,6 +120,20 @@ export class AuthenticationService {
     window.location.reload();
   }
 
+  redirectToPreviousPage() {
+    this.getRedirectUrl();
+    if (this.redirectUrl) {
+      this.router.navigate([this.redirectUrl]);
+      this.setRedirectUrl('');
+    } else if (this.redirectUrl === undefined || this.redirectUrl === null) {
+      this.router.navigate(['/home']);
+    }
+  }
+
+  redirectToLoginPage() {
+    this.router.navigate(['/login']);
+  }
+
   /**
    * sprawdzamy czy uzytkownik jest zalogowany (czy w pamieci jest token)
    */
@@ -129,11 +142,17 @@ export class AuthenticationService {
     return token && token.length > 0;
   }
 
-  setRedirectUrl(url: string) {
-    this.redirectUrl = url;
+  setRedirectUrl(redirectUrl: string) {
+    this.redirectUrl = redirectUrl;
   }
 
-  getRedirectUrl(): string {
-    return this.redirectUrl;
+  getRedirectUrl() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.setRedirectUrl(event.url);
+      }
+    }, error => {
+      return null;
+    });
   }
 }
