@@ -1,31 +1,27 @@
-import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AppComponent } from './app.component';
-import { ProductService } from './services/product.service';
+import { HttpModule } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
-import { HttpClientModule } from '@angular/common/http';
+import { SortPipe } from './pipes/sortBy';
 import { AuthenticationService } from './services/authentication.service';
-import { HomeComponent } from './components/home/home.component';
-import { RoutingModule } from './routing.module';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { ProductService } from './services/product.service';
 import { AuthGuardsService } from './services/auth-guards.service';
 import { CategoryService } from './services/category.service';
-import { SortPipe } from './pipes/sortBy';
-import { MenuComponent } from './components/menu/menu.component';
 
-import { OfferComponent } from './components/offer/offer.component';
-import { CategoriesComponent } from './components/offer/categories/categories.component';
-import { ProductsOfCategoryComponent } from './components/offer/products-of-category/products-of-category.component';
-import { ProductPageComponent } from './components/offer/product-page/product-page.component';
-import { AdminPanelModule } from './components/admin-panel/admin-panel.module';
-import { AdminPanelRoutingModule } from './components/admin-panel/admin-panel-routing.module';
-import { PathNavigationComponent } from './components/path-navigation/path-navigation.component';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './modules/home/home.component';
+import { MenuComponent } from './modules/menu/menu.component';
+import { LoginComponent } from './modules/login/login.component';
+import { RegisterComponent } from './modules/register/register.component';
+
+import { AdminPanelModule } from './modules/admin-panel/admin-panel.module';
+import { OfferModule } from './modules/offer/offer.module';
+import { SharedModule } from './shared/shared.module';
+import { RoutingModule } from './routing.module';
 
 @NgModule({
   declarations: [
@@ -34,18 +30,13 @@ import { PathNavigationComponent } from './components/path-navigation/path-navig
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    MenuComponent,
-    OfferComponent,
-    CategoriesComponent,
-    ProductsOfCategoryComponent,
-    ProductPageComponent,
-    PathNavigationComponent
+    MenuComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AdminPanelRoutingModule,
+    SharedModule,
+    OfferModule,
+    AdminPanelModule,
     RoutingModule,
     HttpClientModule
   ],

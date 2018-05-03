@@ -7,18 +7,18 @@ import {
   AddProductComponent,
   TreeViewComponent
 } from './index';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { RouterModule } from '@angular/router';
 import { TreeService } from './tree.service';
+import { SharedModule } from '../../shared/shared.module';
 
 
 // Tzw featured module
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule
+    AdminPanelRoutingModule,
+    RouterModule,
+    SharedModule
   ],
   declarations: [
     AdminPanelComponent,
