@@ -4,6 +4,8 @@ import { CategoryService } from '../../../../services/category.service';
 import { Subject } from 'rxjs/Subject';
 import { ProductService } from '../../../../services/product.service';
 import { TreeService } from '../../tree.service';
+import { SubCategory } from '../../../../models/subcategory';
+import { Product } from '../../../../models/product';
 
 @Component({
   selector: 'app-tree-view',
@@ -12,8 +14,6 @@ import { TreeService } from '../../tree.service';
 })
 export class TreeViewComponent implements OnInit {
 
-  // Przechwycenie obiektu Subject z komponentu nadrzędnego
-  // @Input() refreshTreeView: Subject<any>;
   categories: Category[];
 
   // Każdy index w tej liscie odpowiada obiektowi z listy categories, true -> lista rozwinieta, false -> lista schowana
@@ -26,15 +26,12 @@ export class TreeViewComponent implements OnInit {
     private refreshService: TreeService) { }
 
   ngOnInit() {
+
+
     this.refresh();
     this.refreshService.refreshSubject.subscribe(event => {
       this.refresh();
     });
-    // Zasubskrybowanie go (Czyli przy każdej zmianie obiektu subject w AdminPanelComponent, odswiezaj liste)
-    // i dziala jakoś
-    // this.refreshTreeView.subscribe(event => {
-    //   this.refresh();
-    // });
   }
 
   deleteCategory(id: number) {
@@ -60,10 +57,27 @@ export class TreeViewComponent implements OnInit {
   }
 
   refresh() {
-    this.catService.getAllCategories().subscribe(res => {
-      this.categories = res;
-      this.refreshDrop();
+    this.catService.getAllCategories().subscribe((allCategories: Category[]) => {
+
+      this.prodService.getUnallocatedProducts().subscribe((orphanProducts: Product[]) => {
+        allCategories.push(this.getOrphanProductsCategory(orphanProducts));
+        this.categories = allCategories;
+        this.refreshDrop();
+      });
+
     });
+  }
+
+  getOrphanProductsCategory(products: Product[]): Category {
+    const category = new Category();
+    category.name = 'UNALLOCATED PRODUCTS';
+    category.subCategories = [];
+
+    const subCategory = new SubCategory('UNALLOCATED PRODUCTS');
+    subCategory.products = products;
+
+    category.subCategories.push(subCategory);
+    return category;
   }
 
   refreshDrop() {
