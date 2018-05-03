@@ -5,6 +5,9 @@
     <strong>"{{lastAdded.brand}} {{lastAdded.model}}"</strong> do kategorii:
     <strong>"{{lastAddedCategory.name}}"</strong>
   </div>
+  <div *ngIf="productExists" class="alert alert-danger">
+    Produkt już istnieje. Jeśli chcesz go edytować kliknij (LINK DO EDYCJI PRZEDMIOTU)
+  </div>
 
   <div id="loginContainer">
     <div class="col-md-4 offset-md-4 form-group">
@@ -84,10 +87,10 @@
           <div class="col-md-6 text-center">
             <label for="value">Wartość: </label>
             <div *ngIf="addFeatureForm.get('value').errors">
-                <label *ngIf="addFeatureForm.get('value').errors.maxlength" for="value" class="login-alert info">
-                  Wartość max 16 znakow.
-                </label>
-              </div>
+              <label *ngIf="addFeatureForm.get('value').errors.maxlength" for="value" class="login-alert info">
+                Wartość max 16 znakow.
+              </label>
+            </div>
           </div>
         </div>
         <div class="row">
@@ -99,13 +102,13 @@
       </form>
       <div class="col-md-12 feature-box">
         <div class="list-group">
-          <a *ngFor="let feature of features; let i = index" (click)="delFeature(i)" class="list-group-item list-group-item-action feature">
+          <a *ngFor="let feature of features; let i = index" (click)="deleteFeature(i)" class="list-group-item list-group-item-action feature">
             {{feature.name}}&emsp; :&emsp;
             <strong>{{feature.value}}</strong>
           </a>
         </div>
       </div>
       <button type="submit" form="addProductForm" [disabled]="addProductForm.status === 'INVALID'">Dodaj Produkt</button>
-
     </div>
   </div>
+</div>

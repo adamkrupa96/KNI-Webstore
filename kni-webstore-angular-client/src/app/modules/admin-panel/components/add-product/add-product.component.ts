@@ -38,6 +38,7 @@ export class AddProductComponent implements OnInit {
   categoryNotSelected = false;
   subCategoryNotSelected = false;
   productAdded = false;
+  productExists = false;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -81,14 +82,36 @@ export class AddProductComponent implements OnInit {
       this.subCategoryNotSelected = true;
       return;
     }
-
     this.categoryNotSelected = false;
     this.subCategoryNotSelected = false;
+
+    if (this.productExistsInChoosedSubCategory()) {
+      this.productExists = true;
+      return;
+    } else {
+      this.productExists = false;
+    }
 
     const productToAdd = this.createProductFromFormValues();
     this.prodService.addProduct(productToAdd, this.choosedSubCategory.id).subscribe((response: Product) => {
       this.onCatchAddedProduct(response);
     });
+  }
+
+  productExistsInChoosedSubCategory(): boolean {
+    let productExists = false;
+    this.choosedSubCategory.products.forEach((eachProduct: Product) => {
+      const eachProductBrand = eachProduct.brand.trim().toUpperCase();
+      const eachProductModel = eachProduct.model.trim().toUpperCase();
+
+      const productToAddBrand = this.productFormValues('brand').trim().toUpperCase();
+      const productToAddModel = this.productFormValues('model').trim().toUpperCase();
+
+      if (productToAddBrand === eachProductBrand && productToAddModel === eachProductModel) {
+        productExists = true;
+      }
+    });
+    return productExists;
   }
 
   createProductFromFormValues(): Product {
@@ -101,6 +124,7 @@ export class AddProductComponent implements OnInit {
 
     const productToAdd = new Product();
     productToAdd.name = `${brand} ${model}`;
+    productToAdd.brand = brand;
     productToAdd.model = model;
     productToAdd.price = price;
     productToAdd.inStock = inStock;
@@ -136,12 +160,10 @@ export class AddProductComponent implements OnInit {
       Util.firstUpperLetter(this.addFeatureForm.get('value').value)
     ));
     this.addFeatureForm.reset();
-
-    // Ustawienie na niego focus, po dodaniu cechy (Dodajemy ceche enterem i z automatu możemy dodawać następną, koozak :D)
     this.keyInput.nativeElement.focus();
   }
 
-  delFeature(index: number) {
+  deleteFeature(index: number) {
     for (let i = index; i < this.features.length; i++) {
       this.features[i] = this.features[i + 1];
     }
@@ -149,32 +171,42 @@ export class AddProductComponent implements OnInit {
   }
 
   onFormChange() {
-    this.addProductForm.get('chooseCategory').valueChanges.subscribe(value => {
-      this.choosedCategory = this.categoryList[value];
+    const chooseCategoryDropdown = this.addProductForm.get('chooseCategory');
+    const chooseSubCategoryDropdown = this.addProductForm.get('chooseSubCategory');
+    const priceControl = this.addProductForm.get('price');
+    const inStockControl = this.addProductForm.get('inStock');
 
-      if (this.choosedCategory == null) {
-        return;
-      }
-
-      this.subCategoriesOfCategory = this.choosedCategory.subCategories;
+    chooseCategoryDropdown.valueChanges.subscribe((value: number) => {
+      this.categoryDropdownValueChanges(value);
     });
 
-    this.addProductForm.get('chooseSubCategory').valueChanges.subscribe(value => {
-      this.choosedSubCategory = this.subCategoriesOfCategory[value];
+    chooseSubCategoryDropdown.valueChanges.subscribe((value: number) => {
+      this.subCategoryDropdownValueChanges(value);
     });
 
-    this.addProductForm.get('price').valueChanges.subscribe(value => {
+    priceControl.valueChanges.subscribe((value: string) => {
       if (isNaN(+value)) {
-        this.addProductForm.get('price').reset();
+        priceControl.reset();
       }
     });
 
-    this.addProductForm.get('inStock').valueChanges.subscribe(value => {
+    inStockControl.valueChanges.subscribe((value: string) => {
       if (isNaN(+value)) {
-        this.addProductForm.get('inStock').reset();
+        inStockControl.reset();
       }
     });
+  }
 
+  categoryDropdownValueChanges(value: number) {
+    this.choosedCategory = this.categoryList[value];
+    if (this.choosedCategory == null) {
+      return;
+    }
+    this.subCategoriesOfCategory = this.choosedCategory.subCategories;
+  }
+
+  subCategoryDropdownValueChanges(value: number) {
+    this.choosedSubCategory = this.subCategoriesOfCategory[value];
   }
 
   initList() {
