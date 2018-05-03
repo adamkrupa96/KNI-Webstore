@@ -20,9 +20,23 @@
   display: inline;
 }
 
+.price-and-stockValue {
+  padding-left: 0;
+  margin-left: 0;
+}
+
 .price-and-stockValue div {
   padding: 10px 10px;
   background: rgba(110, 110, 110, 0.68);
   border-radius: 5px;
   text-align: center;
+}
+
+.button {
+  min-width: 250px;
+}
+
+div.description-buttons {
+  padding-left: 0;
+  margin-left: 0px;
 }

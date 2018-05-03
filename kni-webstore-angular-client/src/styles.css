@@ -81,8 +81,11 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, sel
   margin: auto;
 }
 
-button[type=submit], .button {
+button[type=submit] {
   width: 300px;
+}
+
+button[type=submit], .button {
   background-color: #3b9967;
   font-size: 20px;
   color: #ffffff;
