@@ -1,0 +1,114 @@
+<div class="container">
+
+  <div *ngIf="productAdded" class="alert alert-success">
+    Pomyślnie dodano produkt:
+    <strong>"{{lastAdded.brand}} {{lastAdded.model}}"</strong> do kategorii:
+    <strong>"{{lastAddedCategory.name}}"</strong>
+  </div>
+  <div *ngIf="productExists" class="alert alert-danger">
+    Produkt już istnieje. Jeśli chcesz go edytować kliknij (LINK DO EDYCJI PRZEDMIOTU)
+  </div>
+
+  <div id="loginContainer">
+    <div class="col-md-4 offset-md-4 form-group">
+      <form id="addProductForm" [formGroup]="addProductForm" (ngSubmit)="addProduct()">
+        <label for="chooseCategory">Kategoria:</label>
+        <select [ngClass]="{ 'input-alert': categoryNotSelected }" id="chooseCategory" ng-model="data.singleSelect" formControlName="chooseCategory">
+          <option *ngFor="let category of categoryList; let i = index" value="{{i}}">{{category.name}}</option>
+        </select>
+        <label *ngIf="categoryNotSelected" class="login-alert info">Wybierz kategorię:</label>
+
+        <div>
+          <label for="chooseSubCategory">Podkategoria:</label>
+          <select [ngClass]="{ 'input-alert': subCategoryNotSelected }" id="chooseSubCategory" ng-model="data.singleSelect" formControlName="chooseSubCategory">
+
+            <option *ngFor="let subCategory of subCategoriesOfCategory; let i = index" value="{{i}}">{{subCategory.name}}</option>
+          </select>
+          <label *ngIf="subCategoryNotSelected" class="login-alert info">Wybierz podkategorię:</label>
+        </div>
+
+        <label for="brand">Marka: </label>
+        <input type="text" id="brand" formControlName="brand">
+        <div *ngIf="addProductForm.get('brand').errors">
+          <label *ngIf="addProductForm.get('brand').errors.onlyDigits" for="brand" class="login-alert info">
+            Nazwa marki nie może składać się wyłącznie z liczb.
+          </label>
+          <label *ngIf="addProductForm.get('brand').errors.minlength || addProductForm.get('brand').errors.maxlength" for="brand" class="login-alert info">
+            Nazwa marki min. 2 i max 16 znakow.
+          </label>
+        </div>
+
+        <label for="model">Model: </label>
+        <input type="text" id="model" formControlName="model">
+        <div *ngIf="addProductForm.get('model').errors">
+          <label *ngIf="addProductForm.get('model').errors.onlyDigits" for="model" class="login-alert info">
+            Nazwa modelu nie może składać się wyłącznie z liczb.
+          </label>
+          <label *ngIf="addProductForm.get('model').errors.minlength || addProductForm.get('model').errors.maxlength" for="model" class="login-alert info">
+            Nazwa modelu min. 2 i max 32 znakow.
+          </label>
+        </div>
+
+        <label for="price">Cena: </label>
+        <input type="text" id="price" formControlName="price">
+
+        <label for="inStock">Liczba przedmiotow na stanie: </label>
+        <input type="text" id="inStock" formControlName="inStock">
+
+        <label for="shortDesc">Krotki opis: </label>
+        <input type="text" id="shortDesc" formControlName="shortDesc">
+        <div *ngIf="addProductForm.get('shortDesc').errors">
+          <label *ngIf="addProductForm.get('shortDesc').errors.minlength || addProductForm.get('shortDesc').errors.maxlength" for="shortDesc"
+            class="login-alert info">
+            Krotki opis może posiadać max. 96 znakow.
+          </label>
+        </div>
+
+        <label for="longDesc">Opis: </label>
+        <textarea class="form-control" id="longDesc" formControlName="longDesc" rows="3"></textarea>
+        <div *ngIf="addProductForm.get('longDesc').errors">
+          <label *ngIf="addProductForm.get('longDesc').errors.minlength || addProductForm.get('longDesc').errors.maxlength" for="longDesc"
+            class="login-alert info">
+            Długi opis może posiadać max. 256 znakow.
+          </label>
+        </div>
+
+      </form>
+      <form [formGroup]="addFeatureForm" (ngSubmit)="addFeature()">
+        <div class="row">
+          <div class="col-md-6 text-center">
+            <label for="key">Cecha: </label>
+            <div *ngIf="addFeatureForm.get('key').errors">
+              <label *ngIf="addFeatureForm.get('key').errors.maxlength" for="key" class="login-alert info">
+                Cecha max 16 znakow.
+              </label>
+            </div>
+          </div>
+          <div class="col-md-6 text-center">
+            <label for="value">Wartość: </label>
+            <div *ngIf="addFeatureForm.get('value').errors">
+              <label *ngIf="addFeatureForm.get('value').errors.maxlength" for="value" class="login-alert info">
+                Wartość max 16 znakow.
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <input #keyInput type="text" id="key" formControlName="key" class="col-md-6 feature-input">
+          <input type="text" id="value" formControlName="value" class="col-md-6 feature-input">
+        </div>
+        <button type="submit" class="btn btn-sm" [disabled]="addFeatureForm.status == 'INVALID'">Dodaj cechę</button>
+        <p class="info">Kliknij na cechę by ją usunąć.</p>
+      </form>
+      <div class="col-md-12 feature-box">
+        <div class="list-group">
+          <a *ngFor="let feature of features; let i = index" (click)="deleteFeature(i)" class="list-group-item list-group-item-action feature">
+            {{feature.name}}&emsp; :&emsp;
+            <strong>{{feature.value}}</strong>
+          </a>
+        </div>
+      </div>
+      <button type="submit" form="addProductForm" [disabled]="addProductForm.status === 'INVALID'">Dodaj Produkt</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<div class="mainContainer">
+  <app-path-navigation></app-path-navigation>
+  <div class="row">
+    <div class="col-12 offset-lg-2 col-lg-8 offset-xl-0 col-xl-5 images-galery" style="padding-left: 0 !important;">
+      <div style="min-height: 300px;">
+        <img src="../../../assets/images/laptop.png" class="rounded img-thumbnail"/>
+      </div>
+      <div class="col-6 col-sm-3" style="min-height: 100px; float: left;">
+          <img src="../../../assets/images/laptop.png" class="rounded img-thumbnail"/>
+      </div>
+      <div class="col-6 col-sm-3" style="min-height: 100px; float: left;">
+          <img src="../../../assets/images/laptop.png" class="rounded img-thumbnail"/>
+      </div>
+      <div class="col-6 col-sm-3" style="min-height: 100px; float: left;">
+          <img src="../../../assets/images/laptop.png" class="rounded img-thumbnail"/>
+      </div>
+      <div class="col-6 col-sm-3" style="min-height: 100px; float: left;">
+          <img src="../../../assets/images/laptop.png" class="rounded img-thumbnail"/>
+      </div>
+      <div style="clear: both;"></div>
+    </div>
+    <div class="col-12 offset-lg-2 col-lg-8 offset-xl-1 col-xl-6" style="min-height: 300px;">
+      <div class="short-description margin-top-20">
+        <div class="description-title">
+          <h3>{{product.name}}</h3>
+        </div>
+        <div class="description-features">
+          <ul>
+            <li>Ekran 15"</li>
+            <li>Procesor intel core i7</li>
+            <li>Karta Nvidia Gtx 960</li>
+            <li>Dysk SSD 120 GB</li>
+            <li>RAM 16 GB</li>
+          </ul>
+        </div>
+        <div class="description-rate">
+          <p>Ocena produktu</p>
+          <p>Gwiazdki dla oceny</p>
+        </div>
+        <div class="description-shortDesc">
+          <p>{{product.shortDescription}}</p>
+        </div>
+        <div class="price-and-stockValue margin-top-10 col-xl-9">
+          <div class="desc-product-price float-left col-5">
+            <p>Cena:</p>
+            <p>{{product.price}} zł</p>
+          </div>
+          <div class="desc-product-in-stock float-left offset-1 col-6">
+            <p>Dostępność produktu:</p>
+            <p>{{product.inStock}}</p>
+          </div>
+          <p style="clear: both"></p>
+        </div>
+        <div class="short-info margin-top-10">
+          <ul>
+            <li>Producent: {{product.brand}}, </li>
+            <li>Model: {{product.model}}</li>
+          </ul>
+        </div>
+        <div class="description-buttons">
+          <div class="row">
+            <div class="offset-2 col-8 col-sm-6 offset-md-0">
+              <button type="button" class="btn button">Dodaj do koszyka</button>
+            </div>
+            <div class="offset-2 col-8 col-sm-6 offset-md-0 col-md-4">
+              <button type="button" class="btn button">Dodaj do ulubionych</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12" class="long-description">
+      <p>
+        {{product.longDescription}}
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla laoreet accumsan accumsan.
+        Etiam varius augue imperdiet ligula auctor iaculis. Nunc nunc erat, suscipit et tellus vitae, congue eleifend magna.
+        Aliquam eu neque sed arcu lacinia luctus eget vitae orci. Donec ut interdum purus. Quisque eu tempus odio.
+        Etiam molestie felis eget libero aliquet, non interdum dolor egestas. Vestibulum vestibulum, velit ut molestie facilisis,
+        mi nisi viverra sapien, ac mollis arcu sapien id nibh. Vivamus eget ante sed elit porta porta efficitur sit amet sem.
+        Integer vehicula leo iaculis fermentum ornare.
+      </p>
+    </div>
+  </div>
+</div>

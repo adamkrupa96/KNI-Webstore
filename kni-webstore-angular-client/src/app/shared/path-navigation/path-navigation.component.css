@@ -1,0 +1,17 @@
+.path-navigation {
+  margin: 15px 0;
+}
+
+.mini-navigation-link {
+  color: #dbdbdb;
+  font-size: 1.2rem;
+}
+
+.mini-navigation-link:hover {
+  text-decoration: none;
+  color: #3b9967;
+}
+
+.mini-navigation-link:focus {
+  text-decoration: none;
+}

@@ -1,0 +1,38 @@
+<div class="mainContainer">
+  <app-path-navigation></app-path-navigation>
+  <div class="row">
+    <div class="container col-md-4 col-lg-3 col-xl-3">
+      <div class="categoriesBox">
+        <section>Kategoria:</section>
+        <ul>
+          <li>
+            <a routerLink='../'>
+              <span><i class="fas fa-angle-double-left"></i></span>
+              {{subCategory.name}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="container col-md-8 col-lg-9 col-xl-9">
+      <div class="row products">
+        <div class="product col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4" *ngFor="let product of subCategory.products">
+          <a [routerLink]="[product.id]">
+            <div class="product-image">
+              <img src="../../../assets/images/laptop.png" class="img-thumbnail">
+            </div>
+            <div class="product-title">
+              {{product.name}}
+            </div>
+            <div class="product-shortDesc">
+              {{product.shortDescription}}
+            </div>
+            <div class="product-price">
+              {{product.price}} zł
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+.short-description {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+}
+
+.long-description {
+  min-height: 600px;
+  margin-top: 20px;
+  padding: 30px 20px;
+  font-size: 1.3rem;
+}
+
+.short-info ul {
+  padding: 0;
+  list-style: none;
+  margin-bottom: -10px;
+}
+
+.short-info ul li {
+  display: inline;
+}
+
+.price-and-stockValue {
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.price-and-stockValue div {
+  padding: 10px 10px;
+  background: rgba(110, 110, 110, 0.68);
+  border-radius: 5px;
+  text-align: center;
+}
+
+.button {
+  min-width: 250px;
+}
+
+div.description-buttons {
+  padding-left: 0;
+  margin-left: 0px;
+}

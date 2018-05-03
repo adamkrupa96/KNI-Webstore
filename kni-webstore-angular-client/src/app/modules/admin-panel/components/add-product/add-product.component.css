@@ -1,0 +1,71 @@
+.alert-success {
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    background-color: #3b9967;
+    border-color: #3b9967;
+    margin-top: 20px;
+    
+}
+
+#loginContainer {
+    margin-top: 20px;
+}
+
+label {
+    font-size: 16px;
+}
+
+.feature-box {
+    margin-top: 15px;
+}
+
+.feature {
+    font-size: 12px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #4a5e4e;
+    height: auto;
+    width: auto;
+    cursor: pointer;
+}
+
+.feature:hover {
+    background-color: #3b9967;
+}
+
+
+.info {
+    font-size: 10px;
+    font-style: italic;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.error {
+    color:red;
+}
+
+textarea {
+    width: 300px;
+    background-color: #5b5b5b;
+    color: #e2e2e2;
+    border: 2px solid #2f3030;
+    font-size: 20px;
+    padding: 5px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    outline: none;
+    margin: auto;
+    border-radius: 5px;
+}
+
+textarea:focus {
+    -webkit-box-shadow: 0px 0px 10px 5px rgba(47,48,48,1);
+    -moz-box-shadow: 0px 0px 10px 5px rgba(47,48,48,1);
+    box-shadow: 0px 0px 10px 5px rgba(47,48,48,1);
+    border: 2px solid #3a3a3a;
+    background-color: #8e8e8e;
+    color: #303030;
+}
+

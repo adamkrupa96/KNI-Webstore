@@ -1,0 +1,16 @@
+<div class="container-fluid">
+    <div class="btn-group btn-group-sm panel-nav">
+        <button [routerLink]="['addcategory']" class="btn">Dodaj Kategorie</button>
+        <button [routerLink]="['addsubcategory']" class="btn">Dodaj Podkategorie</button>
+        <button [routerLink]="['addproduct']" class="btn">Dodaj Produkt</button>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-12 box">
+            <app-tree-view></app-tree-view>
+        </div>
+
+        <div class="col-lg-9 col-12">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

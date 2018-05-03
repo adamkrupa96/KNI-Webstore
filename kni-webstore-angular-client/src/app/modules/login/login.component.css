@@ -1,0 +1,27 @@
+input::-webkit-input-placeholder {
+  color: #afafaf;
+}
+input:focus::-webkit-input-placeholder {
+  color: #5c5b5b;
+}
+
+input:-moz-placeholder {
+  color: #afafaf;
+}
+input:focus:-moz-placeholder {
+  color: #5c5b5b;
+}
+
+input::-moz-placeholder {
+  color: #afafaf;
+}
+input:focus::-moz-placeholder {
+  color: #5c5b5b;
+}
+
+input:-ms-input-placeholder {
+  color: #afafaf;
+}
+input:focus:-ms-input-placeholder {
+  color: #5c5b5b;
+}

@@ -1,0 +1,36 @@
+<div class="container">
+
+  <div *ngIf="categoryAdded" class="alert alert-success">
+    Pomyślnie dodano Kategorie: "{{lastAdded.name}}"
+  </div>
+
+  <div id="loginContainer">
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-md-6 offset-md-3 col-8 offset-2">
+            <form [formGroup]="addCategoryForm" (ngSubmit)="addCategory()">
+              <div class="col-12">
+                <label class="col-8 offset-2 text-center" for="categoryName">Nazwa kategorii: </label>
+              </div>
+              <div class="col-8 offset-2">
+                <input class="col-12" [ngClass]="{'input-alert': categoryExists }" type="text" id="categoryName" formControlName="categoryName">
+              </div>
+              <div class="col-8 offset-2">
+                <label class="col-12 text-center" *ngIf="categoryExists" class="login-alert">Istnieje już kategoria o tej nazwie.</label>
+                <span *ngIf="addCategoryForm.get('categoryName').errors">
+                  <label *ngIf="addCategoryForm.get('categoryName').errors.onlyDigits" class="login-alert">
+                    Kategoria nie może składać się tylko z liczb.
+                  </label>
+                </span>
+              </div>
+              <div class="col-8 offset-2">
+                <button class="col-12" type="submit" [disabled]="addCategoryForm.status === 'INVALID'">Dodaj kategorię</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
