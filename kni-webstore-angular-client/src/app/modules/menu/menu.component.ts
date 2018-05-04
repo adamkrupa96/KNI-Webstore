@@ -18,11 +18,17 @@ export class MenuComponent implements OnInit {
   }
 
   checkLog() {
+    let checker = false;
     if (this.authService.isLoggedIn()) {
-      return true;
-    } else {
-      return false;
+
+      this.authService.getRolesArray().forEach(role => {
+        if (role.authority === 'ROLE_ADMIN') {
+          checker = true;
+        }
+      });
+
     }
+    return checker;
   }
 
   logout() {
