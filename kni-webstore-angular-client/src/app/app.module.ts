@@ -22,6 +22,7 @@ import { AdminPanelModule } from './modules/admin-panel/admin-panel.module';
 import { OfferModule } from './modules/offer/offer.module';
 import { SharedModule } from './shared/shared.module';
 import { RoutingModule } from './routing.module';
+import { AdminAuthGuardsService } from './services/admin-auth-guards.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { RoutingModule } from './routing.module';
     CategoryService,
     HttpClient,
     AuthenticationService,
-    AuthGuardsService
+    AuthGuardsService,
+    AdminAuthGuardsService
   ],
   bootstrap: [AppComponent]
 })
