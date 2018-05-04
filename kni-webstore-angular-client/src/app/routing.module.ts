@@ -7,7 +7,6 @@ import { LoginComponent } from './modules/login/login.component';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  // { path: 'adminpanel', component: AdminPanelComponent, canActivate: [AuthGuardsService] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: '**', component: HomeComponent }

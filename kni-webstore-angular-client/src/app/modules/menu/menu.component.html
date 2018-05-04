@@ -25,6 +25,9 @@
         <li class="nav-item">
           <a class="nav-link" *ngIf="authService.isLoggedIn()" routerLinkActive="active" (click)="logout()">Wyloguj sie</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="isAdminLoggedIn()" routerLink="/adminpanel">Zarządzaj sklepem</a>
+        </li>
       </ul>
 
       <form class="form-inline">
@@ -32,7 +35,7 @@
         <button class="btn btn-outline-info search center" type="submit"><i class="icon-search"></i></button>
       </form>
 
-      <button *ngIf="checkLog()" type="button" class="admin-panel-button col-md-2 offset-md-2" routerLink="/adminpanel">ZARZĄDZAJ SKLEPEM</button>
+      
     </div>
   </nav>
 </div>
