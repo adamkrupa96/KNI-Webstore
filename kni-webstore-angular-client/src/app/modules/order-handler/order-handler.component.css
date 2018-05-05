@@ -1,0 +1,11 @@
+.box {
+    background-color: #3b3d3d;
+    margin: auto;
+    margin-top: 20px;
+    padding-top: 20px;
+    -webkit-box-shadow: 3px 3px 30px 15px rgba(47,48,48,1);
+    -moz-box-shadow: 3px 3px 30px 15px rgba(47,48,48,1);
+    box-shadow: 3px 3px 30px 15px rgba(47,48,48,1);
+    opacity: 0.8;
+    border-radius: 15px;
+  }
