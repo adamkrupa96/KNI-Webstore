@@ -13,41 +13,45 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class SubCategory implements Serializable {
-	
+public class SubCategory implements Serializable, UploadImageModel<ImageName> {
+
 	private static final long serialVersionUID = -9051937994817642175L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	
-	@OneToMany(cascade= CascadeType.MERGE, mappedBy="subCategory", fetch=FetchType.EAGER, orphanRemoval=false)
+
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "subCategory", fetch = FetchType.EAGER, orphanRemoval = false)
 	private List<Product> products;
-	
+
 	@JsonIgnore
-	@ManyToOne(optional=false)
-	@JoinColumn(name="category_id")
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "category_id")
 	private Category category;
-	
+
+	@OneToOne(mappedBy = "subCategory", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+	@JsonIgnore
+	private ImageName image;
+
 	public SubCategory(String name, List<Product> products) {
 		this.name = name;
 		this.products = products;
 	}
-	
+
 	public SubCategory(String name) {
 		this.name = name;
 		this.products = new ArrayList<Product>();
 	}
-	
+
 	public SubCategory() {
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -64,7 +68,6 @@ public class SubCategory implements Serializable {
 		this.name = name;
 	}
 
-
 	public List<Product> getProducts() {
 		return products;
 	}
@@ -74,23 +77,46 @@ public class SubCategory implements Serializable {
 	}
 
 	public void addProduct(Product product) {
-		if (this.products.contains(product)) return;
-		
+		if (this.products.contains(product))
+			return;
+
 		this.products.add(product);
 		product.setSubCategory(this);
 	}
-	
+
 	public void removeProduct(Product product) {
 		this.products.remove(product);
 		product.setSubCategory(null);
 	}
-	
+
 	public Category getCategory() {
 		return category;
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	@Override
+	public ImageName getImage() {
+		return image;
+	}
+
+	@Override
+	public void setImage(ImageName image) {
+		this.image = image;
+	}
+	
+	@Override
+	public void setImages(List<ImageName> image) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<ImageName> getImages() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
