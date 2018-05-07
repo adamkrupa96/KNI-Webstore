@@ -28,10 +28,8 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService prodService;
-	
 	@Autowired
 	private ProductValidator prodValid;
-	
 	@Autowired
 	private CategoryService catService;
 	
@@ -62,7 +60,7 @@ public class ProductController {
 
 	@PostMapping("/products")
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-	public Product addProduct(@RequestBody Product product, 
+	public Product addProduct(@RequestBody Product product,
 			@RequestParam("sub") String subCategory, BindingResult errorLog) throws BindException {
 		
 		prodValid.validate(product, errorLog);
