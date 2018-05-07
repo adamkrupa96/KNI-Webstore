@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 import { TreeService } from './tree.service';
 import { SharedModule } from '../../shared/shared.module';
 
+import { UploadFileService } from '../../services/upload-file.service';
 
 // Tzw featured module
 @NgModule({
@@ -28,7 +29,8 @@ import { SharedModule } from '../../shared/shared.module';
     TreeViewComponent
   ],
   providers: [
-    TreeService
+    TreeService,
+    UploadFileService,
   ]
 })
 export class AdminPanelModule { }

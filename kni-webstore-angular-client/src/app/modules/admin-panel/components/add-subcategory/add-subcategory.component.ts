@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { Category } from '../../../../models/category';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CategoryService } from '../../../../services/category.service';
@@ -6,6 +6,8 @@ import { SubCategory } from '../../../../models/subcategory';
 import { Util } from '../util';
 import { TreeService } from '../../tree.service';
 import { notOnlyDigitsValidator } from '../validators/not-only-digits-validator';
+import { UploadFileService } from '../../../../services/upload-file.service';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-subcategory',
@@ -25,9 +27,18 @@ export class AddSubcategoryComponent implements OnInit {
   categoryList: Category[] = [];
   choosedCategory: Category;
 
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: { percentage: number } = { percentage: 0 };
+  subcategory: SubCategory;
+  restURL = 'http://localhost:8080/api/subcat-images/images';
+  @ViewChild('fileInput')
+  fileInput: ElementRef;
+
   constructor(private formBuilder: FormBuilder,
     private catService: CategoryService,
-    private treeService: TreeService) { }
+    private treeService: TreeService,
+    private uploadService: UploadFileService) { }
 
   ngOnInit() {
     this.createForm();
@@ -76,7 +87,16 @@ export class AddSubcategoryComponent implements OnInit {
       this.resetComponentOnAddedSubCategory(response);
     };
 
-    this.catService.addSubCategoryOfCategory(this.choosedCategory.id, subCategoryToAdd).subscribe(catchAddedSubCategory);
+    // po wyslaniu na serwer pokategorii, jesli wystapi error, wypisujemy go na konsoli
+    // w przeciwnym wypadku wysylamy plik na serwer, ustawiajac id dodanej podkategorii
+    // mozliwe ze pozniej trzeba bedzie to inaczej rozwiazac
+    this.catService.addSubCategoryOfCategory(this.choosedCategory.id, subCategoryToAdd)
+      .subscribe(catchAddedSubCategory,
+      error => {
+        console.log(JSON.parse(error));
+      },
+      () => this.upload(this.lastAdded.id)
+    );
   }
 
   checkSubCategoryExists() {
@@ -113,5 +133,31 @@ export class AddSubcategoryComponent implements OnInit {
     });
   }
 
+  selectFile(event) {
+    const file = event.target.files.item(0);
+
+    // sprawdzamy czy dodawany plik jest obrazkiem
+    if (file && file.type.match('image.*')) {
+      this.selectedFiles = event.target.files;
+    } else {
+      alert('invalid format!');
+    }
+  }
+
+  upload(entityID: number) {
+    this.progress.percentage = 0;
+
+    this.currentFileUpload = this.selectedFiles.item(0);
+    this.uploadService.pushFileToStorage(this.restURL, this.currentFileUpload, entityID).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.progress.percentage = Math.round(100 * event.loaded / event.total);
+      } else if (event instanceof HttpResponse) {
+        console.log('File is completely uploaded!');
+      }
+    });
+
+    this.selectedFiles = undefined;
+    this.fileInput.nativeElement.value = '';
+  }
 
 }
