@@ -24,8 +24,8 @@
         <td class="col-2">
           <div class="row">
             <div class="col-md-6 col-8">
-              <input type="text" class="col-12" value="{{productAndAmount.amount}}" (input)="calculateCartValue()" 
-              [(ngModel)]="productAndAmount.amount" (keyup.enter)="defocus($event, productAndAmount)">
+                <input name={{i}} type="text" class="col-12" value="{{productAndAmount.amount}}" (input)="calculateCartValue()" [(ngModel)]="productAndAmount.amount"
+                  (keyup.enter)="defocus($event, productAndAmount)">
             </div>
             <div class="col-6">
               szt.
