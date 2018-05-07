@@ -13,13 +13,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import kni.webstore.model.ImageName;
-import kni.webstore.model.SubCategory;
 import kni.webstore.model.UploadImageModel;
 import kni.webstore.service.UploadFilesService;
 
@@ -31,8 +31,8 @@ import kni.webstore.service.UploadFilesService;
  */
 public abstract class AbstractUploadController<T extends UploadImageModel<ImageName>, ID extends Serializable> {
  
-	private UploadFilesService uploadFilesService;
-	private CrudRepository<T, ID> crudRepository;
+	protected UploadFilesService uploadFilesService;
+	protected CrudRepository<T, ID> crudRepository;
 	
 	public AbstractUploadController(UploadFilesService uploadFilesService, CrudRepository<T, ID> crudRepository) {
 		this.uploadFilesService = uploadFilesService;
@@ -57,19 +57,7 @@ public abstract class AbstractUploadController<T extends UploadImageModel<ImageN
 		}
 	}
 	
-	private void saveEntityWithImageName(ID entityID, String filename) throws Exception {
-		T entity = crudRepository.findOne(entityID);
-		ImageName image = new ImageName(filename);
-		
-		if (entity.getClass().equals(SubCategory.class)) {
-			image.setSubCategory((SubCategory) entity);
-		} else {
-			throw new Exception("Bad class!");
-		}
-		
-		entity.setImage(image);
-		crudRepository.save(entity);
-	}
+	protected abstract void saveEntityWithImageName(ID entityID, String filename);
  
 	/**
 	 * @param filesNames -> lista z nazwami plikow z bazy danych dla konkretnego obiektu
@@ -80,14 +68,31 @@ public abstract class AbstractUploadController<T extends UploadImageModel<ImageN
 	 * dopisuje w tym przypadku sciezke z metody getFile -> images/ + nazwa pliku pobrana z przekazanej listy
 	 * pozniej te sciezki wykorzystujemy do wyswietlania plikow (w <img src="sciezka" />
 	 */
-	@GetMapping("/images")
-	public ResponseEntity<List<String>> getPathsForFiles(List<String> filenames) {
+	/* do poprawienia przy nastepnym commicie
+	 * @PostMapping("/images/paths/")
+	public ResponseEntity<List<String>> getPathsForFiles(@RequestBody List<String> filenames) {
 		List<String> fileNames = filenames
 				.stream().map(fileName -> MvcUriComponentsBuilder
 						.fromMethodName(this.getClass(), "getFile", fileName).build().toString())
 				.collect(Collectors.toList());
 		
 		return ResponseEntity.ok().body(fileNames);
+	}*/
+	
+	/**
+	 * 
+	 * @param filename przekazujemy nazwe pliku w celu uzyskania sciezki do pliku
+	 * @return zwraca sciezke do pliku ktorej uzywamy pozniej na froncie 
+	 * pod <img src="zwrocona sciezka" />
+	 */
+	@GetMapping("/images/path/{filename:.+}")
+	public ResponseEntity<String> getPathForFile(@PathVariable String filename) {
+		String returnFileName = MvcUriComponentsBuilder
+						.fromMethodName(this.getClass(), "getFile", filename)
+						.build().toString();
+		
+		System.out.println(returnFileName);
+		return ResponseEntity.ok().body(returnFileName);
 	}
 
 	/**
