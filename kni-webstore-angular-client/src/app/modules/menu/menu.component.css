@@ -187,4 +187,14 @@ input:-ms-input-placeholder {
 input:focus:-ms-input-placeholder {
   color: #949393;
 }
+
+#shopping-cart {
+  width: 35px;
+  height: auto;
+  margin-right: 10px;
+}
+
+#shopping-cart:hover {
+  filter: invert(100%);
+}
 /* placeholder */

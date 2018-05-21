@@ -5,16 +5,16 @@
       <i class="icon-menu"></i>
     </button>
     <div class="logo">
-      SKLEP KNI
+      LISTRIK
     </div>
 
     <div class="collapse navbar-collapse" id="mainNavigation">
       <ul class="navbar-nav">
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
-        </li>
+        </li> -->
         <li class="nav-item">
-          <a class="nav-link" routerLink="/offer" routerLinkActive="active">Oferta</a>
+          <a class="nav-link" routerLink="/offer" routerLinkActive="active">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" *ngIf="!authService.isLoggedIn()" routerLink="/login" routerLinkActive="active">Logowanie</a>
@@ -26,16 +26,22 @@
           <a class="nav-link" *ngIf="authService.isLoggedIn()" routerLinkActive="active" (click)="logout()">Wyloguj sie</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" *ngIf="isAdminLoggedIn()" routerLink="/adminpanel">Zarządzaj sklepem</a>
+          <a class="nav-link" *ngIf="isAdminLoggedIn()" routerLink="/adminpanel" routerLinkActive="active">Zarządzaj sklepem</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="shopping-card-box" routerLink="/order/shoppingcart">
+            <img src="../../../assets/icons/shopping-cart.png" id="shopping-cart" >
+          </a>
         </li>
       </ul>
 
       <form class="form-inline">
         <input class="form-control center" type="search" placeholder="Szukany produkt">
-        <button class="btn btn-outline-info search center" type="submit"><i class="icon-search"></i></button>
+        <button class="btn btn-outline-info search center" type="submit">
+          <i class="icon-search"></i>
+        </button>
       </form>
 
-      
     </div>
   </nav>
 </div>

@@ -1,0 +1,67 @@
+<div *ngIf="!cartIsEmpty()">
+  <table class="table table-dark table-hover">
+    <thead>
+      <tr class="row">
+        <th class="col-1 offset-1">No.</th>
+        <th class="col-3 text-center">Zdjęcie produktu</th>
+        <th class="col-3 text-center">Nazwa</th>
+        <th class="col-1">Cena za sztukę</th>
+        <th class="col-2 text-center">Ilość</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let productAndAmount of productsInCart; let i = index" class="row">
+        <td class="col-1 offset-1">{{i+1}}.</td>
+        <td class="col-3">
+          <img src="../../../assets/images/laptop.png" class="item-picture mx-auto d-block">
+        </td>
+        <td class="col-3">
+          {{productAndAmount.product.name}}
+        </td>
+        <td class="col-1">
+          {{productAndAmount.product.price}}
+        </td>
+        <td class="col-2">
+          <div class="row">
+            <div class="col-md-6 col-8">
+                <input name={{i}} type="number" class="col-12" value="{{productAndAmount.amount}}" (input)="calculateCartValue()" [(ngModel)]="productAndAmount.amount"
+                  (keyup.enter)="defocus($event, productAndAmount)">
+            </div>
+            <div class="col-6">
+              szt.
+              <img (click)="removeProductFromCart(productAndAmount)" id="delete-from-cart-icon" src="../../../assets/icons/delete-from-cart.png">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="sum text-center">
+        <td>Wartość koszyka: {{totalValue}} zł</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <div class="offset-md-2 col-md-4 offset-2 col-8">
+      <a class="button mx-auto d-block btn disabled">
+        Realizuj zamówienie
+      </a>
+    </div>
+    <div class="offset-md-0 col-md-4 offset-2 col-8">
+      <a class="button mx-auto d-block btn" routerLink="/offer">
+        Powrót do zakupów
+      </a>
+    </div>
+    <div class="offset-md-4 col-md-4 offset-2 col-8" id="clear-cart-box">
+      <a class="button mx-auto d-block btn" id="clear-cart-button" (click)="clearCart()">
+        Wyczyść koszyk
+      </a>
+    </div>
+  </div>
+</div>
+<div *ngIf="cartIsEmpty()">
+  <div class="row">
+    <div class="col-4 offset-4">
+      <h1>Koszyk jest pusty.</h1>
+      <hr>
+    </div>
+  </div>
+</div>

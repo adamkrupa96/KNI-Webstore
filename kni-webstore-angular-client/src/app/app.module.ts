@@ -23,6 +23,8 @@ import { OfferModule } from './modules/offer/offer.module';
 import { SharedModule } from './shared/shared.module';
 import { RoutingModule } from './routing.module';
 import { AdminAuthGuardsService } from './services/admin-auth-guards.service';
+import { OrderHandlerModule } from './modules/order-handler/order-handler.module';
+import { ShoppingCartManagementService } from './modules/order-handler/services/shopping-cart-management.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { AdminAuthGuardsService } from './services/admin-auth-guards.service';
     SharedModule,
     OfferModule,
     AdminPanelModule,
+    OrderHandlerModule,
     RoutingModule,
     HttpClientModule
   ],
@@ -47,7 +50,8 @@ import { AdminAuthGuardsService } from './services/admin-auth-guards.service';
     HttpClient,
     AuthenticationService,
     AuthGuardsService,
-    AdminAuthGuardsService
+    AdminAuthGuardsService,
+    ShoppingCartManagementService
   ],
   bootstrap: [AppComponent]
 })
