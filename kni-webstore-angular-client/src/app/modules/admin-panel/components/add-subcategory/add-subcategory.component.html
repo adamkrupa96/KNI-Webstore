@@ -36,9 +36,20 @@
               <div>
                 <label *ngIf="subCategoryExists" class="login-alert">Istnieje już podkategoria w kategorii: "{{choosedCategory.name}}"</label>
                 <div *ngIf="addSubCategoryForm.get('subCategoryName').errors">
-                  <label *ngIf="addSubCategoryForm.get('subCategoryName').errors.onlyDigits" class="login-alert">Nazwa podkategorii nie może składać się tylko z liczb.</label>
+                  <label *ngIf="addSubCategoryForm.get('subCategoryName').errors['onlyDigits']" class="login-alert">Nazwa podkategorii nie może składać się tylko z liczb.</label>
                 </div>
               </div>
+            </div>
+            <div class="col-lg-8 offset-lg-2 col-10 offset-1 control-box margin-top-40">
+              <div *ngIf="currentFileUpload" class="progress">
+                <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+                    aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+                    {{progress.percentage}}%</div>
+                </div>
+
+                <label class="btn btn-default">
+                  <input #fileInput type="file" (change)="selectFile($event)">
+                </label>
             </div>
             <div class="col-lg-8 offset-lg-2 col-10 offset-1 control-box">
               <button class="col-6 offset-3" type="submit" [disabled]="addSubCategoryForm.status === 'INVALID'">Dodaj Podkategorię</button>
